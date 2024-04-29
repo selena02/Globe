@@ -1,0 +1,121 @@
+# General
+.DS_Store
+node_modules/
+npm-debug.log
+yarn-error.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.log
+*.sql
+*.sqlite
+
+# macOS specific
+*.DS_Store
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio and .NET specific
+[Bb]in/
+[Oo]bj/
+[Ll]ogs/
+[Ll]og/
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.pdb
+*.cache
+*.vsp
+*.vspscc
+*.vssscc
+*.ilk
+*.opendb
+*.db
+*.mdf
+*.ldf
+*.back
+*.db-shm
+*.db-wal
+*.webinfo
+*.swp
+*.trx
+*.psess
+*.vsp
+*.vspx
+# ASP.NET Scaffolding
+*.csproj.user
+*.csproj.csdat
+*.blazorproj
+*.razor
+*.cshtml.cs
+
+# Rider
+.idea/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+*.nuget.targets
+*.nuget.props
+*.nuspec
+nuget.exe
+nuget.config
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+
+# Build Folders
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.svclog
+*.scc
+
+# Others
+*.pfx
+*.publishsettings
+client-build/
+
+# Client-specific
+client/package-lock.json
+client/.eslintrc.cjs
+client/tsconfig.json
+client/tsconfig.node.json
+client/vite.config.ts
+client/public/vite.svg
+
+# Server-specific
+server/.vs/
+server/.dockerignore
+
+# Exclude temporary files
+*.tmp
+*.temp
