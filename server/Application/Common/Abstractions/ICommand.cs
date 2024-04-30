@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Interfaces
+﻿namespace Application.Common.Abstractions
 {
     public interface ICommand<out TResponse> : IRequest<TResponse>
     {
