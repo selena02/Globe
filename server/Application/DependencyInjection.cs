@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Common.Behaviors;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
 {

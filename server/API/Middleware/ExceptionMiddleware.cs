@@ -3,7 +3,7 @@ using System.Net;
 using System.Text.Json;
 using ApplicationException = Domain.Exceptions.ApplicationException;
 
-namespace WebAPI.Middleware
+namespace API.Middleware
 {
     public class ExceptionMiddleware
     {

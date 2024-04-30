@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using ApplicationException = Domain.Exceptions.ApplicationException;
 
-namespace Application.Exceptions
+namespace Application.Common.Exceptions
 {
     public sealed class ValidationException : ApplicationException
     {

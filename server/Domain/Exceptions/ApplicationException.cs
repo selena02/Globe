@@ -6,7 +6,7 @@ namespace Domain.Exceptions
     {
         public HttpStatusCode StatusCode { get; }
 
-        public ApplicationException(HttpStatusCode statusCode, string message) : base(message)
+        protected ApplicationException(HttpStatusCode statusCode, string message) : base(message)
         {
             StatusCode = statusCode;
         }
