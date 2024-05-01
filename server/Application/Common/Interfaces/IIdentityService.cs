@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Common.Interfaces
 {
-    public interface IUserManager
+    public interface IIdentityService
     {
         Task<IdentityResult> CreateAsync(ApplicationUser user, string password);
         Task<bool> CheckPasswordAsync(ApplicationUser user, string password);

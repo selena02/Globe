@@ -4,6 +4,6 @@ namespace Domain.Entities
 {
     public class ApplicationUser : IdentityUser<int>
     {
-        public string FullName { get; set; }
+        public string FullName { get; init; }
     }
 }

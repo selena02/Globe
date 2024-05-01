@@ -20,7 +20,7 @@ namespace Infrastructure
             
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-            services.AddScoped<IUserManager, ManagerService>();
+            services.AddScoped<IIdentityService, IdentityService>();
 
             services.AddCors(); 
             
@@ -35,6 +35,7 @@ namespace Infrastructure
                 })
                 .AddRoles<Role>()
                 .AddRoleManager<RoleManager<Role>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             
             services.AddAuthentication()

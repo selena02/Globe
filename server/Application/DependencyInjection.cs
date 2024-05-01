@@ -1,4 +1,6 @@
 ﻿using Application.Common.Behaviors;
+using Application.Common.Interfaces;
+using Application.Common.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -15,7 +17,9 @@ namespace Application
             services.AddValidatorsFromAssembly(assembly);
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
+            
+            services.AddScoped<IAuthService, AuthService>();
+            
             return services;
         }
     }

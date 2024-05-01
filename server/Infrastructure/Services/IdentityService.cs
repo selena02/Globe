@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Services;
 
-public class ManagerService : IUserManager
+public class IdentityService : IIdentityService
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public ManagerService(UserManager<ApplicationUser> userManager)
+    public IdentityService(UserManager<ApplicationUser> userManager)
     {
         _userManager = userManager;
     }
-
+    
     public async Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
     {
         return await _userManager.CreateAsync(user, password);
