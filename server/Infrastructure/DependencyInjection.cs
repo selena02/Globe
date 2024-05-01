@@ -19,7 +19,7 @@ namespace Infrastructure
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection")));
             
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-
+            
             services.AddScoped<IIdentityService, IdentityService>();
 
             services.AddCors(); 
@@ -44,9 +44,11 @@ namespace Infrastructure
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
+                        IssuerSigningKey = new SymmetricSecurityKey
+                            (Encoding.UTF8.GetBytes(config["TokenKey"])),
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
                     };
                 });
             

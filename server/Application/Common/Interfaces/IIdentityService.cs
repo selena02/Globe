@@ -8,6 +8,7 @@ namespace Application.Common.Interfaces
         Task<IdentityResult> CreateAsync(ApplicationUser user, string password);
         Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
         Task<bool> IsInRoleAsync(ApplicationUser user, string role);
+        Task<IList<string>> GetRolesAsync(ApplicationUser user);
         Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
         Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string role);
     }

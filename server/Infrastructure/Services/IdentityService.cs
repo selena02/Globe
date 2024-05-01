@@ -28,6 +28,11 @@ public class IdentityService : IIdentityService
         return await _userManager.IsInRoleAsync(user, role);
     }
 
+    public async Task<IList<string>> GetRolesAsync(ApplicationUser user)
+    {
+        return await _userManager.GetRolesAsync(user);
+    }
+
     public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
     {
         return await _userManager.AddToRoleAsync(user, role);
