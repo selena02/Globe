@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Application.Common.Interfaces;
+using CloudinaryDotNet;
 using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Services;
@@ -58,6 +59,17 @@ namespace Infrastructure
                 options.AddPolicy("RequireGuideRole", policy => policy.RequireRole("Guide"));
                 options.AddPolicy("RequireTravelerRole", policy => policy.RequireRole("Traveler"));
             });
+            
+            var account = new Account(
+                Environment.GetEnvironmentVariable("CLOUDINARY_NAME") ?? "CloudinaryName",
+                Environment.GetEnvironmentVariable("CLOUDINARY_KEY") ?? "",
+                Environment.GetEnvironmentVariable("CLOUDINARY_SECRET") ?? ""
+            );
+
+            var cloudinary = new Cloudinary(account) { Api = { Secure = true } };
+
+            services.AddSingleton(cloudinary);
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
             
             return services;
         }
