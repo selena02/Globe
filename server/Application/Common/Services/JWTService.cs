@@ -21,7 +21,7 @@ public class JWTService : IJWTService
         _identityService = userManager;
     }
 
-    public async Task<string> GenerateTokenAsync(ApplicationUser user)
+    public async Task<string> GenerateTokenAsync(User user)
     {
         if (user == null)
         {

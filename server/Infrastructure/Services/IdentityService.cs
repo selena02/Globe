@@ -6,39 +6,39 @@ namespace Infrastructure.Services;
 
 public class IdentityService : IIdentityService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly UserManager<User> _userManager;
 
-    public IdentityService(UserManager<ApplicationUser> userManager)
+    public IdentityService(UserManager<User> userManager)
     {
         _userManager = userManager;
     }
     
-    public async Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
+    public async Task<IdentityResult> CreateAsync(User user, string password)
     {
         return await _userManager.CreateAsync(user, password);
     }
 
-    public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
+    public async Task<bool> CheckPasswordAsync(User user, string password)
     {
         return await _userManager.CheckPasswordAsync(user, password);
     }
 
-    public async Task<bool> IsInRoleAsync(ApplicationUser user, string role)
+    public async Task<bool> IsInRoleAsync(User user, string role)
     {
         return await _userManager.IsInRoleAsync(user, role);
     }
 
-    public async Task<IList<string>> GetRolesAsync(ApplicationUser user)
+    public async Task<IList<string>> GetRolesAsync(User user)
     {
         return await _userManager.GetRolesAsync(user);
     }
 
-    public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
+    public async Task<IdentityResult> AddToRoleAsync(User user, string role)
     {
         return await _userManager.AddToRoleAsync(user, role);
     }
 
-    public async Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string role)
+    public async Task<IdentityResult> RemoveFromRoleAsync(User user, string role)
     {
         return await _userManager.RemoveFromRoleAsync(user, role);
     }

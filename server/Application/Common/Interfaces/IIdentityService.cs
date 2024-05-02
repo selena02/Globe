@@ -5,11 +5,11 @@ namespace Application.Common.Interfaces
 {
     public interface IIdentityService
     {
-        Task<IdentityResult> CreateAsync(ApplicationUser user, string password);
-        Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
-        Task<bool> IsInRoleAsync(ApplicationUser user, string role);
-        Task<IList<string>> GetRolesAsync(ApplicationUser user);
-        Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
-        Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string role);
+        Task<IdentityResult> CreateAsync(User user, string password);
+        Task<bool> CheckPasswordAsync(User user, string password);
+        Task<bool> IsInRoleAsync(User user, string role);
+        Task<IList<string>> GetRolesAsync(User user);
+        Task<IdentityResult> AddToRoleAsync(User user, string role);
+        Task<IdentityResult> RemoveFromRoleAsync(User user, string role);
     }
 }

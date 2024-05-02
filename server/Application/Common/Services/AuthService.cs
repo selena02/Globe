@@ -28,7 +28,7 @@ public class AuthService : IAuthService
         return null;
     }
 
-    public async Task<ApplicationUser?> GetCurrentUserAsync()
+    public async Task<User?> GetCurrentUserAsync()
     {
         var userId = GetCurrentUserId();
         return userId != null ? await _context.Users.FindAsync(userId) : null;

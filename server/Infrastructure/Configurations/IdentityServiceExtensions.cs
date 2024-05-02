@@ -11,7 +11,7 @@ public static class IdentityServiceExtensions
 {
     public static IServiceCollection AddIdentity(this IServiceCollection services)
     {
-        services.AddIdentityCore<ApplicationUser>(opt =>
+        services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequireDigit = false;
                 opt.Password.RequiredLength = 1;
@@ -22,7 +22,7 @@ public static class IdentityServiceExtensions
             })
             .AddRoles<Role>()
             .AddRoleManager<RoleManager<Role>>()
-            .AddSignInManager<SignInManager<ApplicationUser>>()
+            .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         
         services.AddScoped<IIdentityService, IdentityService>();
