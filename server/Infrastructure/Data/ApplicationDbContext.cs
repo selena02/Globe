@@ -1,27 +1,33 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Data.Configurations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<User, Role, int>, IApplicationDbContext
+public class ApplicationDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole,
+    IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, IApplicationDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
+    public ApplicationDbContext(DbContextOptions options) : base(options) { }
     
     public DbSet<Post> Posts { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Like> Likes { get; set; }
-    public DbSet<VisitedLocation> VisitedLocation { get; set; }
-    public DbSet<Follow> Follow { get; set; }
+    public DbSet<VisitedLocation> VisitedLocations { get; set; }
+    public DbSet<Follow> Follows { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+        
+        // Users
+        modelBuilder.ApplyConfiguration(new UsersConfiguration());
+
+        // Roles
+        modelBuilder.ApplyConfiguration(new RolesConfiguration());
         
         // Posts
         modelBuilder.ApplyConfiguration(new PostsConfiguration());
@@ -37,7 +43,6 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>, IApplica
 
         // Followers
         modelBuilder.ApplyConfiguration(new FollowersConfiguration());
-        
     }
     
     public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
