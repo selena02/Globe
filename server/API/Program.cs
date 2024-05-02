@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerConfig();
 
+builder.Services.AddCors(); 
+
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);

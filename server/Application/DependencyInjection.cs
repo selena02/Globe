@@ -13,9 +13,9 @@ namespace Application
 
             services.AddMediatR(configuration =>
                 configuration.RegisterServicesFromAssembly(assembly));
-
+            
             services.AddValidatorsFromAssembly(assembly);
-
+            
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             
             services.AddScoped<IAuthService, AuthService>();
