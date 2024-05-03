@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Authentication\Commands\" />
+    <Folder Include="Authentication\Commands\LoginUser\" />
   </ItemGroup>
 
 </Project>
