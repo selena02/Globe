@@ -1,0 +1,28 @@
+#about-section {
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  background-image: url("public/images/home/about-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+#about-container {
+  width: 100%;
+  max-width: 1400px;
+}
+
+#feature-cards-container {
+  transform: translateY(-5vh);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-content: space-between;
+}
+
+@media (max-width: 1400px) {
+  #feature-cards-container {
+    grid-template: 1fr 1fr / 1fr 1fr;
+    justify-items: center;
+    row-gap: 2em;
+  }
+}

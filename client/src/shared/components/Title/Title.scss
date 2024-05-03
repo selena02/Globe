@@ -1,0 +1,21 @@
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  padding: 5em 0;
+  position: relative;
+}
+
+.title-text {
+  font-size: 6em;
+  letter-spacing: 0.12em;
+  color: #c03ff3;
+  opacity: 0.15;
+}
+.title-text-small {
+  position: absolute;
+  font-size: 3em;
+  letter-spacing: 0.12em;
+  text-shadow: 0.03em 0 black, 0 0.01em black, -0.01em 0 black, 0 -0.01em black;
+}
