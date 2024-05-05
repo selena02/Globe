@@ -19,7 +19,7 @@
 #header-logo {
   height: 56%;
   margin-top: 0.3em;
-  margin-left: 4em;
+  margin-left: 3.6em;
 }
 #header-navigation-container {
   display: flex;
@@ -31,7 +31,7 @@
   justify-content: center;
   gap: 2.4em;
   margin-top: 0.2em;
-  font-size: 2.5em;
+  font-size: 2.2em;
   font-weight: 600;
 }
 
@@ -100,12 +100,11 @@
 }
 .login-link-icon-hover {
   color: #c03ff3;
+  background-image: none;
   background-color: white;
 }
 .login-text-hover {
-  transform: scale(1.02);
-  -webkit-text-stroke: 1.5px #c03ff3;
-  color: transparent;
+  transform: scale(1.03);
 }
 #menu-button {
   font-size: 0.14em;
@@ -137,7 +136,6 @@
   z-index: 10000;
   height: 0.9em;
   width: 100%;
-  background: #c03ff3;
   border-radius: 0.9em;
   opacity: 1;
   left: 0;
@@ -153,15 +151,18 @@
 
 #menu-icon span:nth-child(1) {
   top: 0px;
+  background: #f368e0;
 }
 
 #menu-icon span:nth-child(2),
 #menu-icon span:nth-child(3) {
   top: 1.8em;
+  background: #ce4deb;
 }
 
 #menu-icon span:nth-child(4) {
   top: 3.6em;
+  background: #a832f6;
 }
 
 #menu-icon.open span:nth-child(1) {

@@ -20,7 +20,6 @@ const ButtonComponent: React.FC<ButtonProps> = ({ children }) => {
       onMouseOut={() => onButtonHover(false)}
       className="button"
     >
-      <div className="button-inline-content"></div>
       <div className="button-content">
         {children}
         <ArrowForwardIcon className="button-content-icon" />{" "}

@@ -1,0 +1,29 @@
+.button {
+  background-image: linear-gradient(to top, #a832f6, #f368e0);
+  border: none;
+  color: white;
+  padding: 0.8em 2em;
+  padding-right: 1.7em;
+  font-size: 1em;
+  border-radius: 0.6em;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    background-image: linear-gradient(to bottom, #a832f6, #f368e0);
+    transform: translateY(-0.05em);
+    box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.146);
+  }
+}
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-weight: 600;
+}
+.button-content-icon {
+  margin-top: 0.2em;
+  font-size: 1.1em !important;
+  height: 1em !important;
+  width: 1em !important;
+}
