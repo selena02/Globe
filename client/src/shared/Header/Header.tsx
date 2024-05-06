@@ -42,7 +42,7 @@ const HeaderComponent = () => {
           </nav>
           <div id="header-right">
             <Link
-              to={"/login"}
+              to={"/account/login"}
               id="login-link-container"
               onMouseOver={() => onHover(true)}
               onMouseOut={() => onHover(false)}
