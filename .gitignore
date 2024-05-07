@@ -113,8 +113,8 @@ client/vite.config.ts
 client/public/vite.svg
 
 # Server-specific
-server/.vs/
-server/.dockerignore
+server/src/.vs/
+server/src/.dockerignore
 
 # Exclude temporary files
 *.tmp
