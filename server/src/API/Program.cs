@@ -44,6 +44,8 @@ app.UseCors(builder => builder
     .AllowCredentials()
     .WithOrigins("https://localhost:3000", "http://localhost:3000"));
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
