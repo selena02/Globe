@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { LoginDto } from "../models/LoginDto";
 import { AuthResponse } from "../models/AuthResponse";
 import fetchAPI from "../../../shared/utils/fetchAPI";
 import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import "./Login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  setLogin,
+  setLoading,
+  setError,
+} from "../../../state/features/authSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const {
@@ -16,15 +22,22 @@ const Login = () => {
     mode: "onChange",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: LoginDto) => {
     setIsLoading(true);
+    dispatch(setLoading(true));
 
     try {
       const response = await fetchAPI<AuthResponse>("login", {
         method: "POST",
         body: data,
       });
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response));
+      dispatch(setLogin({ user: response, token: response.token }));
+      navigate("/");
     } catch (error: any) {
       handleApiErrors(error);
     } finally {

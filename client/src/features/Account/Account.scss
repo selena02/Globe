@@ -18,6 +18,11 @@
   #account-container {
     min-height: calc(100vh - 7.35em);
     background-image: none;
+  }
+}
+
+@media (max-width: 450px) {
+  #account-container {
     align-items: flex-start;
     padding-top: 2vh;
   }

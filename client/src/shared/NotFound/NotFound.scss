@@ -1,0 +1,21 @@
+#not-found-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10em;
+
+  h1 {
+    font-size: clamp(3em, 10vw, 6em);
+    margin-bottom: 0.4em;
+    background-image: linear-gradient(to top, #a832f6, #f368e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    font-size: clamp(1.5em, 5vw, 2.5em);
+    margin-bottom: 0.4em;
+  }
+}

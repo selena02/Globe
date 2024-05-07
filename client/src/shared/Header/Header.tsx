@@ -85,7 +85,7 @@ const HeaderComponent = () => {
       </button>
       <nav id="side-menu-navigation" className={isOpen ? "active" : ""}>
         <Link
-          to="/home"
+          to="/"
           onClick={toggleSideMenu}
           className="navigation-links-side-menu"
         >

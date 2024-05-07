@@ -28,7 +28,6 @@ async function fetchAPI<T>(
 
   const data = await response.json();
   if (!response.ok) {
-    console.log("sup");
     throw new ApiError(
       data.message || "Something went wrong",
       response.status,
