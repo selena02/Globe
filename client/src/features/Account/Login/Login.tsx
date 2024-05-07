@@ -5,6 +5,7 @@ import { AuthResponse } from "../models/AuthResponse";
 import fetchAPI from "../../../shared/utils/fetchAPI";
 import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import "./Login.scss";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -65,7 +66,7 @@ const Login = () => {
         {!isLoading ? "Login" : "Loading..."}
       </button>
 
-      <a href="/account/register">Create an account</a>
+      <Link to="/account/register">Create an account</Link>
     </form>
   );
 };

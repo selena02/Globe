@@ -3,3 +3,9 @@ export interface RegisterDto {
   fullName: string;
   password: string;
 }
+export interface RegisterDtoForm {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

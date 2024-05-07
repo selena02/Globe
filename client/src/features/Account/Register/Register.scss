@@ -1,9 +1,8 @@
-#login-form {
+#register-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 8em 3em;
-  padding-top: 6em;
+  padding: 6em 3em;
   min-width: 44em;
   border: 0.1em solid #c03ff3;
   border-radius: 2em;
@@ -20,7 +19,7 @@
     margin-bottom: 0.1em;
   }
 
-  #sign-in-container {
+  #sign-up-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,21 +58,22 @@
     font-size: 1.8em;
     font-weight: 600;
     text-decoration: underline;
-    margin-top: 1em;
+    margin-top: 1.2em;
     color: #c03ff3;
   }
 }
 
 .error {
-  transform: translateY(0.2em);
+  transform: translateY(0em);
   margin-right: 0.4em;
   text-align: end;
   color: rgba(255, 0, 0, 0.747);
   font-size: 1.6em;
   height: 1em;
 }
+
 @media screen and (max-width: 450px) {
-  #login-form {
+  #register-form {
     min-width: 100vw;
     padding: 6em 1em;
     border-radius: 1em;

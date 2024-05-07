@@ -2,5 +2,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10em;
+  min-height: calc(100vh - 8.1em);
+  background-image: url("/images/account/account-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+@media (min-width: 2000px) {
+  #account-container {
+    min-height: calc(100vh - 9.7em);
+  }
+}
+
+@media (max-width: 800px) {
+  #account-container {
+    min-height: calc(100vh - 7.35em);
+    background-image: none;
+    align-items: flex-start;
+    padding-top: 2vh;
+  }
 }
