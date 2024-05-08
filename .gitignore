@@ -23,6 +23,44 @@ Desktop.ini
 # Visual Studio Code
 .vscode/
 
+#Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+MANIFEST
+
+# Python environments
+venv/
+.env
+.flaskenv
+
+# Editor directories
+.idea/
+.vscode/
+*.sublime-*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sqlite
+instance/
+
+# Temporary files
+*.tmp
+*.bak
+
 # Visual Studio and .NET specific
 [Bb]in/
 [Oo]bj/
