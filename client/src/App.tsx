@@ -8,8 +8,25 @@ import Register from "./features/Account/Register/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from "./shared/NotFound/NotFound";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { setLogin } from "./state/features/authSlice";
+import { RootState } from "./state/store";
+import PrivateRoute from "./shared/guards/PrivateRoute";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") as string); // Add type assertion here
+
+    if (token && user) {
+      dispatch(setLogin({ user, token }));
+    }
+  }, [dispatch]);
+
   return (
     <Router>
       <div id="app-container">
@@ -22,7 +39,15 @@ const App = () => {
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
+
+            <Route
+              path="*"
+              element={
+                <PrivateRoute>
+                  <NotFound />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </main>
         <Footer />
