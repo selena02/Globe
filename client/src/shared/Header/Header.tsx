@@ -4,11 +4,16 @@ import { navigationLinks } from "./navLinks";
 import LoginIcon from "@mui/icons-material/Login";
 import "./Header.scss";
 import SideMenu from "./SideMenu/SideMenu";
+import { RootState } from "../../state/store";
+import { useSelector } from "react-redux";
+import SearchBar from "./SearchBar/SearchBar";
+import Dropdown from "./Dropdown/Dropdown";
 
 const HeaderComponent = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSideMenuVisible, setIsSideMenuVisible] = useState(false);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const onHover = (hovering: boolean): void => {
     setIsHovered(hovering);
@@ -41,29 +46,36 @@ const HeaderComponent = () => {
             </ul>
           </nav>
           <div id="header-right">
-            <Link
-              to={"/account/login"}
-              id="login-link-container"
-              onMouseOver={() => onHover(true)}
-              onMouseOut={() => onHover(false)}
-            >
-              <div id="login-link-content-container">
-                <div
-                  className={`login-link-icon-container ${
-                    isHovered ? "login-link-icon-hover" : ""
-                  }`}
-                >
-                  <LoginIcon className="login-icon" />
+            {isLoggedIn ? (
+              <>
+                <SearchBar />
+                <Dropdown />
+              </>
+            ) : (
+              <Link
+                to={"/account/login"}
+                id="login-link-container"
+                onMouseOver={() => onHover(true)}
+                onMouseOut={() => onHover(false)}
+              >
+                <div id="login-link-content-container">
+                  <div
+                    className={`login-link-icon-container ${
+                      isHovered ? "login-link-icon-hover" : ""
+                    }`}
+                  >
+                    <LoginIcon className="login-icon" />
+                  </div>
+                  <div
+                    className={`login-link-text ${
+                      isHovered ? "login-text-hover" : ""
+                    }`}
+                  >
+                    Login
+                  </div>
                 </div>
-                <div
-                  className={`login-link-text ${
-                    isHovered ? "login-text-hover" : ""
-                  }`}
-                >
-                  Login
-                </div>
-              </div>
-            </Link>
+              </Link>
+            )}
           </div>
         </div>
       </header>

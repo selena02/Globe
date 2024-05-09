@@ -8,15 +8,13 @@ import Register from "./features/Account/Register/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from "./shared/NotFound/NotFound";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setLogin } from "./state/features/authSlice";
-import { RootState } from "./state/store";
 import PrivateRoute from "./shared/guards/PrivateRoute";
 
 const App = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
