@@ -15,13 +15,7 @@ public class AuthenticationController : ControllerBase
     {
         _sender = sender;
     }
-
-    /// <summary>
-    /// Registers a new user.
-    /// </summary>
-    /// <param name="registerDto"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    
     [HttpPost("register")]
     public async Task<IActionResult> RegisterUser(RegisterDto registerDto, CancellationToken cancellationToken)
     {
