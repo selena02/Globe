@@ -29,40 +29,50 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, A
         try
         {
             var createdResult = await _identityService.CreateAsync(command.RegisterDto, command.RegisterDto.Password);
-            
+
             if (!createdResult.Succeeded)
             {
                 if (createdResult.Errors.Any(e => e.Code == "DuplicateUserName"))
                 {
                     throw new ConflictException("Username is taken");
                 }
-                
+
                 if (createdResult.Errors.Any(e => e.Code == "DuplicateEmail"))
                 {
                     throw new ConflictException("Email is taken");
                 }
 
-                throw new ServerErrorException("Error registering user");
+                throw new ServerErrorException("Error creating user");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u =>
                 u.UserName == command.RegisterDto.UserName, cancellationToken);
 
-            if (user == null)
+            if (user is null)
             {
-                await transaction.RollbackAsync(cancellationToken);
                 throw new NotFoundException("Error registering user");
             }
 
             var roleResult = await _identityService.AddToRoleAsync(user, Roles.Traveller.ToString());
 
+            if (!roleResult.Succeeded)
+            {
+                throw new ServerErrorException("Error adding roles to user");
+            }
+
+            var token = await _tokenService.GenerateTokenAsync(user);
+
+            var roles = await _identityService.GetRolesAsync(user);
+            
+            await transaction.CommitAsync(cancellationToken);
+            
+            return new AuthResponseDto(token, user.Id, roles);
+
         }
-        catch (Exception e)
+        catch (Exception)
         {
             await transaction.RollbackAsync(cancellationToken);
-            throw new ServerErrorException("Error registering user");
+            throw;
         }
-        
-        return new AuthResponseDto(null, null, null);
     }
 }

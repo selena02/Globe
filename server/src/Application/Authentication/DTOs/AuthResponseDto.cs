@@ -2,6 +2,6 @@
 
 public record AuthResponseDto(
     string Token,
-    string Id,
-    List<string> Roles
+    int? Id,
+    IList<string> Roles
 );

@@ -22,7 +22,6 @@ public static class IdentityServiceExtensions
             })
             .AddRoles<Role>()
             .AddRoleManager<RoleManager<Role>>()
-            .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         
         services.AddScoped<IIdentityService, IdentityService>();

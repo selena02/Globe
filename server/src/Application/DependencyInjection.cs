@@ -21,6 +21,7 @@ namespace Application
             services.AddScoped<IAuthService, AuthService>();
             
             services.AddScoped<IJWTService, JWTService>();
+            
             return services;
         }
     }
