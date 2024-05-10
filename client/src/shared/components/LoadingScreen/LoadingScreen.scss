@@ -1,0 +1,73 @@
+$f-primary: "Josefin Sans", sans-serif;
+$f-secondary: "Indie Flower", cursive;
+$c-front: #ffffffa5;
+$c-back-light: #383838;
+$c-hilight: #c03ff3;
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100000;
+}
+
+.loading-message {
+  text-align: center;
+  color: $c-front;
+  margin-top: 2.4em;
+  font-size: 2.4em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  max-width: 86vw;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.svg-calLoader {
+  width: 23em;
+  height: 23em;
+  transform-origin: 11.5em 11.5em;
+  animation: 1.8s linear infinite loader-spin;
+}
+
+.cal-loader__plane {
+  fill: $c-hilight;
+}
+.cal-loader__path {
+  stroke: $c-front;
+  animation: 1.8s ease-in-out infinite loader-path;
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader-path {
+  0% {
+    stroke-dasharray: 0, 580, 0, 0, 0, 0, 0, 0, 0;
+  }
+  50% {
+    stroke-dasharray: 0, 450, 10, 30, 10, 30, 10, 30, 10;
+  }
+  100% {
+    stroke-dasharray: 0, 580, 0, 0, 0, 0, 0, 0, 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .loading-screen {
+    font-size: 9px;
+  }
+}
