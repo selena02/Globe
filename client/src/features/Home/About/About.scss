@@ -38,6 +38,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-left: 2em;
 }
 
 #about-title {
@@ -62,5 +63,32 @@
     grid-template: 1fr 1fr / 1fr 1fr;
     justify-items: center;
     row-gap: 2em;
+  }
+}
+
+@media (max-width: 800px) {
+  #about-us-content-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    padding: 0;
+    margin-left: 0;
+  }
+  #about-image {
+    width: 80%;
+    margin-bottom: 3em;
+  }
+  #about-image-2 {
+    display: none;
+  }
+  #about-text-container {
+    width: 80%;
+  }
+  #about-title {
+    font-size: 2.8em;
+    margin-top: 0;
+  }
+  #about-description {
+    font-size: 1.6em;
   }
 }
