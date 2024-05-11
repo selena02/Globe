@@ -1,11 +1,22 @@
 ﻿using Application.Common.Abstractions;
 using Application.Common.Interfaces;
-using Application.Users.DTOs;
 using Domain.Exceptions;
 
 namespace Application.Users.Queries.GetUserById;
 
 public record GetUserByIdQuery(int Id) : IQuery<UserByIdResponse>;
+
+public record UserByIdResponse(
+    int Id,
+    string UserName,
+    string FullName,
+    string Email,
+    string? ProfilePictureUrl,
+    string? Location,
+    string? Bio,
+    int FollowersCount,
+    int FollowingCount
+);
 
 public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserByIdResponse>
 {
@@ -16,9 +27,9 @@ public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserByIdR
         _context = context;
     }
     
-    public async Task<UserByIdResponse> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
+    public async Task<UserByIdResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FindAsync( new object[] { query.Id }, cancellationToken);
+        var user = await _context.Users.FindAsync( new object[] { request.Id }, cancellationToken);
         
         if (user is null)
         {

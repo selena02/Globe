@@ -1,4 +1,4 @@
-﻿using Application.Authentication.DTOs;
+﻿using Application.Authentication.Commands.RegisterUser;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +14,7 @@ public class IdentityService : IIdentityService
         _userManager = userManager;
     }
     
-    public async Task<IdentityResult> CreateAsync(RegisterDto user, string password)
+    public async Task<IdentityResult> CreateAsync(RegisterUserCommand user, string password)
     {
         var newUser = new User
         {

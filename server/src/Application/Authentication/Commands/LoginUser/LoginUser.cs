@@ -1,13 +1,19 @@
-﻿using Application.Authentication.DTOs;
-using Application.Common.Abstractions;
+﻿using Application.Common.Abstractions;
 using Application.Common.Interfaces;
 using Domain.Exceptions;
 
 namespace Application.Authentication.Commands.LoginUser;
 
-public record LoginUserCommand(LoginDto LoginDto) : ICommand<AuthResponseDto>;
+public record LoginUserCommand(string? Email, string? Password) : ICommand<LoginUserResponse>;
 
-public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, AuthResponseDto>
+public record LoginUserResponse(
+    string Token,
+    int? Id,
+    IList<string> Roles,
+    string? ProfilePictureUrl
+);
+
+public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, LoginUserResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly IIdentityService _identityService;
@@ -21,17 +27,17 @@ public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, AuthRes
         _tokenService = tokenService;
     }
 
-    public async Task<AuthResponseDto> Handle(LoginUserCommand command, CancellationToken cancellationToken)
+    public async Task<LoginUserResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u =>
-            u.Email == command.LoginDto.Email, cancellationToken);
+            u.Email == request.Email, cancellationToken);
 
         if (user is null)
         {
             throw new UnauthorizedException("Invalid credentials");
         }
         
-        var isValidPassword = await _identityService.CheckPasswordAsync(user, command.LoginDto.Password);
+        var isValidPassword = await _identityService.CheckPasswordAsync(user, request.Password);
         
         if (!isValidPassword)
         {
@@ -42,6 +48,6 @@ public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, AuthRes
         
         var roles = await _identityService.GetRolesAsync(user);
 
-        return new AuthResponseDto(token, user.Id, roles);
+        return new LoginUserResponse(token, user.Id, roles, user.ProfilePictureUrl);
     }
 }    

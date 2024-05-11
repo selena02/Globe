@@ -1,14 +1,25 @@
-﻿using Application.Authentication.DTOs;
-using Application.Common.Abstractions;
+﻿using Application.Common.Abstractions;
 using Application.Common.Interfaces;
 using Domain.Enums;
 using Domain.Exceptions;
 
 namespace Application.Authentication.Commands.RegisterUser;
 
-public record RegisterUserCommand(RegisterDto RegisterDto) : ICommand<AuthResponseDto>;
+public class RegisterUserCommand : ICommand<RegisterUserResponse>
+{
+    public string? UserName { get; set; }
+    public string? Email { get; set; }
+    public string? Password { get; set; }
+    public string? FullName { get; set; }
+} 
 
-public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, AuthResponseDto>
+public record RegisterUserResponse(
+    string Token,
+    int? Id,
+    IList<string> Roles
+);
+
+public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, RegisterUserResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly IIdentityService _identityService;
@@ -22,13 +33,13 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, A
         _tokenService = tokenService;
     }
 
-    public async Task<AuthResponseDto> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<RegisterUserResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         await using var transaction = await _context.BeginTransactionAsync(cancellationToken);
 
         try
         {
-            var createdResult = await _identityService.CreateAsync(command.RegisterDto, command.RegisterDto.Password);
+            var createdResult = await _identityService.CreateAsync(request, request.Password);
 
             if (!createdResult.Succeeded)
             {
@@ -46,7 +57,7 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, A
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u =>
-                u.UserName == command.RegisterDto.UserName, cancellationToken);
+                u.UserName == request.UserName, cancellationToken);
 
             if (user is null)
             {
@@ -66,7 +77,7 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, A
             
             await transaction.CommitAsync(cancellationToken);
             
-            return new AuthResponseDto(token, user.Id, roles);
+            return new RegisterUserResponse(token, user.Id, roles);
 
         }
         catch (Exception)

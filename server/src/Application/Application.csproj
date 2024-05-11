@@ -33,8 +33,4 @@
     <None Remove="Users\Commands\GetUserById\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Users\Queries\GetUsersSearchbar\" />
-  </ItemGroup>
-
 </Project>

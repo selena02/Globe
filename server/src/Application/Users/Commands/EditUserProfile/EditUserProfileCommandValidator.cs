@@ -7,16 +7,13 @@ public class EditUserProfileCommandValidator : AbstractValidator<EditUserProfile
 {
     public EditUserProfileCommandValidator()
     {
-        RuleFor(x => x.EditProfileDto)
-            .NotEmpty().WithMessage("Content required");
-
-        RuleFor(x => x.EditProfileDto.Bio)
+        RuleFor(x => x.Bio)
             .MaximumLength(200).WithMessage("Bio must be under 200 characters.");
 
-        RuleFor(x => x.EditProfileDto.Location)
+        RuleFor(x => x.Location)
             .MaximumLength(50).WithMessage("Location must be under 100 characters.");
 
-        RuleFor(x => x.EditProfileDto.ProfilePicture)
+        RuleFor(x => x.ProfilePicture)
             .Must(BeAPngOrJpeg).WithMessage("Profile picture must be a PNG or JPEG file.");
     }
     private static bool BeAPngOrJpeg(IFormFile? file)
@@ -32,10 +29,10 @@ public class EditUserProfileCommandValidator : AbstractValidator<EditUserProfile
     {
         var command = context.InstanceToValidate;
         
-        command.EditProfileDto.Bio = command.EditProfileDto.Bio?.Trim();
-        command.EditProfileDto.Location = command.EditProfileDto.Location?.Trim();
+        command.Bio = command.Bio?.Trim();
+        command.Location = command.Location?.Trim();
 
-        if (string.IsNullOrWhiteSpace(command.EditProfileDto.Bio) && string.IsNullOrWhiteSpace(command.EditProfileDto.Location) && command.EditProfileDto.ProfilePicture is null)
+        if (string.IsNullOrWhiteSpace(command.Bio) && string.IsNullOrWhiteSpace(command.Location) && command.ProfilePicture is null)
         {
             result.Errors.Add(new ValidationFailure("EditProfileDto", "No content provided"));
         }

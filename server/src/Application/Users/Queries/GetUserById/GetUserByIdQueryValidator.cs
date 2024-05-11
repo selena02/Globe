@@ -1,7 +1,4 @@
-﻿using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
-
-namespace Application.Users.Queries.GetUserById;
+﻿namespace Application.Users.Queries.GetUserById;
 
 public class GetUserByIdQueryValidator : AbstractValidator<GetUserByIdQuery>
 {

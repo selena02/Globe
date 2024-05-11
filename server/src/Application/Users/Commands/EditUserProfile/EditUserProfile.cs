@@ -1,12 +1,24 @@
 ﻿using Application.Common.Abstractions;
 using Application.Common.Interfaces;
-using Application.Users.DTOs;
 using Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Users.Commands.EditUserProfile;
-public record EditUserProfileCommand(EditProfileDto EditProfileDto) : ICommand<EditProfileResponseDto>;
+public class EditUserProfileCommand : ICommand<EditProfileResponse>
+{
+    public string? Location { get; set; }
+    public string? Bio { get; set; }
+    public IFormFile? ProfilePicture { get; set; }
+}
 
-public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileCommand ,EditProfileResponseDto>
+public record class EditProfileResponse
+(
+    string? Location,
+    string? Bio,
+    string? ProfilePictureUrl
+);
+
+public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileCommand ,EditProfileResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICloudinaryService _cloudinaryService;
@@ -19,7 +31,7 @@ public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileComm
         _authService = authService;
     }
     
-    public async Task<EditProfileResponseDto> Handle(EditUserProfileCommand command, CancellationToken cancellationToken)
+    public async Task<EditProfileResponse> Handle(EditUserProfileCommand request, CancellationToken cancellationToken)
     {
         var currentUserId = _authService.GetCurrentUserId();
         
@@ -35,7 +47,7 @@ public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileComm
             throw new NotFoundException("User not found");
         }
         
-        if (command.EditProfileDto.ProfilePicture is not null && command.EditProfileDto.ProfilePicture.Length > 0)
+        if (request.ProfilePicture is not null && request.ProfilePicture.Length > 0)
         {
             if(user.PicturePublicId is not null)
             {
@@ -47,7 +59,7 @@ public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileComm
                 }
             }
             
-            var uploadImageResult = await _cloudinaryService.UploadProfileImage(command.EditProfileDto.ProfilePicture);
+            var uploadImageResult = await _cloudinaryService.UploadProfileImage(request.ProfilePicture);
             
             if (uploadImageResult?.Errors is not null)
             {
@@ -58,18 +70,18 @@ public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileComm
             user.PicturePublicId = uploadImageResult?.PublicId;
         }
         
-        if (command.EditProfileDto.Location is not null)
+        if (request.Location is not null)
         {
-            user.Location = command.EditProfileDto.Location;
+            user.Location = request.Location;
         }
         
-        if (command.EditProfileDto.Bio is not null)
+        if (request.Bio is not null)
         {
-            user.Bio = command.EditProfileDto.Bio;
+            user.Bio = request.Bio;
         }
         
         await _context.SaveChangesAsync(cancellationToken);
         
-        return new EditProfileResponseDto(user.Location, user.Bio, user.ProfilePictureUrl);
+        return new EditProfileResponse(user.Location, user.Bio, user.ProfilePictureUrl);
     }
 }
