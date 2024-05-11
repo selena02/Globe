@@ -40,8 +40,10 @@ const Login = () => {
       navigate("/");
     } catch (error: any) {
       handleApiErrors(error);
+      dispatch(setError(error.message));
     } finally {
       setIsLoading(false);
+      dispatch(setLoading(false));
     }
   };
 

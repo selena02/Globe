@@ -5,7 +5,13 @@ import { AuthResponse } from "../models/AuthResponse";
 import fetchAPI from "../../../shared/utils/fetchAPI";
 import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import "./Register.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  setLogin,
+  setLoading,
+  setError,
+} from "../../../state/features/authSlice";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const {
@@ -18,10 +24,13 @@ const Register = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: RegisterDtoForm) => {
     setIsLoading(true);
     setPasswordError("");
+    dispatch(setLoading(true));
 
     try {
       const { confirmPassword, ...requestData } = data;
@@ -29,10 +38,16 @@ const Register = () => {
         method: "POST",
         body: data,
       });
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response));
+      dispatch(setLogin({ user: response, token: response.token }));
+      navigate("/");
     } catch (error: any) {
       handleApiErrors(error);
+      dispatch(setError(error.message));
     } finally {
       setIsLoading(false);
+      dispatch(setLoading(false));
     }
   };
 

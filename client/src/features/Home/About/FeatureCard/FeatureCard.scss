@@ -4,6 +4,7 @@
   justify-content: space-between;
   width: 30em;
   padding: 2em;
+  margin: 0 auto;
   border-radius: 1em;
   box-shadow: 0 0.4em 0.8em rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -78,10 +79,10 @@
     width: 47vw;
   }
 }
-@media (max-width: 420px) and (orientation: portrait) {
+@media (max-width: 440px) and (orientation: portrait) {
   .feature-card {
-    height: 40em;
-    min-height: 380px;
+    font-size: 9px;
+    min-height: 320px;
     min-width: 180px;
   }
 }
