@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace Application.Authentication.Commands.LoginUser;
+﻿namespace Application.Authentication.Commands.LoginUser;
 
 public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
 {

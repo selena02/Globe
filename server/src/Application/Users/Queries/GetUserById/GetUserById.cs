@@ -4,7 +4,7 @@ using Domain.Exceptions;
 
 namespace Application.Users.Queries.GetUserById;
 
-public record GetUserByIdQuery(int Id) : IQuery<UserByIdResponse>;
+public record GetUserByIdQuery(int? Id) : IQuery<UserByIdResponse>;
 
 public record UserByIdResponse(
     int Id,

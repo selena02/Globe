@@ -6,4 +6,5 @@ public interface IAuthService
 {
     int? GetCurrentUserId();
     Task<User?> GetCurrentUserAsync();
+    List<string> GetUserRoles();
 }

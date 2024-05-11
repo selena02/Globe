@@ -30,6 +30,7 @@ public class GetUsersSearchBarQueryHandler : IQueryHandler<GetUsersSearchBarQuer
     public async Task<GetUsersSearchBarResponse> Handle(GetUsersSearchBarQuery request, CancellationToken cancellationToken)
     {
         var users = await _context.Users
+            .AsNoTracking()
             .Select(u => new SearchBarUser
             {
                 Id = u.Id,

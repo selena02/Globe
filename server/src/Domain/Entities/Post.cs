@@ -5,6 +5,7 @@ public class Post
     // Properties
     public int PostId { get; set; }
     public string Content { get; set; }
+    
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public string PhotoUrl { get; set; }
     public string PublicId { get; set; }

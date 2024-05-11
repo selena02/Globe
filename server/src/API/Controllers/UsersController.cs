@@ -5,9 +5,6 @@ using Application.Users.Queries.GetUsersSearchBar;
 using MediatR;
 
 namespace API.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
 public class UsersController(ISender sender) : BaseController(sender)
 {
     [HttpPut("edit")]

@@ -31,6 +31,15 @@ public class AuthService : IAuthService
     public async Task<User?> GetCurrentUserAsync()
     {
         var userId = GetCurrentUserId();
-        return userId != null ? await _context.Users.FindAsync(userId) : null;
+        return userId is not null ? await _context.Users.FindAsync(userId) : null;
+    }
+    
+    public List<string> GetUserRoles()
+    {
+        var roles = _httpContextAccessor.HttpContext?.User?.FindAll(ClaimTypes.Role)
+            .Select(claim => claim.Value)
+            .ToList();
+
+        return roles ?? [];
     }
 }
