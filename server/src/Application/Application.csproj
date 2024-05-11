@@ -21,7 +21,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Authentication\Commands\LoginUser\" />
+    <Compile Remove="Common\Interfaces\IHttpContextAccessor.cs" />
+    <Compile Remove="Users\Commands\GetUserById\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Users\Commands\GetUserById\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Users\Commands\GetUserById\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Users\Queries\GetUsersSearchbar\" />
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@ public static class AuthorizationExtensions
         {
             options.AddPolicy("RequirePilotRole", policy => policy.RequireRole("Pilot"));
             options.AddPolicy("RequireGuideRole", policy => policy.RequireRole("Guide"));
-            options.AddPolicy("RequireTravelerRole", policy => policy.RequireRole("Traveler"));
+            options.AddPolicy("RequireTravellerRole", policy => policy.RequireRole("Traveller"));
         });
 
         return services;

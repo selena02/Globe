@@ -17,7 +17,7 @@ namespace Infrastructure.Services
             _cloudinary = cloudinary;
         }
 
-        private async Task<UploadImageResult?> UploadImage(FormFile image, ImageType photoType)
+        private async Task<UploadImageResult?> UploadImage(IFormFile image, ImageType photoType)
         {
             if (string.IsNullOrEmpty(_cloudinary.Api.Account.Cloud) ||
                 string.IsNullOrEmpty(_cloudinary.Api.Account.ApiKey) ||
@@ -65,21 +65,14 @@ namespace Infrastructure.Services
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
             
-            return new UploadImageResult
-            (
-                uploadResult.PublicId,
-                uploadResult.SecureUrl.ToString(),
-                uploadResult.Error?.Message
-            );
+            return new UploadImageResult(uploadResult.PublicId, uploadResult.SecureUrl?.ToString(), uploadResult.Error?.Message);
 
         }
-        
-        public async Task<UploadImageResult?> UploadProfileImage(FormFile image)
+        public async Task<UploadImageResult?> UploadProfileImage(IFormFile image)
         {
             return await UploadImage(image, ImageType.Profile);
         }
-        
-        public async Task<UploadImageResult?> UploadLandmarkImage(FormFile image)
+        public async Task<UploadImageResult?> UploadLandmarkImage(IFormFile image)
         {
             return await UploadImage(image, ImageType.Landmark);
         }

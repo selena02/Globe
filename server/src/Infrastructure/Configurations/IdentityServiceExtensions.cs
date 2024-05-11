@@ -18,6 +18,7 @@ public static class IdentityServiceExtensions
                 opt.Password.RequireLowercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
+                opt.User.RequireUniqueEmail = true;
 
             })
             .AddRoles<Role>()
