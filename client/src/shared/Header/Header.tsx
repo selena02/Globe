@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { navigationLinks } from "./navLinks";
 import LoginIcon from "@mui/icons-material/Login";
 import "./Header.scss";
-import SideMenu from "./SideMenu/SideMenu";
 import { RootState } from "../../state/store";
 import { useSelector } from "react-redux";
 import SearchBar from "./SearchBar/SearchBar";
-import Dropdown from "./Dropdown/Dropdown";
+import Avatar from "../components/Avatar/Avatar";
+import { Notifications } from "@mui/icons-material";
 
 const HeaderComponent = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -47,10 +47,25 @@ const HeaderComponent = () => {
           </nav>
           <div id="header-right">
             {isLoggedIn ? (
-              <>
-                <SearchBar />
-                <Dropdown />
-              </>
+              <div className="search-dropdown-container">
+                <div className="searchbar-container">
+                  <SearchBar />
+                </div>
+                <button
+                  title="Notifications-button"
+                  type="button"
+                  id="Notifications-button"
+                >
+                  <Notifications id="notifications-icon" />
+                </button>
+                <button
+                  title="dropdown-button"
+                  type="button"
+                  id="dropdown-icon-button"
+                >
+                  <Avatar />
+                </button>
+              </div>
             ) : (
               <Link
                 to={"/account/login"}

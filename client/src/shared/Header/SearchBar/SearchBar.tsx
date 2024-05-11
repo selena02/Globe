@@ -1,27 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import "./SearchBar.scss";
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  const expandSearch = () => setIsExpanded(true);
+  const collapseSearch = () => setIsExpanded(false);
 
-  const handleSearchSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    alert(`Search for: ${searchTerm}`);
-  };
+  // Handle clicking outside of the search bar
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        collapseSearch();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <form onSubmit={handleSearchSubmit}>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
-      <button type="submit">Search</button>
-    </form>
+    <div
+      ref={containerRef}
+      className={`search-bar-container ${isExpanded ? "expanded" : ""}`}
+    >
+      <button
+        id="search-button"
+        className={isExpanded ? "expanded" : ""}
+        title="search-button"
+        onClick={expandSearch}
+      >
+        <SearchIcon id="search-icon" />
+      </button>
+      {isExpanded && (
+        <InputBase
+          placeholder="Search..."
+          inputProps={{ "aria-label": "search" }}
+          className="search-input"
+          autoFocus
+        />
+      )}
+    </div>
   );
 };
 

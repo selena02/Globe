@@ -4,7 +4,7 @@ interface FetchAPIOptions extends RequestInit {
   body?: any;
 }
 
-const API_URL = "https://localhost:5001/api";
+const API_URL = "https://localhost:7063/api";
 
 async function fetchAPI<T>(
   endpoint: string,

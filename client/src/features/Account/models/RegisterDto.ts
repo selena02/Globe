@@ -1,11 +1,13 @@
 export interface RegisterDto {
+  userName: string;
   email: string;
-  fullName: string;
   password: string;
+  fullName: string;
 }
 export interface RegisterDtoForm {
-  fullName: string;
+  userName: string;
   email: string;
   password: string;
+  fullName: string;
   confirmPassword: string;
 }
