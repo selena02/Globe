@@ -41,3 +41,9 @@
 .logout {
   border-top: 0.08em solid #cf51f215;
 }
+
+@media (max-width: 800px) {
+  .dropdown-container {
+    font-size: 1.2em;
+  }
+}
