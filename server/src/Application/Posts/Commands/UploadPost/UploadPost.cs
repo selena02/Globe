@@ -1,9 +1,9 @@
 ﻿using Application.Common.Abstractions;
 using Application.Common.Interfaces;
-using Domain.Exceptions;
-using Microsoft.AspNetCore.Http;
 using Application.Common.Models;
 using Domain.Entities;
+using Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Posts.Commands.UploadPost;
 
@@ -37,7 +37,7 @@ public class UploadPostCommandHandler : ICommandHandler<UploadPostCommand, Uploa
             throw new UnauthorizedException("User not authenticated");
         }
         
-        var uploadImageResult = await _cloudinaryService.UploadProfileImage(request.PostImage);
+        var uploadImageResult = await _cloudinaryService.UploadLandmarkImage(request.PostImage);
         
         if (uploadImageResult?.Errors is not null)
         {
