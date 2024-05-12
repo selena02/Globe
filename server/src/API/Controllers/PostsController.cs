@@ -1,6 +1,8 @@
 ﻿using API.Helpers;
 using Application.Common.Models;
 using Application.Common.Utils;
+using Application.Likes.Commands.LikePost;
+using Application.Likes.Commands.UnlikePost;
 using Application.Posts.Commands.DeletePost;
 using Application.Posts.Commands.EditPost;
 using Application.Posts.Commands.UploadPost;
@@ -65,6 +67,16 @@ public class PostsController(ISender sender) : BaseController(sender)
         return Ok(result);
     }
     
+    [HttpPost("like/{id}")]
+    public async Task<IActionResult> LikePost(int id, CancellationToken cancellationToken)
+    {
+        var command = new LikePostCommand(id);
+
+        var result = await Sender.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
+    
     [HttpPut("edit")]
     public async Task<IActionResult> EditPost([FromForm]EditPostCommand command, CancellationToken cancellationToken)
     {
@@ -82,4 +94,15 @@ public class PostsController(ISender sender) : BaseController(sender)
 
         return Ok(result);
     }
+    
+    [HttpDelete("unlike/{id}")]
+    public async Task<IActionResult> UnlikePost(int id, CancellationToken cancellationToken)
+    {
+        var command = new UnlikePostCommand(id);
+
+        var result = await Sender.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
+    
 }

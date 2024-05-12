@@ -37,6 +37,7 @@ public class GetPostByIdCommandHandler : IQueryHandler<GetPostByIdQuery, PostByI
     {
         var post = await _context.Posts
             .Include(p => p.User)
+            .Include(p => p.Likes)
             .FirstOrDefaultAsync(p => p.PostId == request.Id, cancellationToken);
         
         if (post is null)

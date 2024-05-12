@@ -1,5 +1,6 @@
 ﻿using Application.Common.Abstractions;
 using Application.Common.Interfaces;
+using Domain.Enums;
 using Domain.Exceptions;
 
 namespace Application.Posts.Commands.DeletePost;
@@ -35,7 +36,7 @@ public class DeletePostCommandHandler : ICommandHandler<DeletePostCommand, Delet
             throw new NotFoundException("Post not found");
         }
 
-        if (post.UserId != currentUserId)
+        if (post.UserId != currentUserId || _authService.GetUserRoles().Contains(Roles.Guide.ToString()))
         {
             throw new ForbiddenAccessException("User is not authorized to delete this post");
         }
