@@ -4,12 +4,12 @@ using Application.Common.Models;
 using Domain.Entities;
 using Domain.Exceptions;
 
-namespace Application.Comments.Commands;
+namespace Application.Comments.Commands.UploadComment;
 
-public record UploadCommentCommand : ICommand<UploadCommentResponse>
+public class UploadCommentCommand : ICommand<UploadCommentResponse>
 {
-    public string? Content { get; set; }
     public int PostId { get; set; }
+    public string? Content { get; set; }
 }
 
 public record UploadCommentResponse(CommentDto Comment);
@@ -49,7 +49,11 @@ public class UploadCommentCommandHandler : ICommandHandler<UploadCommentCommand,
         };
         
         await _context.Comments.AddAsync(comment, cancellationToken);
+        post.CommentsCount++;
+        
         await _context.SaveChangesAsync(cancellationToken);
+        
+        var isLiked = comment.Likes is not null && comment.Likes.Any(l => l.UserId == currentUser.Id);
         
         var newComment = new CommentDto(
             comment.CommentId,
@@ -59,7 +63,7 @@ public class UploadCommentCommandHandler : ICommandHandler<UploadCommentCommand,
             comment.Text,
             comment.LikesCount,
             comment.CreatedAt,
-            comment.Likes.Any(l => l.UserId == currentUser.Id),
+            isLiked,
             comment.UserId == currentUser.Id
         );
         

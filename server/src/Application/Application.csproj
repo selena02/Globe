@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Remove="Common\Interfaces\IHttpContextAccessor.cs" />
     <Compile Remove="Users\Commands\GetUserById\**" />
+    <Compile Remove="Common\Utils\PaginationHeader.cs" />
   </ItemGroup>
 
   <ItemGroup>
