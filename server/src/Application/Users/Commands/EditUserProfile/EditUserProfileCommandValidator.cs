@@ -34,7 +34,7 @@ public class EditUserProfileCommandValidator : AbstractValidator<EditUserProfile
 
         if (string.IsNullOrWhiteSpace(command.Bio) && string.IsNullOrWhiteSpace(command.Location) && command.ProfilePicture is null)
         {
-            result.Errors.Add(new ValidationFailure("EditProfileDto", "No content provided"));
+            result.Errors.Add(new ValidationFailure("EditProfileCommand", "No content provided"));
         }
     
         return true;

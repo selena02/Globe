@@ -11,7 +11,7 @@ public class EditUserProfileCommand : ICommand<EditProfileResponse>
     public IFormFile? ProfilePicture { get; set; }
 }
 
-public record class EditProfileResponse
+public record  EditProfileResponse
 (
     string? Location,
     string? Bio,
