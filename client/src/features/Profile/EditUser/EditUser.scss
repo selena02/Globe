@@ -1,0 +1,16 @@
+.edit-user-button {
+  position: absolute;
+  top: 2em;
+  right: 1.3em;
+  font-size: 1.4em;
+  font-weight: 500;
+  color: white;
+  background-color: #c03ff3;
+  padding: 0.4em 1em;
+  border-radius: 0.4em;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #a832f6;
+  }
+}

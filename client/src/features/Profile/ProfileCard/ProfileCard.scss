@@ -1,0 +1,50 @@
+.profile-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.8em;
+  padding: 2em;
+  margin: 2em;
+  min-width: 50em;
+
+  .avatar-picture {
+    font-size: 5em;
+    margin-right: 0.4em;
+    border: 0.04em solid #cf51f2;
+    border-radius: 50%;
+  }
+
+  .profile-details {
+    flex-grow: 1;
+
+    .profile-name {
+      margin: 0;
+      color: #333;
+      font-size: 2.4em;
+    }
+
+    .profile-username {
+      color: #555;
+      font-size: 1.8em;
+    }
+
+    .profile-location,
+    .profile-bio {
+      color: #666;
+      font-size: 1.6em;
+      margin: 0.5em 0;
+    }
+
+    .profile-social {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.6em;
+      margin-top: 1em;
+
+      span {
+        color: #333;
+      }
+    }
+  }
+}

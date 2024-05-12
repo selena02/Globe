@@ -3,7 +3,7 @@ import "./Avatar.scss";
 import PersonIcon from "@mui/icons-material/Person";
 
 interface AvatarProps {
-  photoUrl?: string;
+  photoUrl: string | null;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ photoUrl }) => {
