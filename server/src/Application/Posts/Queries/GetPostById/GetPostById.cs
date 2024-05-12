@@ -48,9 +48,7 @@ public class GetPostByIdCommandHandler : IQueryHandler<GetPostByIdQuery, PostByI
         var currentUserRoles = _authService.GetUserRoles();
         
         var isLiked = post.Likes is not null && post.Likes.Any(l => l.UserId == currentUserId);
-
         var isOwner = post.UserId == currentUserId;
-        
         var canDelete = isOwner || currentUserRoles.Contains(Roles.Guide.ToString());
         
         return new PostByIdResponse(
