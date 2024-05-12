@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import SearchBar from "./SearchBar/SearchBar";
 import Avatar from "../components/Avatar/Avatar";
 import { Notifications } from "@mui/icons-material";
+import Dropdown from "./Dropdown/Dropdown";
 
 const HeaderComponent = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -58,13 +59,7 @@ const HeaderComponent = () => {
                 >
                   <Notifications id="notifications-icon" />
                 </button>
-                <button
-                  title="dropdown-button"
-                  type="button"
-                  id="dropdown-icon-button"
-                >
-                  <Avatar />
-                </button>
+                <Dropdown />
               </div>
             ) : (
               <Link
