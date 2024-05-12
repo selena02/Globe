@@ -4,7 +4,7 @@
   background: white;
   position: -webkit-sticky;
   position: sticky;
-  z-index: 10000;
+  z-index: 1000;
   top: 0;
   height: 8em;
   box-shadow: 0 3px 4px -5px #c03ff3;
@@ -51,8 +51,10 @@
   display: flex;
   align-items: center;
   gap: 1.5em;
-  height: 4.5em;
+  height: 4.8em;
+  width: 16em;
   margin-right: 3em;
+  margin-top: 0.2em;
 }
 .header-icons {
   font-size: 3.5em !important;
@@ -201,7 +203,7 @@
   height: 100vh;
   background-color: rgb(255, 255, 255);
   transition: right 0.5s ease;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -224,7 +226,33 @@
 .navigation-links-side-menu:hover {
   opacity: 0.7;
 }
+.search-dropdown-container {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
 
+.searchbar-container {
+  width: 4.8em;
+  height: 4.8em;
+  position: relative;
+}
+
+#Notifications-button {
+  height: 4.8em;
+  width: 4.8em;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #f9f8f8;
+
+  & #notifications-icon {
+    font-size: 3em;
+    color: #cf51f2;
+  }
+}
 @media (min-width: 2800px) {
   #header-container {
     max-width: 2000px;
@@ -242,8 +270,9 @@
   #header-logo {
     margin-left: 1.8em;
   }
-  #login-link-container {
-    display: none;
+  #header-right {
+    margin-right: 8em;
+    margin-top: 0.3em;
   }
   #menu-icon {
     display: block;
@@ -263,7 +292,11 @@
     order: 3;
   }
   #menu-button {
-    top: 18em;
-    right: 20em;
+    top: 19.5em;
+    right: 15em;
+  }
+  #header-right {
+    font-size: 8px;
+    margin-top: 0.6em;
   }
 }

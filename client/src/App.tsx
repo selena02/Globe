@@ -12,6 +12,8 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setLogin } from "./state/features/authSlice";
 import PrivateRoute from "./shared/guards/PrivateRoute";
+import Profile from "./features/Profile/Profile";
+import LogOutGuard from "./shared/guards/LogOutGuard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,19 +35,26 @@ const App = () => {
           <ToastContainer />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="account" element={<Account />}>
+            <Route
+              path="account"
+              element={
+                <LogOutGuard>
+                  <Account />
+                </LogOutGuard>
+              }
+            >
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
             </Route>
-
             <Route
-              path="*"
+              path="/profile/:id"
               element={
                 <PrivateRoute>
-                  <NotFound />
+                  <Profile />
                 </PrivateRoute>
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />

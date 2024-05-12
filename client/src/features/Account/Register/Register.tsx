@@ -34,9 +34,10 @@ const Register = () => {
 
     try {
       const { confirmPassword, ...requestData } = data;
-      const response = await fetchAPI<AuthResponse>("register", {
+      console.log(data);
+      const response = await fetchAPI<AuthResponse>("Authentication/register", {
         method: "POST",
-        body: data,
+        body: requestData,
       });
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response));
@@ -59,12 +60,12 @@ const Register = () => {
         <img src="/images/general/logo.png" alt="Logo" />
         <h1>Sign up</h1>
       </div>
-      <label htmlFor="fullName">Full Name*</label>
+      <label htmlFor="fullName">Username*</label>
       <input
-        id="fullName"
+        id="userName"
         type="text"
-        {...register("fullName", {
-          required: "Full Name is required",
+        {...register("userName", {
+          required: "User Name is required",
         })}
       />
       <p className="error">{errors.fullName ? errors.fullName.message : ""}</p>
@@ -82,6 +83,15 @@ const Register = () => {
         })}
       />
       <p className="error">{errors.email ? errors.email.message : ""}</p>
+      <label htmlFor="fullName">Full Name*</label>
+      <input
+        id="fullName"
+        type="text"
+        {...register("fullName", {
+          required: "Full Name is required",
+        })}
+      />
+      <p className="error">{errors.fullName ? errors.fullName.message : ""}</p>
 
       <label htmlFor="password">Password*</label>
       <input
