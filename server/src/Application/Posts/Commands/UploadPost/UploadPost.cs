@@ -58,11 +58,11 @@ public class UploadPostCommandHandler : ICommandHandler<UploadPostCommand, Uploa
         var newPost =  new PostDto(
             post.UserId,
             post.User.UserName,
-            post.User.ProfilePictureUrl,
+            post.User.PicturePublicId,
             post.LikesCount,
             post.CommentsCount,
             post.PostId,
-            post.PhotoUrl
+            post.PublicId
         );
         
         return new UploadPostResponse(newPost);

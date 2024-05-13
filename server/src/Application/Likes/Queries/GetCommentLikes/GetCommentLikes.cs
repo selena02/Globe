@@ -21,12 +21,10 @@ public class GetCommentLikesQueryHandler : IQueryHandler<GetCommentLikesQuery, G
     {
         var likedUsers = await _context.Likes
             .Where(l => l.CommentId == request.CommentId)
-            .Select(l => new LikedUserDto
-            {
-                UserId = l.UserId,
-                Username = l.User.UserName,
-                ProfilePictureUrl = l.User.ProfilePictureUrl
-            })
+            .Select(l => new LikedUserDto(
+                l.UserId,
+                l.User.UserName,
+               l.User.PicturePublicId))
             .ToListAsync(cancellationToken);
 
         return new GetCommentLikesResponse(likedUsers);

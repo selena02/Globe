@@ -34,8 +34,4 @@
     <None Remove="Users\Commands\GetUserById\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Follows\Queries\" />
-  </ItemGroup>
-
 </Project>

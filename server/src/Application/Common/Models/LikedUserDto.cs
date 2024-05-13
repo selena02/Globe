@@ -1,8 +1,3 @@
 ﻿namespace Application.Common.Models;
 
-public class LikedUserDto
-{
-    public int UserId { get; set; }
-    public string Username { get; set; }
-    public string? ProfilePictureUrl { get; set; }
-}
+public record LikedUserDto(int UserId, string Username, string? ProfilePicture);
