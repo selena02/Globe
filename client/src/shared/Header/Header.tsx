@@ -6,7 +6,6 @@ import "./Header.scss";
 import { RootState } from "../../state/store";
 import { useSelector } from "react-redux";
 import SearchBar from "./SearchBar/SearchBar";
-import Avatar from "../components/Avatar/Avatar";
 import { Notifications } from "@mui/icons-material";
 import Dropdown from "./Dropdown/Dropdown";
 

@@ -4,7 +4,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ProfileImg from "../../utils/CloudImg";
 
 interface AvatarProps {
-  photoUrl?: string;
+  photoUrl: string | null;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ photoUrl }) => {
