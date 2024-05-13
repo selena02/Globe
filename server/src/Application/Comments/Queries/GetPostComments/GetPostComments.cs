@@ -50,7 +50,7 @@ public class GetPostCommentsQueryHandler : IQueryHandler<GetPostCommentsQuery, G
                 c.CommentId,
                 c.UserId,
                 c.User.UserName,
-                c.User.ProfilePictureUrl,
+                c.User.PicturePublicId,
                 c.Text,
                 c.LikesCount,
                 c.CreatedAt,

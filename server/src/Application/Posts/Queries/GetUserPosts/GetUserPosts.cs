@@ -42,11 +42,11 @@ public class GetUserPostsQueryHandler : IQueryHandler<GetUserPostsQuery, GetUser
             .Select(p => new PostDto(
                 p.UserId,
                 p.User.UserName,
-                p.User.ProfilePictureUrl,
+                p.User.PicturePublicId,
                 p.LikesCount,
                 p.CommentsCount,
                 p.PostId,
-                p.PhotoUrl
+                p.PublicId
             ));
         
         var pagedPosts = await PaginatedList<PostDto>

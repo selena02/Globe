@@ -5,13 +5,7 @@ namespace Application.Users.Queries.GetUsersSearchBar;
 
 public record GetUsersSearchBarQuery() : IQuery<GetUsersSearchBarResponse>;
 
-public class SearchBarUser
-{
-    public int Id { get; set; }
-    public string UserName { get; set; }
-    public string FullName { get; set; }
-    public string? ProfilePictureUrl { get; set; }
-}
+public record SearchBarUser(int UserId, string Username, string FullName, string? ProfilePicture);
 
 public class GetUsersSearchBarResponse
 { 
@@ -31,13 +25,12 @@ public class GetUsersSearchBarQueryHandler : IQueryHandler<GetUsersSearchBarQuer
     {
         var users = await _context.Users
             .AsNoTracking()
-            .Select(u => new SearchBarUser
-            {
-                Id = u.Id,
-                UserName = u.UserName,
-                FullName = u.FullName,
-                ProfilePictureUrl = u.ProfilePictureUrl
-            })
+            .Select(u => new SearchBarUser(
+                u.Id,
+                u.UserName,
+                u.FullName,
+                u.PicturePublicId
+            ))
             .ToListAsync(cancellationToken);
         
         return new GetUsersSearchBarResponse { Users = users };

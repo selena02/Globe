@@ -15,7 +15,7 @@ public record  EditProfileResponse
 (
     string? Location,
     string? Bio,
-    string? ProfilePictureUrl
+    string? ProfilePicture
 );
 
 public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileCommand ,EditProfileResponse>
@@ -77,6 +77,6 @@ public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileComm
         
         await _context.SaveChangesAsync(cancellationToken);
         
-        return new EditProfileResponse(user.Location, user.Bio, user.ProfilePictureUrl);
+        return new EditProfileResponse(user.Location, user.Bio, user.PicturePublicId);
     }
 }

@@ -4,7 +4,7 @@ public record CommentDto(
     int CommentId,
     int UserId,
     string UserName,
-    string? ProfilePictureUrl,
+    string? ProfilePicture,
     string Content,
     int LikesCount,
     DateTime CreatedAt,

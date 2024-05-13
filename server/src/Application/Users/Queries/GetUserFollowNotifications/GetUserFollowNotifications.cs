@@ -28,7 +28,7 @@ public class GetUserFollowNotificationsQueryHandler : IQueryHandler<GetUserFollo
             .Select(f => new FollowNotificationDto(
                 f.FollowerId, 
                 f.Follower.UserName,
-                f.Follower.ProfilePictureUrl,
+                f.Follower.PicturePublicId,
                 f.FollowedDate))
             .ToListAsync(cancellationToken);
         

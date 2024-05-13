@@ -21,7 +21,7 @@ public class GetUserFollowingQueryHandler : IQueryHandler<GetUserFollowingQuery,
     {
         var following = await _context.Follows
             .Where(f => f.FollowerId == request.UserId)
-            .Select(f => new FollowerDto(f.FollowingId, f.Following.UserName, f.Following.ProfilePictureUrl))
+            .Select(f => new FollowerDto(f.FollowingId, f.Following.UserName, f.Following.PicturePublicId))
             .ToListAsync(cancellationToken);
 
         return new GetUserFollowingResponse(following);

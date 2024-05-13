@@ -10,7 +10,7 @@ public record LoginUserResponse(
     string Token,
     int? Id,
     IList<string> Roles,
-    string? ProfilePictureUrl
+    string? ProfilePicture
 );
 
 public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, LoginUserResponse>
@@ -48,6 +48,6 @@ public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, LoginUs
         
         var roles = await _identityService.GetRolesAsync(user);
 
-        return new LoginUserResponse(token, user.Id, roles, user.ProfilePictureUrl);
+        return new LoginUserResponse(token, user.Id, roles, user.PicturePublicId);
     }
 }    

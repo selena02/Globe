@@ -15,7 +15,7 @@ public class EditPostCommand : ICommand<EditPostResponse>
 public record EditPostResponse
 (
     string? Content,
-    string? PostPictureUrl
+    string? PostPicture
 );
 
 public class EditPostCommandHandler : ICommandHandler<EditPostCommand, EditPostResponse>
@@ -77,6 +77,6 @@ public class EditPostCommandHandler : ICommandHandler<EditPostCommand, EditPostR
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new EditPostResponse(post.Content, post.PhotoUrl);
+        return new EditPostResponse(post.Content, post.PublicId);
     }
 }

@@ -10,13 +10,13 @@ public record GetPostByIdQuery(int Id) : IQuery<PostByIdResponse>;
 public record PostByIdResponse(
     int PostId,
     string Content,
-    string PostPictureUrl,
+    string PostPicture,
     DateTime CreatedAt,
     int LikesCount,
     int CommentsCount,
     int UserId,
     string UserName,
-    string? ProfilePictureUrl,
+    string? ProfilePicture,
     bool? IsLiked,
     bool IsOwner,
     bool CanDelete
@@ -55,13 +55,13 @@ public class GetPostByIdCommandHandler : IQueryHandler<GetPostByIdQuery, PostByI
         return new PostByIdResponse(
             post.PostId,
             post.Content,
-            post.PhotoUrl,
+            post.PublicId,
             post.CreatedAt,
             post.LikesCount,
             post.CommentsCount,
             post.UserId,
             post.User.UserName,
-            post.User.ProfilePictureUrl,
+            post.User.PicturePublicId,
             isLiked,
             isOwner,
             canDelete

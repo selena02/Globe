@@ -3,5 +3,5 @@
 public record FollowNotificationDto(
     int FollowerId,
     string FollowerUsername,
-    string? FollowerProfilePictureUrl,
+    string? FollowerProfilePicture,
     DateTime FollowedAt);
