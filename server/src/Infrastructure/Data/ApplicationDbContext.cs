@@ -18,6 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int, IdentityU
     public DbSet<Like> Likes { get; set; }
     public DbSet<VisitedLocation> VisitedLocations { get; set; }
     public DbSet<Follow> Follows { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,6 +44,9 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int, IdentityU
 
         // Followers
         modelBuilder.ApplyConfiguration(new FollowersConfiguration());
+        
+        // Notifications
+        modelBuilder.ApplyConfiguration(new NotificationsConfiguration());
     }
     
     public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
