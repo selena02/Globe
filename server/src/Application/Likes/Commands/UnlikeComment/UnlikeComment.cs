@@ -22,11 +22,6 @@ public class UnlikeCommentCommandHandler : ICommandHandler<UnlikeCommentCommand,
     public async Task<UnlikeCommentResponse> Handle(UnlikeCommentCommand request, CancellationToken cancellationToken)
     {
         var currentUserId = _authService.GetCurrentUserId();
-
-        if (currentUserId is null)
-        {
-            throw new UnauthorizedException("User not authenticated");
-        }
         
         var comment = await _context.Comments.FindAsync(new object[] { request.CommentId }, cancellationToken);
 

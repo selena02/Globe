@@ -22,11 +22,6 @@ public class UnlikePostCommandHandler : ICommandHandler<UnlikePostCommand, Unlik
     public async Task<UnlikePostResponse> Handle(UnlikePostCommand request, CancellationToken cancellationToken)
     {
         var currentUserId = _authService.GetCurrentUserId();
-
-        if (currentUserId is null)
-        {
-            throw new UnauthorizedException("User not authenticated");
-        }
         
         var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken);
 

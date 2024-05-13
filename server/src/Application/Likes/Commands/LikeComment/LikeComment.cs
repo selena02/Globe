@@ -25,11 +25,6 @@ public class LikePostCommandHandler : ICommandHandler<LikeCommentCommand, LikeCo
     {
         var currentUserId = _authService.GetCurrentUserId();
 
-        if (currentUserId is null)
-        {
-            throw new UnauthorizedException("User not authenticated");
-        }
-
         var comment = await _context.Comments.FindAsync(new object[] { request.CommentId }, cancellationToken);
 
         if (comment is null)
@@ -49,7 +44,7 @@ public class LikePostCommandHandler : ICommandHandler<LikeCommentCommand, LikeCo
         like = new Like
         {
             CommentId = request.CommentId,
-            UserId = currentUserId!.Value
+            UserId = currentUserId
         };
 
         await _context.Likes.AddAsync(like, cancellationToken);

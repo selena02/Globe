@@ -23,11 +23,6 @@ public class DeleteCommentCommandHandler : ICommandHandler<DeleteCommentCommand,
     public async Task<DeleteCommentResponse> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
     {
         var currentUserId = _authService.GetCurrentUserId();
-
-        if (currentUserId is null)
-        {
-            throw new UnauthorizedException("User not authenticated");
-        }
         
         var comment = await _context.Comments.FindAsync(new object[] { request.Id }, cancellationToken);
 
@@ -43,7 +38,7 @@ public class DeleteCommentCommandHandler : ICommandHandler<DeleteCommentCommand,
             throw new NotFoundException("Post not found");
         }
         
-        if (comment.UserId != currentUserId || _authService.GetUserRoles().Contains(Roles.Guide.ToString()))
+        if (comment.UserId != currentUserId || !_authService.GetUserRoles().Contains(Roles.Guide.ToString()))
         {
             throw new ForbiddenAccessException("User is not authorized to delete this comment");
         }
