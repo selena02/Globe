@@ -3,10 +3,12 @@ using Application.Users.Commands.EditUserProfile;
 using Application.Users.Queries.GetUserById;
 using Application.Users.Queries.GetUserFollowers;
 using Application.Users.Queries.GetUserFollowing;
+using Application.Users.Queries.GetUserFollowNotifications;
 using Application.Users.Queries.GetUsersSearchBar;
 using MediatR;
 
 namespace API.Controllers;
+
 public class UsersController(ISender sender) : BaseController(sender)
 {
     [HttpGet("{id}")]
@@ -43,6 +45,16 @@ public class UsersController(ISender sender) : BaseController(sender)
     public async Task<IActionResult> GetUserFollowing(int id, CancellationToken cancellationToken)
     {
         var query = new GetUserFollowingQuery(id);
+        
+        var result = await Sender.Send(query, cancellationToken);
+        
+        return Ok(result);
+    }
+    
+    [HttpGet("notifications")]
+    public async Task<IActionResult> GetUserFollowNotifications(CancellationToken cancellationToken)
+    {
+        var query = new GetUserFollowNotificationsQuery();
         
         var result = await Sender.Send(query, cancellationToken);
         
