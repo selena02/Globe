@@ -48,7 +48,7 @@ public class LikePostCommandHandler : ICommandHandler<LikePostCommand, LikePostR
         like = new Like
         {
             PostId = request.PostId,
-            UserId = currentUserId
+            UserId = currentUserId!.Value
         };
         
         await _context.Likes.AddAsync(like, cancellationToken);

@@ -3,6 +3,7 @@ using Application.Common.Models;
 using Application.Common.Utils;
 using Application.Likes.Commands.LikePost;
 using Application.Likes.Commands.UnlikePost;
+using Application.Likes.Queries.GetPostLikes;
 using Application.Posts.Commands.DeletePost;
 using Application.Posts.Commands.EditPost;
 using Application.Posts.Commands.UploadPost;
@@ -45,6 +46,16 @@ public class PostsController(ISender sender) : BaseController(sender)
         
         Response.AddPaginationHeader(new PageDescriptor (result.Posts.PageIndex, result.Posts.PageSize, result.Posts.ItemTotal, result.Posts.TotalPages));
         
+        return Ok(result);
+    }
+    
+    [HttpGet("like/{id}")]
+    public async Task<IActionResult> GetPostLikes(int id, CancellationToken cancellationToken)
+    {
+        var query = new GetPostLikesQuery(id);
+
+        var result = await Sender.Send(query, cancellationToken);
+
         return Ok(result);
     }
     
