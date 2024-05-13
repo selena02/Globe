@@ -20,7 +20,7 @@ const App = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user") as string); // Add type assertion here
+    const user = JSON.parse(localStorage.getItem("user") as string);
 
     if (token && user) {
       dispatch(setLogin({ user, token }));

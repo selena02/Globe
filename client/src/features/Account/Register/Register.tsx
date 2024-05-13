@@ -54,21 +54,46 @@ const Register = () => {
 
   const password = watch("password", "");
 
+  const validateFullName = (fullName) => {
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length < 2 || parts.length > 4) {
+      return "Full name must be between 2 to 4 words";
+    }
+    for (let part of parts) {
+      if (part.length < 2 || part.length > 15) {
+        return "Must be valid name";
+      }
+    }
+    return true;
+  };
+
   return (
     <form id="register-form" onSubmit={handleSubmit(onSubmit)}>
       <div id="sign-up-container">
         <img src="/images/general/logo.png" alt="Logo" />
         <h1>Sign up</h1>
       </div>
-      <label htmlFor="fullName">Username*</label>
+      <label htmlFor="userName">Username*</label>
       <input
         id="userName"
         type="text"
         {...register("userName", {
-          required: "User Name is required",
+          required: "Username is required",
+          minLength: {
+            value: 5,
+            message: "Username too short",
+          },
+          maxLength: {
+            value: 15,
+            message: "Username too long",
+          },
+          pattern: {
+            value: /^[a-zA-Z0-9_]*$/,
+            message: "No special characters",
+          },
         })}
       />
-      <p className="error">{errors.fullName ? errors.fullName.message : ""}</p>
+      <p className="error">{errors.userName ? errors.userName.message : ""}</p>
 
       <label htmlFor="email">Email*</label>
       <input
@@ -89,6 +114,7 @@ const Register = () => {
         type="text"
         {...register("fullName", {
           required: "Full Name is required",
+          validate: validateFullName,
         })}
       />
       <p className="error">{errors.fullName ? errors.fullName.message : ""}</p>

@@ -30,7 +30,7 @@ const Login = () => {
     dispatch(setLoading(true));
 
     try {
-      const response = await fetchAPI<AuthResponse>("login", {
+      const response = await fetchAPI<AuthResponse>("Authentication/login", {
         method: "POST",
         body: data,
       });
