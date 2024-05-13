@@ -1,13 +1,14 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Abstractions;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 
 namespace Application.Users.Queries.GetUserFollowers;
 
-public record GetUserFollowersQuery(int UserId) : IRequest<GetUserFollowersResponse>;
+public record GetUserFollowersQuery(int UserId) : IQuery<GetUserFollowersResponse>;
 
 public record GetUserFollowersResponse(List<FollowerDto> Followers);
 
-public class GetUserFollowersQueryHandler : IRequestHandler<GetUserFollowersQuery, GetUserFollowersResponse>
+public class GetUserFollowersQueryHandler : IQueryHandler<GetUserFollowersQuery, GetUserFollowersResponse>
 {
     private readonly IApplicationDbContext _context;
 

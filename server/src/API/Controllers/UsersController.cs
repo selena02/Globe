@@ -2,6 +2,7 @@
 using Application.Users.Commands.EditUserProfile;
 using Application.Users.Queries.GetUserById;
 using Application.Users.Queries.GetUserFollowers;
+using Application.Users.Queries.GetUserFollowing;
 using Application.Users.Queries.GetUsersSearchBar;
 using MediatR;
 
