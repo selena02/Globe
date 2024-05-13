@@ -1,6 +1,9 @@
 ﻿using API.Helpers;
 using Application.Common.Models;
 using Application.Common.Utils;
+using Application.Likes.Commands.LikePost;
+using Application.Likes.Commands.UnlikePost;
+using Application.Likes.Queries.GetPostLikes;
 using Application.Posts.Commands.DeletePost;
 using Application.Posts.Commands.EditPost;
 using Application.Posts.Commands.UploadPost;
@@ -46,6 +49,16 @@ public class PostsController(ISender sender) : BaseController(sender)
         return Ok(result);
     }
     
+    [HttpGet("like/{id}")]
+    public async Task<IActionResult> GetPostLikes(int id, CancellationToken cancellationToken)
+    {
+        var query = new GetPostLikesQuery(id);
+
+        var result = await Sender.Send(query, cancellationToken);
+
+        return Ok(result);
+    }
+    
     [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPostById(int id, CancellationToken cancellationToken)
@@ -60,6 +73,16 @@ public class PostsController(ISender sender) : BaseController(sender)
     [HttpPost("upload")]
     public async Task<IActionResult> UploadPost([FromForm]UploadPostCommand command, CancellationToken cancellationToken)
     {
+        var result = await Sender.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
+    
+    [HttpPost("like/{id}")]
+    public async Task<IActionResult> LikePost(int id, CancellationToken cancellationToken)
+    {
+        var command = new LikePostCommand(id);
+
         var result = await Sender.Send(command, cancellationToken);
 
         return Ok(result);
@@ -82,4 +105,15 @@ public class PostsController(ISender sender) : BaseController(sender)
 
         return Ok(result);
     }
+    
+    [HttpDelete("unlike/{id}")]
+    public async Task<IActionResult> UnlikePost(int id, CancellationToken cancellationToken)
+    {
+        var command = new UnlikePostCommand(id);
+
+        var result = await Sender.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
+    
 }

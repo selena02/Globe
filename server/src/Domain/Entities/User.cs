@@ -21,5 +21,6 @@ namespace Domain.Entities
         public virtual ICollection<VisitedLocation> VisitedLocations { get; set; }
         public virtual ICollection<Follow> Followers { get; set; }
         public virtual ICollection<Follow> Following { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

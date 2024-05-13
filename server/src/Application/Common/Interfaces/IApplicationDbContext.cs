@@ -12,6 +12,7 @@ public interface IApplicationDbContext
     DbSet<Like> Likes { get; set; }
     DbSet<VisitedLocation> VisitedLocations { get; set; }
     DbSet<Follow> Follows { get; set; }
+    DbSet<Notification> Notifications { get; set; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
