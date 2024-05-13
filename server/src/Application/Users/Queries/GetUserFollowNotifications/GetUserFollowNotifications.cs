@@ -23,18 +23,16 @@ public class GetUserFollowNotificationsQueryHandler : IQueryHandler<GetUserFollo
     {
         var currentUserId = _authService.GetCurrentUserId();
         
-        var followNotifications = await _context.Follows
-            .Where(f => f.FollowingId == currentUserId)
-            .Select(f => new FollowNotificationDto(
-                f.FollowerId, 
-                f.Follower.UserName,
-                f.Follower.PicturePublicId,
-                f.FollowedDate))
+        var notifications = await _context.Notifications
+            .Where(n => n.RecieverId == currentUserId)
+            .Select(n => new FollowNotificationDto(
+                n.NotificationId,
+                n.UserId,
+                n.User.UserName,
+                n.User.PicturePublicId,
+                n.DateCreated))
             .ToListAsync(cancellationToken);
-        
-        _context.Notifications.RemoveRange(_context.Notifications.Where(n => n.UserId == currentUserId));
-        await _context.SaveChangesAsync(cancellationToken);
 
-        return new GetUserFollowNotificationsResponse(followNotifications);
+        return new GetUserFollowNotificationsResponse(notifications);
     }
 }

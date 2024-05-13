@@ -44,7 +44,7 @@ public class UnfollowUserCommandHandler : ICommandHandler<UnfollowUserCommand, U
         _context.Follows.Remove(follow);
         
         var existingNotification = await _context.Notifications
-            .FirstOrDefaultAsync(n => n.UserId == request.UserId && n.SenderId == currentUserId, cancellationToken);
+            .FirstOrDefaultAsync(n => n.UserId == currentUserId && n.RecieverId == request.UserId, cancellationToken);
         
         if (existingNotification is not null)
         {

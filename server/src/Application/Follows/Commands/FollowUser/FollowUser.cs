@@ -57,8 +57,8 @@ public class FollowUserCommandHandler : ICommandHandler<FollowUserCommand, Follo
         
         var notification = new Notification
         {
-            UserId = request.UserId, 
-            SenderId = currentUserId
+            UserId = currentUserId, 
+            RecieverId = request.UserId,
         };
         
         _context.Notifications.Add(notification);

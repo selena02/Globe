@@ -5,7 +5,7 @@ public class Notification
     // Properties
     public int NotificationId { get; set; }
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
-    public int SenderId { get; set; } 
+    public int RecieverId { get; set; } 
     
     // Foreign keys
     public int UserId { get; set; }
