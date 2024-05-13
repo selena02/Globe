@@ -23,7 +23,12 @@ public class FollowUserCommandHandler : ICommandHandler<FollowUserCommand, Follo
     public async Task<FollowUserResponse> Handle(FollowUserCommand request, CancellationToken cancellationToken)
     {
         var currentUserId = _authService.GetCurrentUserId();
-
+        
+        if (currentUserId == request.UserId)
+        {
+            throw new BadRequestException("You cannot follow yourself");
+        }
+        
         var follow = await _context.Follows
             .FirstOrDefaultAsync(f => f.FollowerId == currentUserId && f.FollowingId == request.UserId, cancellationToken);
 

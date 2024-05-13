@@ -20,7 +20,7 @@ public class GetUserFollowersQueryHandler : IQueryHandler<GetUserFollowersQuery,
     public async Task<GetUserFollowersResponse> Handle(GetUserFollowersQuery request, CancellationToken cancellationToken)
     {
         var followers = await _context.Follows
-            .Where(f => f.FollowerId == request.UserId)
+            .Where(f => f.FollowingId == request.UserId)
             .Select(f => new FollowerDto(f.FollowerId, f.Follower.UserName, f.Follower.ProfilePictureUrl))
             .ToListAsync(cancellationToken);
 
