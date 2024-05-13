@@ -1,6 +1,7 @@
 ﻿using Application.Common.Abstractions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Exceptions;
 
 namespace Application.Follows.Commands.FollowUser;
 
@@ -37,7 +38,25 @@ public class FollowUserCommandHandler : ICommandHandler<FollowUserCommand, Follo
             FollowingId = request.UserId
         };
         
-        await _context.Follows.AddAsync(newFollow, cancellationToken);
+        var currentUser = await _context.Users.FindAsync(new object[] { currentUserId }, cancellationToken);
+        var user = await _context.Users.FindAsync(new object[] { request.UserId }, cancellationToken);
+        
+        if (currentUser is null || user is null)
+        {
+            throw new NotFoundException("User not found");
+        }
+        
+        currentUser.FollowingCount++;
+        user.FollowersCount++;
+        _context.Follows.Add(newFollow);
+        
+        var notification = new Notification
+        {
+            UserId = request.UserId, 
+            SenderId = currentUserId
+        };
+        
+        _context.Notifications.Add(notification);
 
         await _context.SaveChangesAsync(cancellationToken);
 
