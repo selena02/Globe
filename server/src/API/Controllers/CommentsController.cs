@@ -5,6 +5,7 @@ using Application.Comments.Queries.GetPostComments;
 using Application.Common.Models;
 using Application.Common.Utils;
 using Application.Likes.Commands.LikeComment;
+using Application.Likes.Commands.UnlikeComment;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,16 @@ public class CommentsController(ISender sender) : BaseController(sender)
     public async Task<IActionResult> DeleteComment(int id, CancellationToken cancellationToken)
     {
         var command = new DeleteCommentCommand(id);
+        
+        var result = await Sender.Send(command, cancellationToken);
+        
+        return Ok(result);
+    }
+    
+    [HttpDelete("unlike/{id}")]
+    public async Task<IActionResult> UnlikeComment(int id, CancellationToken cancellationToken)
+    {
+        var command = new UnlikeCommentCommand(id);
         
         var result = await Sender.Send(command, cancellationToken);
         

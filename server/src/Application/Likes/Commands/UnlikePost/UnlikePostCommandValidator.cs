@@ -5,6 +5,6 @@ public class UnlikePostCommandValidator : AbstractValidator<UnlikePostCommand>
     public UnlikePostCommandValidator()
     {
         RuleFor(x => x.PostId)
-            .NotEmpty();
+            .NotEmpty().WithMessage("PostId is required");
     }
 }

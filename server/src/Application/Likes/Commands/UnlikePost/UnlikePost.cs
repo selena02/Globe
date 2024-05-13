@@ -39,7 +39,7 @@ public class UnlikePostCommandHandler : ICommandHandler<UnlikePostCommand, Unlik
 
         if (like is null)
         {
-            throw new NotFoundException("Like not found");
+            return new UnlikePostResponse(true);
         }
         
         _context.Likes.Remove(like);

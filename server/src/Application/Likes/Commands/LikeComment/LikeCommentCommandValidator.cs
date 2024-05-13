@@ -5,6 +5,6 @@ public class LikeCommentCommandValidator : AbstractValidator<LikeCommentCommand>
     public LikeCommentCommandValidator()
     {
         RuleFor(x => x.CommentId)
-            .NotEmpty();
+            .NotEmpty().WithMessage("Comment ID required");
     }
 }
