@@ -19,4 +19,10 @@
     font-size: 1.6em;
     color: #cf51f2;
   }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
