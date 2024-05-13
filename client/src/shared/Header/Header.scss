@@ -238,21 +238,6 @@
   position: relative;
 }
 
-#Notifications-button {
-  height: 4.8em;
-  width: 4.8em;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: #f9f8f8;
-
-  & #notifications-icon {
-    font-size: 3em;
-    color: #cf51f2;
-  }
-}
 @media (min-width: 2800px) {
   #header-container {
     max-width: 2000px;

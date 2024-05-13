@@ -8,11 +8,6 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ photoUrl }) => {
-  const onError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    event.currentTarget.src = "";
-    event.currentTarget.onerror = null;
-  };
-
   return (
     <div className="avatar-container">
       <div className="avatar">
