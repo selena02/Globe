@@ -14,6 +14,7 @@ import { setLogin } from "./state/features/authSlice";
 import PrivateRoute from "./shared/guards/PrivateRoute";
 import Profile from "./features/Profile/Profile";
 import LogOutGuard from "./shared/guards/LogOutGuard";
+import Feed from "./features/Feed/Feed";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const App = () => {
                 </PrivateRoute>
               }
             />
+            <Route path="feed" element={<Feed />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

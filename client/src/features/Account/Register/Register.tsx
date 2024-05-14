@@ -54,7 +54,7 @@ const Register = () => {
 
   const password = watch("password", "");
 
-  const validateFullName = (fullName) => {
+  const validateFullName = (fullName: string) => {
     const parts = fullName.trim().split(/\s+/);
     if (parts.length < 2 || parts.length > 4) {
       return "Full name must be between 2 to 4 words";

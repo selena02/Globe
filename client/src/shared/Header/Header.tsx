@@ -6,8 +6,8 @@ import "./Header.scss";
 import { RootState } from "../../state/store";
 import { useSelector } from "react-redux";
 import SearchBar from "./SearchBar/SearchBar";
-import { Notifications } from "@mui/icons-material";
 import Dropdown from "./Dropdown/Dropdown";
+import { NotificationsDropdown } from "./Notifications/Notifications";
 
 const HeaderComponent = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -51,13 +51,7 @@ const HeaderComponent = () => {
                 <div className="searchbar-container">
                   <SearchBar />
                 </div>
-                <button
-                  title="Notifications-button"
-                  type="button"
-                  id="Notifications-button"
-                >
-                  <Notifications id="notifications-icon" />
-                </button>
+                <NotificationsDropdown />
                 <Dropdown />
               </div>
             ) : (
