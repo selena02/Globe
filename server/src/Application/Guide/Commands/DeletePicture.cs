@@ -34,9 +34,9 @@ public class DeletePictureCommandHandler : IRequestHandler<DeletePictureCommand,
             throw new NotFoundException("Current user not found");
         }
 
-        var isModerator = await _identityService.IsInRoleAsync(currentUser, Roles.Guide.ToString());
+        var isGuide = await _identityService.IsInRoleAsync(currentUser, Roles.Guide.ToString());
 
-        if (!isModerator)
+        if (!isGuide)
         {
             throw new ForbiddenAccessException("You are not authorized to delete a picture");
         }
@@ -56,6 +56,10 @@ public class DeletePictureCommandHandler : IRequestHandler<DeletePictureCommand,
             {
                 throw new ServerErrorException(deletionResult.Errors);
             }
+        }
+        else
+        {
+            return new DeletePictureResponse(false);
         }
         
         user.PicturePublicId = null;
