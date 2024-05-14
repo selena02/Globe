@@ -13,11 +13,13 @@ public class DeletePostCommandHandler : ICommandHandler<DeletePostCommand, Delet
 {
     private readonly IApplicationDbContext _context;
     private readonly IAuthService _authService;
+    private readonly ICloudinaryService _cloudinaryService;
 
-    public DeletePostCommandHandler(IApplicationDbContext context, IAuthService authService)
+    public DeletePostCommandHandler(IApplicationDbContext context, IAuthService authService, ICloudinaryService cloudinaryService)
     {
         _context = context;
         _authService = authService;
+        _cloudinaryService = cloudinaryService;
     }
 
     public async Task<DeletePostResponse> Handle(DeletePostCommand request, CancellationToken cancellationToken)
@@ -30,12 +32,24 @@ public class DeletePostCommandHandler : ICommandHandler<DeletePostCommand, Delet
         {
             throw new NotFoundException("Post not found");
         }
+        
+        var isGuide = _authService.GetUserRoles().Contains(Roles.Guide.ToString());
 
-        if (post.UserId != currentUserId || _authService.GetUserRoles().Contains(Roles.Guide.ToString()))
+        if (post.UserId != currentUserId || isGuide)
         {
             throw new ForbiddenAccessException("User is not authorized to delete this post");
         }
+        
+        if (!string.IsNullOrEmpty(post.PublicId))
+        {
+            var deletionResult = await _cloudinaryService.DeleteImageAsync(post.PublicId);
 
+            if (deletionResult.Errors is not null)
+            {
+                throw new ServerErrorException(deletionResult.Errors);
+            }
+        }
+        
         _context.Posts.Remove(post);
 
         await _context.SaveChangesAsync(cancellationToken);
