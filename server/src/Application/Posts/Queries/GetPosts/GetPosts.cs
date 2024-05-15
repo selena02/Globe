@@ -15,17 +15,22 @@ public record GetPostsResponse(PaginatedList<PostDto> Posts);
 public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, GetPostsResponse>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IAuthService _authService;
     
-    public GetPostsQueryHandler(IApplicationDbContext context)
+    public GetPostsQueryHandler(IApplicationDbContext context, IAuthService authService)
     {
         _context = context;
+        _authService = authService;
     }
     
     public async Task<GetPostsResponse> Handle(GetPostsQuery request, CancellationToken cancellationToken)
     {
+        var currentUserId = _authService.GetCurrentUserId();
+        
         var posts = _context.Posts
             .AsQueryable()
             .Include(p => p.User)
+            .Include(p => p.Likes)
             .OrderByDescending(p => p.CreatedAt)
             .Select(p => new PostDto(
                 p.UserId,
@@ -34,7 +39,8 @@ public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, GetPostsRespons
                 p.LikesCount,
                 p.CommentsCount,
                 p.PostId,
-                p.PublicId
+                p.PublicId,
+                p.Likes.Any(l => l.UserId == currentUserId)
             ));
         
         var pagedPosts = await PaginatedList<PostDto>

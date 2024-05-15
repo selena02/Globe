@@ -34,9 +34,12 @@ public class GetUserPostsQueryHandler : IQueryHandler<GetUserPostsQuery, GetUser
             throw new NotFoundException("User not found");
         }
         
+        var currentUserId = _authService.GetCurrentUserId();
+        
         var posts = _context.Posts
             .AsQueryable()
             .Include(p => p.User)
+            .Include(p => p.Likes)
             .Where(p => p.UserId == request.Id)
             .OrderByDescending<Post, DateTime>(p => p.CreatedAt)
             .Select(p => new PostDto(
@@ -46,7 +49,8 @@ public class GetUserPostsQueryHandler : IQueryHandler<GetUserPostsQuery, GetUser
                 p.LikesCount,
                 p.CommentsCount,
                 p.PostId,
-                p.PublicId
+                p.PublicId,
+                p.Likes.Any(l => l.UserId == currentUserId)
             ));
         
         var pagedPosts = await PaginatedList<PostDto>
