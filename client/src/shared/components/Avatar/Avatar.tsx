@@ -1,7 +1,7 @@
 import React from "react";
 import "./Avatar.scss";
 import PersonIcon from "@mui/icons-material/Person";
-import ProfileImg from "../../utils/CloudImg";
+import { ProfileImg } from "../../utils/CloudImg";
 
 interface AvatarProps {
   photoUrl: string | null;
