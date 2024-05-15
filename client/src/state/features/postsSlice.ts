@@ -21,7 +21,7 @@ export interface PostsState {
 const initialState: PostsState = {
   posts: [],
   pageNumber: 1,
-  pageSize: 3,
+  pageSize: 10,
   totalPages: 0,
   isLoading: false,
   hasMore: true,

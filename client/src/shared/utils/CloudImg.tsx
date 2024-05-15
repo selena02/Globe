@@ -26,16 +26,46 @@ export const ProfileImg = ({ publicId }: { publicId: string }) => {
 };
 
 export const PostImg = ({ publicId }: { publicId: string }) => {
-  const myImage = cld.image(publicId).format("webp").quality("auto");
+  const myImage = cld
+    .image(publicId)
+    .resize(thumbnail().width(400))
+    .format("webp")
+    .quality("auto");
 
   return (
     <AdvancedImage
       cldImg={myImage}
       style={{
-        postition: "absolute",
+        position: "absolute",
+        top: 0,
+        left: 0,
         width: "100%",
         height: "100%",
+        objectFit: "cover",
+        objectPosition: "center",
       }}
     />
+  );
+};
+
+export const FullPostImg = ({ publicId }: { publicId: string }) => {
+  const myImage = cld
+    .image(publicId)
+    .resize(thumbnail().width(800))
+    .format("webp")
+    .quality("auto");
+
+  return (
+    <div className="full-post-img">
+      <AdvancedImage
+        cldImg={myImage}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          objectPosition: "center",
+        }}
+      />
+    </div>
   );
 };

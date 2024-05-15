@@ -1,48 +1,58 @@
 .post-container {
   display: flex;
   flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 20px;
-  height: 50vh;
 }
 
 .post-img {
-  width: 100%;
+  position: relative;
   height: auto;
-  width: 400px;
-  height: 300px;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 1em;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
 }
 
 .post-footer {
   display: flex;
   align-items: center;
-  padding: 10px;
+  justify-content: space-between;
+  font-size: 1.6em;
+  padding: 0.6em 0.1em;
 }
-
-.profile-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
+.footer-left,
+.footer-right {
+  display: flex;
 }
 
 .user-name {
-  font-weight: bold;
+  margin-left: 0.4em;
+  align-self: flex-start;
   margin-right: auto;
+  font-weight: 500;
 }
 
 .icon-container {
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 1em;
 
   .icon {
-    margin-right: 5px;
+    margin-right: 0.1em;
+    color: #9e9ea7 !important;
   }
 
   .icon-text {
-    margin-left: 5px;
+    margin-left: 0.2em;
+    font-size: 0.9em;
+    color: #9e9ea7;
+  }
+}
+
+@media (max-width: 768px) {
+  .post-container {
+    margin: 0 2em;
   }
 }

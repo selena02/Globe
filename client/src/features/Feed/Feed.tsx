@@ -1,8 +1,7 @@
 import "./Feed.scss";
-import React, { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { PostsState, fetchPosts } from "../../state/features/postsSlice";
-import { PostDto } from "../../shared/models/Post";
+import { fetchPosts } from "../../state/features/postsSlice";
 import type { AppDispatch, RootState } from "../../state/store";
 import Post from "../../shared/components/Post/Post";
 
