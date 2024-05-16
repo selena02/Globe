@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchPosts } from "../../state/features/postsSlice";
 import type { AppDispatch, RootState } from "../../state/store";
 import Post from "../../shared/components/Post/Post";
+import Spinner from "../../shared/components/Spinner/Spinner";
 
 const Feed = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { posts, pageNumber, hasMore, isLoading } = useSelector(
+  const { posts, pageNumber, hasMore, isLoading, error } = useSelector(
     (state: RootState) => state.posts
   );
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -49,7 +50,10 @@ const Feed = () => {
         ))}
       </div>
       <div ref={observerRef} style={{ height: "20px" }} />
-      {isLoading && <p>Loading...</p>}
+      <div id="loading-or-error">
+        {isLoading && !error && <Spinner />}
+        {error && <div className="error-message">{error + " :("}</div>}
+      </div>
     </div>
   );
 };
