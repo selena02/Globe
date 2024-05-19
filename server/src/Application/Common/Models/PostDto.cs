@@ -7,6 +7,5 @@ public record PostDto (
     int LikesCount,
     int CommentsCount,
     int PostId,
-    string PostPicture,
-    bool isLiked
+    string PostPicture
 );

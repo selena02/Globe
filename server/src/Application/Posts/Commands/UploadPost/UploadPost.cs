@@ -62,8 +62,7 @@ public class UploadPostCommandHandler : ICommandHandler<UploadPostCommand, Uploa
             post.LikesCount,
             post.CommentsCount,
             post.PostId,
-            post.PublicId,
-            false
+            post.PublicId
         );
         
         return new UploadPostResponse(newPost);

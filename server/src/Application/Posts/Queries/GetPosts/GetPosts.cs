@@ -25,8 +25,6 @@ public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, GetPostsRespons
     
     public async Task<GetPostsResponse> Handle(GetPostsQuery request, CancellationToken cancellationToken)
     {
-        var currentUserId = _authService.GetCurrentUserId();
-        
         var posts = _context.Posts
             .AsQueryable()
             .Include(p => p.User)
@@ -39,8 +37,7 @@ public class GetPostsQueryHandler : IQueryHandler<GetPostsQuery, GetPostsRespons
                 p.LikesCount,
                 p.CommentsCount,
                 p.PostId,
-                p.PublicId,
-                p.Likes.Any(l => l.UserId == currentUserId)
+                p.PublicId
             ));
         
         var pagedPosts = await PaginatedList<PostDto>

@@ -34,8 +34,6 @@ public class GetUserPostsQueryHandler : IQueryHandler<GetUserPostsQuery, GetUser
             throw new NotFoundException("User not found");
         }
         
-        var currentUserId = _authService.GetCurrentUserId();
-        
         var posts = _context.Posts
             .AsQueryable()
             .Include(p => p.User)
@@ -49,8 +47,7 @@ public class GetUserPostsQueryHandler : IQueryHandler<GetUserPostsQuery, GetUser
                 p.LikesCount,
                 p.CommentsCount,
                 p.PostId,
-                p.PublicId,
-                p.Likes.Any(l => l.UserId == currentUserId)
+                p.PublicId
             ));
         
         var pagedPosts = await PaginatedList<PostDto>

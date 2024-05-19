@@ -1,8 +1,8 @@
-import { FullPostDto } from "../../models/Post";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { handleApiErrors } from "../../utils/displayApiErrors";
+import paginatedFetchAPI from "../../utils/paginatedFetchAPI";
 import fetchAPI from "../../utils/fetchAPI";
-import "./FullPost.scss";
-import { useEffect, useState } from "react";
 import Spinner from "../Spinner/Spinner";
 import { Close, Delete, Edit } from "@mui/icons-material";
 import { FullPostImg } from "../../utils/CloudImg";
@@ -10,7 +10,7 @@ import Avatar from "../Avatar/Avatar";
 import { redirect } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import CommentIcon from "@mui/icons-material/Comment";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import {
   Dialog,
   DialogActions,
@@ -19,6 +19,10 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
+import Comment from "../Comment/Comment";
+import "./FullPost.scss";
+import { CommentDto } from "../../models/Comment";
+import { FullPostDto } from "../../models/Post";
 
 interface FullPostProps {
   postId: number;
@@ -31,11 +35,13 @@ const FullPost: React.FC<FullPostProps> = ({
   onClose,
   onPostDeleted,
 }) => {
+  const navigate = useNavigate();
   const [post, setPost] = useState<FullPostDto | null>(null);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<CommentDto[]>([]);
   const [page, setPage] = useState(1);
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [loadingMoreComments, setLoadingMoreComments] = useState(false);
   const [error, setError] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
@@ -62,6 +68,35 @@ const FullPost: React.FC<FullPostProps> = ({
 
     fetchPost();
   }, [postId]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [page]);
+
+  const fetchComments = async () => {
+    setLoadingMoreComments(true);
+    try {
+      const { data, pagination } = await paginatedFetchAPI<{
+        comments: CommentDto[];
+        pagination: { totalPages: number };
+      }>(`comments/post/${postId}?pageSize=3&pageNumber=${page}`, {
+        method: "GET",
+      });
+      setComments((prevComments) => [...prevComments, ...data.comments]);
+      setHasMoreComments(page < pagination.totalPages);
+    } catch (err) {
+      handleApiErrors(err);
+      setHasMoreComments(false);
+    } finally {
+      setLoadingMoreComments(false);
+    }
+  };
+
+  const handleLoadMoreComments = () => {
+    if (hasMoreComments) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
 
   const handleLike = async () => {
     if (isLikeLoading) {
@@ -102,14 +137,17 @@ const FullPost: React.FC<FullPostProps> = ({
     }
   };
 
-  if (error || post == null) {
-    return null;
+  if (loading || error || post == null) {
+    return (
+      <div className="spinner-container">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <div className="post-popup-container">
       <div className="post-popup">
-        {loading && <Spinner />}
         <button onClick={onClose} className="close-btn">
           <Close className="icon" />
         </button>
@@ -127,11 +165,11 @@ const FullPost: React.FC<FullPostProps> = ({
                 </div>
               </div>
 
-              {post.isOwner && (
+              {/* {post.isOwner && (
                 <button className="edit-btn">
                   <Edit className="icon" />
                 </button>
-              )}
+              )} */}
               {post.canDelete && (
                 <button
                   className="delete-btn"
@@ -148,7 +186,7 @@ const FullPost: React.FC<FullPostProps> = ({
                 <span className="counts-icon-text">{likesCount}</span>
               </div>
               <div className="counts">
-                <CommentIcon className="counts-icon" />
+                <ChatBubbleOutlineIcon className="counts-icon" />
                 <span className="counts-icon-text">{post.commentsCount}</span>
               </div>
             </div>
@@ -166,12 +204,37 @@ const FullPost: React.FC<FullPostProps> = ({
                 <p className="post-count">Like</p>
               </button>
               <button type="button" className="post-actions">
-                <CommentIcon className="icons" />
+                <ChatBubbleOutlineIcon className="icons" />
                 <p className="post-count">Comment</p>
               </button>
             </div>
 
-            <div className="comments-section"></div>
+            <div className="comments-section">
+              {loadingMoreComments && (
+                <span className="comment-spinner">
+                  <Spinner />
+                </span>
+              )}
+              {hasMoreComments && !loadingMoreComments && (
+                <button
+                  onClick={handleLoadMoreComments}
+                  className="load-more-btn"
+                >
+                  Load More Comments
+                </button>
+              )}
+              {comments.map((comment) => (
+                <Comment key={comment.commentId} comment={comment} />
+              ))}
+            </div>
+            <div className="upload-comment-container">
+              <input
+                type="text"
+                placeholder="Write a comment..."
+                className="comment-input"
+              />
+              <button className="upload-comment-btn">Post</button>
+            </div>
           </div>
         </div>
       </div>

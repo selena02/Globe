@@ -1,0 +1,62 @@
+.comment {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 0.2em;
+  border-bottom: 1px solid #eee;
+
+  .comment-content {
+    margin-left: 1.5em;
+    flex: 1;
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .comment-username {
+        margin: 0;
+        font-size: 1.4em;
+        font-weight: bold;
+      }
+
+      span {
+        font-size: 1.2em;
+        color: #999;
+      }
+    }
+
+    .comment-text {
+      font-size: 1.4em;
+      transform: translateY(-0.15em);
+    }
+
+    .comment-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.6em;
+
+      .comment-likes-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+
+        .comment-likes-count {
+          font-size: 0.86em;
+          color: #999;
+        }
+      }
+
+      .icon {
+        font-size: 1.2em !important;
+        margin-right: 0.2em;
+      }
+    }
+  }
+}
+
+.comment-avatar-container {
+  margin-top: 0.2em;
+  font-size: 2em;
+}
