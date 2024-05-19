@@ -22,6 +22,8 @@ namespace Application
             
             services.AddScoped<IJWTService, JWTService>();
             
+            services.AddMemoryCache();
+            
             return services;
         }
     }
