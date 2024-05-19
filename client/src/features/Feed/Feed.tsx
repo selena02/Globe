@@ -1,7 +1,7 @@
 import "./Feed.scss";
 import { useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPosts } from "../../state/features/postsSlice";
+import { fetchPosts, removePost } from "../../state/features/postsSlice";
 import type { AppDispatch, RootState } from "../../state/store";
 import Post from "../../shared/components/Post/Post";
 import Spinner from "../../shared/components/Spinner/Spinner";
@@ -42,11 +42,19 @@ const Feed = () => {
     };
   }, [handleObserver]);
 
+  const handlePostDeleted = (postId: number) => {
+    dispatch(removePost(postId));
+  };
+
   return (
     <div className="feed-container">
       <div className="posts-container">
         {posts.map((post) => (
-          <Post key={post.postId} post={post} />
+          <Post
+            key={post.postId}
+            post={post}
+            onPostDeleted={handlePostDeleted}
+          />
         ))}
       </div>
       <div ref={observerRef} style={{ height: "20px" }} />

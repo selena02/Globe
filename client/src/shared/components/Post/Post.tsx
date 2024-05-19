@@ -10,9 +10,10 @@ import FullPost from "../FullPost/FullPost";
 
 interface PostProps {
   post: PostDto;
+  onPostDeleted: (postId: number) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post }) => {
+const Post: React.FC<PostProps> = ({ post, onPostDeleted }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handlePictureClick = () => {
@@ -46,7 +47,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </div>
       </div>
       {showPopup && (
-        <FullPost postId={post.postId} onClose={handleClosePopup} />
+        <FullPost
+          postId={post.postId}
+          onClose={handleClosePopup}
+          onPostDeleted={onPostDeleted}
+        />
       )}
     </div>
   );

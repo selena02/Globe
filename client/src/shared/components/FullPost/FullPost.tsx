@@ -11,14 +11,25 @@ import { redirect } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CommentIcon from "@mui/icons-material/Comment";
-import { set } from "react-hook-form";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 
-const FullPost = ({
-  postId,
-  onClose,
-}: {
+interface FullPostProps {
   postId: number;
   onClose: () => void;
+  onPostDeleted: (postId: number) => void;
+}
+
+const FullPost: React.FC<FullPostProps> = ({
+  postId,
+  onClose,
+  onPostDeleted,
 }) => {
   const [post, setPost] = useState<FullPostDto | null>(null);
   const [comments, setComments] = useState([]);
@@ -28,6 +39,8 @@ const FullPost = ({
   const [error, setError] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -49,6 +62,45 @@ const FullPost = ({
 
     fetchPost();
   }, [postId]);
+
+  const handleLike = async () => {
+    if (isLikeLoading) {
+      return;
+    }
+    setIsLikeLoading(true);
+    setLiked((prevLiked) => !prevLiked);
+    try {
+      if (liked) {
+        await fetchAPI(`posts/unlike/${postId}`, {
+          method: "DELETE",
+        });
+        setLiked(false);
+        setLikesCount((prevCount) => prevCount - 1);
+      } else {
+        await fetchAPI(`posts/like/${postId}`, {
+          method: "POST",
+        });
+        setLiked(true);
+        setLikesCount((prevCount) => prevCount + 1);
+      }
+    } catch (err) {
+      handleApiErrors(err);
+    } finally {
+      setIsLikeLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await fetchAPI(`posts/delete/${postId}`, {
+        method: "DELETE",
+      });
+      onPostDeleted(postId);
+      onClose();
+    } catch (err) {
+      handleApiErrors(err);
+    }
+  };
 
   if (error || post == null) {
     return null;
@@ -81,7 +133,10 @@ const FullPost = ({
                 </button>
               )}
               {post.canDelete && (
-                <button className="delete-btn">
+                <button
+                  className="delete-btn"
+                  onClick={() => setIsDeleteDialogOpen(true)}
+                >
                   <Delete className="icon" />
                 </button>
               )}
@@ -90,7 +145,7 @@ const FullPost = ({
             <div className="like-comment-counts">
               <div className="counts">
                 <FavoriteIcon className="counts-icon" />
-                <span className="counts-icon-text">{post.likesCount}</span>
+                <span className="counts-icon-text">{likesCount}</span>
               </div>
               <div className="counts">
                 <CommentIcon className="counts-icon" />
@@ -98,7 +153,11 @@ const FullPost = ({
               </div>
             </div>
             <div className="post-bottom post-counts-borders">
-              <button type="button" className="post-actions">
+              <button
+                type="button"
+                className="post-actions"
+                onClick={handleLike}
+              >
                 {liked ? (
                   <FavoriteIcon className="icons" />
                 ) : (
@@ -116,6 +175,34 @@ const FullPost = ({
           </div>
         </div>
       </div>
+
+      <Dialog
+        open={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+      >
+        <DialogTitle className="dialog-title">Delete Post</DialogTitle>
+        <DialogContent>
+          <DialogContentText className="dialog-text">
+            Are you sure you want to delete this post?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className="dialog-button"
+            onClick={() => setIsDeleteDialogOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            className="dialog-button"
+            onClick={handleDelete}
+            color="secondary"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

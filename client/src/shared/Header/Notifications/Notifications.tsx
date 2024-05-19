@@ -17,7 +17,7 @@ interface FollowNotification {
 export const NotificationsDropdown = () => {
   const [notifications, setNotifications] = useState<FollowNotification[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const [isLoding, setIsLoading] = useState(false);
 
   const toggleDropdown = () => {

@@ -27,6 +27,7 @@ async function fetchAPI<T>(
   });
 
   const data = await response.json();
+
   if (!response.ok) {
     throw new ApiError(
       data.message || "Something went wrong",
