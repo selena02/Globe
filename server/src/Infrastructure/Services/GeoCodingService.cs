@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Domain.Exceptions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Services
 {
@@ -11,10 +11,10 @@ namespace Infrastructure.Services
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
 
-        public GeoCodingService(HttpClient httpClient, IConfiguration configuration, ILogger<GeoCodingService> logger)
+        public GeoCodingService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _apiKey = configuration["GeocoderApiKey"] ?? throw new ArgumentNullException(nameof(configuration));
+            _apiKey = configuration["GEOCODER_API_KEY"] ?? throw new ServerErrorException("Geocoder API key not found");
         }
 
         public async Task<LocationDetailsDto> GetLocationDetailsAsync(string location)
@@ -42,7 +42,7 @@ namespace Infrastructure.Services
                 }
 
                 var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var data = JsonSerializer.Deserialize<OpenCageResponse>(json);
+                var data = JsonSerializer.Deserialize<OpenCageResponse>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 if (data == null || data.Results.Length == 0)
                 {
@@ -57,9 +57,8 @@ namespace Infrastructure.Services
                 {
                     Latitude = firstResult.Geometry.Lat,
                     Longitude = firstResult.Geometry.Lng,
-                    FormattedAddress = firstResult.Formatted,
                     Country = firstResult.Components.Country,
-                    City = firstResult.Components.City ?? firstResult.Components.Town
+                    City = firstResult.Components.City ?? firstResult.Components.Town,
                 };
             }
             catch (Exception ex)
@@ -70,30 +69,83 @@ namespace Infrastructure.Services
                 };
             }
         }
-
-        private class OpenCageResponse
+        
+        public class OpenCageResponse
         {
             public Result[] Results { get; set; }
+            public Rate Rate { get; set; }
+            public Status Status { get; set; }
+            public int TotalResults { get; set; }
         }
 
-        private class Result
+        public class Result
         {
-            public Geometry Geometry { get; set; }
-            public string Formatted { get; set; }
+            public Annotations Annotations { get; set; }
+            public Bounds Bounds { get; set; }
             public Components Components { get; set; }
+            public int Confidence { get; set; }
+            public string Formatted { get; set; }
+            public Geometry Geometry { get; set; }
         }
 
-        private class Geometry
+        public class Annotations
+        {
+            // Add properties as needed
+        }
+
+        public class Bounds
+        {
+            public Northeast Northeast { get; set; }
+            public Southwest Southwest { get; set; }
+        }
+
+        public class Northeast
         {
             public double Lat { get; set; }
             public double Lng { get; set; }
         }
 
-        private class Components
+        public class Southwest
         {
-            public string Country { get; set; }
+            public double Lat { get; set; }
+            public double Lng { get; set; }
+        }
+
+        public class Components
+        {
+            public string ISO_3166_1_alpha_2 { get; set; }
+            public string ISO_3166_1_alpha_3 { get; set; }
+            public string Category { get; set; }
             public string City { get; set; }
+            public string Country { get; set; }
+            public string CountryCode { get; set; }
+            public string HouseNumber { get; set; }
+            public string Neighbourhood { get; set; }
+            public string Postcode { get; set; }
+            public string Road { get; set; }
+            public string State { get; set; }
+            public string Suburb { get; set; }
             public string Town { get; set; }
         }
+
+        public class Geometry
+        {
+            public double Lat { get; set; }
+            public double Lng { get; set; }
+        }
+
+        public class Rate
+        {
+            public int Limit { get; set; }
+            public int Remaining { get; set; }
+            public int Reset { get; set; }
+        }
+
+        public class Status
+        {
+            public int Code { get; set; }
+            public string Message { get; set; }
+        }
+
     }
 }

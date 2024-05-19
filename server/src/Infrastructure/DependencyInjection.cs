@@ -1,4 +1,6 @@
-﻿using Infrastructure.Configurations;
+﻿using Application.Common.Interfaces;
+using Infrastructure.Configurations;
+using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,8 @@ namespace Infrastructure
             services.AddJwtAuthentication(config);
             services.AddRoleBasedAuthorization();
             services.AddCloudinary();
+            services.AddGeocoding();
+            services.AddHttpClient<ILandmarkService, LandmarkService>();
             
             return services;
         }
