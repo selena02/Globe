@@ -28,6 +28,8 @@ builder.Services
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Configuration.AddEnvironmentVariables();
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
