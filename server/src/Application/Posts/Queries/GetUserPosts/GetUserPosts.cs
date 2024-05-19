@@ -37,6 +37,7 @@ public class GetUserPostsQueryHandler : IQueryHandler<GetUserPostsQuery, GetUser
         var posts = _context.Posts
             .AsQueryable()
             .Include(p => p.User)
+            .Include(p => p.Likes)
             .Where(p => p.UserId == request.Id)
             .OrderByDescending<Post, DateTime>(p => p.CreatedAt)
             .Select(p => new PostDto(

@@ -4,5 +4,5 @@ export const navigationLinks: Navigation = [
   { path: "/", label: "Home" },
   { path: "/feed", label: "Feed" },
   { path: "/landmarks", label: "Landmarks" },
-  { path: "/events", label: "Events" },
+  { path: "/events", label: "Explore" },
 ];

@@ -6,10 +6,18 @@ interface FetchAPIOptions extends RequestInit {
 
 const API_URL = "https://localhost:7063/api";
 
-async function fetchAPI<T>(
+async function paginatedFetchAPI<T>(
   endpoint: string,
   options: FetchAPIOptions = {}
-): Promise<T> {
+): Promise<{
+  data: T;
+  pagination: {
+    totalPages: number;
+    pageIndex: number;
+    pageSize: number;
+    itemTotal: number;
+  };
+}> {
   const token = localStorage.getItem("token");
   const headers: any = {
     "Content-Type": "application/json",
@@ -27,7 +35,6 @@ async function fetchAPI<T>(
   });
 
   const data = await response.json();
-
   if (!response.ok) {
     throw new ApiError(
       data.message || "Something went wrong",
@@ -36,7 +43,9 @@ async function fetchAPI<T>(
     );
   }
 
-  return data as T;
+  const pagination = JSON.parse(response.headers.get("Pagination")!);
+
+  return { data: data as T, pagination };
 }
 
-export default fetchAPI;
+export default paginatedFetchAPI;

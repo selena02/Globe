@@ -7,3 +7,18 @@ export interface PostDto {
   postId: number;
   postPicture: string;
 }
+
+export interface FullPostDto {
+  postId: number;
+  content: string;
+  postPicture: string;
+  createdAt: Date;
+  likesCount: number;
+  commentsCount: number;
+  userId: number;
+  userName: string;
+  profilePicture: string | null;
+  isLiked: boolean;
+  isOwner: boolean;
+  canDelete: boolean;
+}

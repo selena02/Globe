@@ -1,42 +1,67 @@
-import { useState, useEffect } from "react";
-import { ApiError } from "../../shared/models/ApiError";
-import { PostDto } from "../../shared/models/Post";
-import fetchAPI from "../../shared/utils/fetchAPI";
+import "./Feed.scss";
+import { useCallback, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPosts, removePost } from "../../state/features/postsSlice";
+import type { AppDispatch, RootState } from "../../state/store";
+import Post from "../../shared/components/Post/Post";
+import Spinner from "../../shared/components/Spinner/Spinner";
 
 const Feed = () => {
-  const [posts, setPosts] = useState<PostDto[]>([]);
-  const [pageSize, setPageSize] = useState(10);
-  const [pageNumber, setPageNumber] = useState(1);
+  const dispatch = useDispatch<AppDispatch>();
+  const { posts, pageNumber, hasMore, isLoading, error } = useSelector(
+    (state: RootState) => state.posts
+  );
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    fetchPosts();
-  }, [pageNumber, pageSize]);
-
-  const fetchPosts = async () => {
-    try {
-      const endpoint = `posts?pageSize=${pageSize}&pageNumber=${pageNumber}`;
-      const data = await fetchAPI<{
-        posts: PostDto[];
-        pagination: { totalPages: number };
-      }>(endpoint, { method: "GET" });
-      console.log(data);
-      setPosts(data.posts);
-    } catch (error) {
-      console.error("Failed to fetch posts:", error);
-      if (error instanceof ApiError) {
-      }
+    if (pageNumber === 1 && posts.length === 0) {
+      dispatch(fetchPosts(pageNumber));
     }
+  }, [dispatch, pageNumber, posts.length]);
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && hasMore && !isLoading) {
+        dispatch(fetchPosts(pageNumber + 1));
+      }
+    },
+    [dispatch, hasMore, isLoading, pageNumber]
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver);
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [handleObserver]);
+
+  const handlePostDeleted = (postId: number) => {
+    dispatch(removePost(postId));
   };
 
   return (
-    <div>
-      <button
-        onClick={() => setPageNumber(pageNumber - 1)}
-        disabled={pageNumber === 1}
-      >
-        Previous
-      </button>
-      <button onClick={() => setPageNumber(pageNumber + 1)}>Next</button>
+    <div className="feed-container">
+      <div className="posts-container">
+        {posts.map((post) => (
+          <Post
+            key={post.postId}
+            post={post}
+            onPostDeleted={handlePostDeleted}
+          />
+        ))}
+      </div>
+      <div ref={observerRef} style={{ height: "20px" }} />
+      <div id="loading-or-error">
+        {isLoading && !error && <Spinner />}
+        {error && <div className="error-message">{error + " :("}</div>}
+      </div>
     </div>
   );
 };

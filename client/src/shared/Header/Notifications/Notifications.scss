@@ -1,3 +1,7 @@
+#notifications-container {
+  position: relative;
+}
+
 #Notifications-button {
   height: 4.8em;
   width: 4.8em;
@@ -11,5 +15,82 @@
   & #notifications-icon {
     font-size: 3em;
     color: #cf51f2;
+  }
+}
+.none {
+  display: none;
+}
+
+.count-display {
+  position: absolute;
+  z-index: 10000;
+  top: 0.2em;
+  right: 0.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 50%;
+  background-color: #cf51f2;
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.notifications-dropdown-container {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  width: 26em;
+  background-color: white;
+  border-radius: 0.5em;
+  box-shadow: 0 0 0.3em 0.1em rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.notification-item {
+  position: relative;
+  font-size: 2em;
+  padding: 0.5em 0.6em;
+  padding-right: 2.4em;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  transition: all 0.2s ease;
+  border-top: 0.1em solid #0000001a;
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.notification-info {
+  p {
+    font-size: 0.7em;
+    span {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+  }
+  .notification-time {
+    opacity: 0.7;
+    transform: translateY(-0.2em);
+  }
+}
+#delete-notification-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(239, 23, 214);
+  font-size: 1.2em;
+  height: 1.2em;
+  width: 1.2em;
+  right: 0.5em;
+  top: 0.72em;
+  border-radius: 0.2em;
+
+  #close-icon {
+    font-size: inherit !important;
+    color: white !important;
   }
 }

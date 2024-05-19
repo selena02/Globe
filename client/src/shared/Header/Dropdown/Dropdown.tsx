@@ -44,7 +44,7 @@ const Dropdown = () => {
       type="button"
       id="dropdown-icon-button"
     >
-      <Avatar photoUrl="playlink-images/oug1wywtimv0blv4hrp3" />
+      <Avatar photoUrl={null} />
       <div
         className={`dropdown-container ${isOpen ? "dropdown-open" : ""}`}
         id="dropdown-container"
