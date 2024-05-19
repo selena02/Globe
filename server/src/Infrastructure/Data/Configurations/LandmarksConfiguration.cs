@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations;
 
-public class VisitedLocationsConfiguration : IEntityTypeConfiguration<VisitedLocation>
+public class LandmarksConfiguration : IEntityTypeConfiguration<Landmark>
 {
-    public void Configure(EntityTypeBuilder<VisitedLocation> entity)
+    public void Configure(EntityTypeBuilder<Landmark> entity)
     {
         entity.HasKey(vl => vl.VisitedLocationId);
         
         entity.HasOne(vl => vl.User)
-            .WithMany(u => u.VisitedLocations)
+            .WithMany(u => u.Landmarks)
             .HasForeignKey(vl => vl.UserId)
             .OnDelete(DeleteBehavior.Restrict);
             

@@ -8,15 +8,14 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole,
-    IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, IApplicationDbContext
+public class ApplicationDbContext(DbContextOptions options)
+    : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole,
+        IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>(options), IApplicationDbContext
 {
-    public ApplicationDbContext(DbContextOptions options) : base(options) { }
-    
     public DbSet<Post> Posts { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Like> Likes { get; set; }
-    public DbSet<VisitedLocation> VisitedLocations { get; set; }
+    public DbSet<Landmark> Landmarks { get; set; }
     public DbSet<Follow> Follows { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     
@@ -40,7 +39,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int, IdentityU
         modelBuilder.ApplyConfiguration(new LikesConfiguration());
         
         // VisitedLocations
-        modelBuilder.ApplyConfiguration(new VisitedLocationsConfiguration());
+        modelBuilder.ApplyConfiguration(new LandmarksConfiguration());
 
         // Followers
         modelBuilder.ApplyConfiguration(new FollowersConfiguration());

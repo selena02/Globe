@@ -18,7 +18,7 @@ namespace Domain.Entities
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<VisitedLocation> VisitedLocations { get; set; }
+        public virtual ICollection<Landmark> Landmarks { get; set; }
         public virtual ICollection<Follow> Followers { get; set; }
         public virtual ICollection<Follow> Following { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }

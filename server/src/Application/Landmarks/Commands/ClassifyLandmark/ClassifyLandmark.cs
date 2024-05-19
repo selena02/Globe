@@ -49,7 +49,7 @@ public class ClassifyLandmarkCommandHandler : ICommandHandler<ClassifyLandmarkCo
             throw new ServerErrorException("Error uploading picture to cloudinary");
         }
         
-        var cacheKey = $"ClassifyLandmark:{landmarkDetectorResponse.Name}_by_{_authService.GetCurrentUserId()}";
+        var cacheKey = $"ClassifyLandmark:{_authService.GetCurrentUserId()}";
         
         _memoryCache.Set(cacheKey, new ClassifyLandmarkResponse(landmarkDetectorResponse, landmarkDetails, photoUploadResult?.PublicId), TimeSpan.FromMinutes(30));
 

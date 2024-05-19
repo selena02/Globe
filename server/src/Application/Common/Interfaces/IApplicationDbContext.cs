@@ -10,7 +10,7 @@ public interface IApplicationDbContext
     DbSet<Post> Posts { get; set; }
     DbSet<Comment> Comments { get; set; }
     DbSet<Like> Likes { get; set; }
-    DbSet<VisitedLocation> VisitedLocations { get; set; }
+    DbSet<Landmark> Landmarks { get; set; }
     DbSet<Follow> Follows { get; set; }
     DbSet<Notification> Notifications { get; set; }
     

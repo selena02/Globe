@@ -1,17 +1,19 @@
 ﻿namespace Domain.Entities;
 
-public class VisitedLocation
+public class Landmark
 {
     // Properties
     public int VisitedLocationId { get; set; }
     public string LocationName { get; set; }
-    public DateTime VisitedOn { get; set; } = DateTime.UtcNow;
-    public string Description { get; set; }
-    public bool IsPrivate { get; set; } = false;
+    public DateTime VisitedOn { get; init; } = DateTime.UtcNow;
+    public string Review { get; set; }
     public string PhotoUrl { get; set; }
     public string PublicId { get; set; }
     public int? Rating { get; init; }
-    public string Details { get; init; }
+    public string Longitude { get; set; }
+    public string Latitude { get; set; }
+    public string Country { get; set; }
+    public string City { get; set; }
 
     // Foreign key
     public int UserId { get; set; }
