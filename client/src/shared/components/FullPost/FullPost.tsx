@@ -22,9 +22,10 @@ import {
 import Comment from "../Comment/Comment";
 import "./FullPost.scss";
 import { CommentDto } from "../../models/Comment";
-import { FullPostDto } from "../../models/Post";
+import { FullPostDto, LikedUserDto } from "../../models/Post";
 import { RootState } from "../../../state/store";
 import { useSelector } from "react-redux";
+import LikedUsers from "../LikedUsers/LikedUsers";
 
 interface FullPostProps {
   postId: number;
@@ -57,6 +58,9 @@ const FullPost: React.FC<FullPostProps> = ({
   const [newComment, setNewComment] = useState("");
   const [isCommentUploading, setIsCommentUploading] = useState(false);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const [isLikedPostUsersOpen, setIsLikedPostUsersOpen] = useState(false);
+  const [likedUsers, setLikedUsers] = useState<LikedUserDto[]>([]);
+  const [isLikedUsersLoading, setIsLikedUsersLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -211,6 +215,42 @@ const FullPost: React.FC<FullPostProps> = ({
     }
   };
 
+  const fetchLikedPostUsers = async () => {
+    if (isLikedUsersLoading) {
+      return;
+    }
+    if (!isLoggedIn) {
+      navigate("/account/login");
+      return;
+    }
+    if (isLikedPostUsersOpen) {
+      setIsLikedPostUsersOpen(false);
+      return;
+    }
+    if (likesCount === 0 || (liked === true && likesCount === 1)) {
+      return;
+    }
+    setIsLikedUsersLoading(true);
+    try {
+      const response = await fetchAPI<{ likedUsers: LikedUserDto[] }>(
+        `posts/like/${postId}`,
+        {
+          method: "GET",
+        }
+      );
+      setLikedUsers(response.likedUsers);
+      setIsLikedPostUsersOpen(true);
+    } catch (err) {
+      handleApiErrors(err);
+    } finally {
+      setIsLikedUsersLoading(false);
+    }
+  };
+
+  const handleCloseLikedUsers = () => {
+    setIsLikedPostUsersOpen(false);
+  };
+
   if (loading) {
     return (
       <div className="spinner-container">
@@ -259,10 +299,14 @@ const FullPost: React.FC<FullPostProps> = ({
             </div>
             <p className="post-text-content">{post.content}</p>
             <div className="like-comment-counts">
-              <div className="counts">
+              <button
+                onClick={fetchLikedPostUsers}
+                disabled={isLikedUsersLoading}
+                className="counts"
+              >
                 <FavoriteIcon className="counts-icon" />
                 <span className="counts-icon-text">{likesCount}</span>
-              </div>
+              </button>
               <div className="counts">
                 <ChatBubbleOutlineIcon className="counts-icon" />
                 <span className="counts-icon-text">{post.commentsCount}</span>
@@ -332,6 +376,12 @@ const FullPost: React.FC<FullPostProps> = ({
           </div>
         </div>
       </div>
+
+      <LikedUsers
+        likedUsers={likedUsers}
+        isOpen={isLikedPostUsersOpen}
+        onClose={handleCloseLikedUsers}
+      />
 
       <Dialog
         open={isDeleteDialogOpen}

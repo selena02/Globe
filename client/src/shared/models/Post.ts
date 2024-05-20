@@ -27,3 +27,9 @@ export interface UploadPostDto {
   content: string;
   postImage: FileList;
 }
+
+export interface LikedUserDto {
+  userId: number;
+  username: string;
+  profilePicture: string | null;
+}

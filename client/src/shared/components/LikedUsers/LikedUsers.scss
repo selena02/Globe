@@ -1,0 +1,19 @@
+.liked-users {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  font-size: 1.8em;
+  max-height: 20em;
+  overflow-y: scroll;
+
+  .liked-user {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    padding: 0.5em;
+    border-bottom: 1px solid #0000001a;
+  }
+  .liked-user:last-child {
+    border-bottom: none;
+  }
+}

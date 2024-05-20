@@ -8,6 +8,8 @@ import { handleApiErrors } from "../../utils/displayApiErrors";
 import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../../state/store";
 import { useSelector } from "react-redux";
+import { LikedUserDto } from "../../models/Post";
+import LikedUsers from "../LikedUsers/LikedUsers";
 
 interface CommentProps {
   comment: CommentDto;
@@ -24,6 +26,9 @@ const Comment: React.FC<CommentProps> = ({
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [likesCount, setLikesCount] = useState(comment.likesCount);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const [isLikedCommentUsersOpen, setIsLikedCommentUsersOpen] = useState(false);
+  const [likedUsers, setLikedUsers] = useState<LikedUserDto[]>([]);
+  const [isLikedUsersLoading, setIsLikedUsersLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLike = async () => {
@@ -66,6 +71,42 @@ const Comment: React.FC<CommentProps> = ({
     onOpenDeleteDialog(comment);
   };
 
+  const fetchLikedCommentUsers = async () => {
+    if (isLikedUsersLoading) {
+      return;
+    }
+    if (!isLoggedIn) {
+      navigate("/account/login");
+      return;
+    }
+    if (isLikedCommentUsersOpen) {
+      setIsLikedCommentUsersOpen(false);
+      return;
+    }
+    if (likesCount === 0 || (liked === true && likesCount === 1)) {
+      return;
+    }
+    setIsLikedUsersLoading(true);
+    try {
+      const response = await fetchAPI<{ likedUsers: LikedUserDto[] }>(
+        `comments/like/${comment.commentId}`,
+        {
+          method: "GET",
+        }
+      );
+      setLikedUsers(response.likedUsers);
+      setIsLikedCommentUsersOpen(true);
+    } catch (err) {
+      handleApiErrors(err);
+    } finally {
+      setIsLikedUsersLoading(false);
+    }
+  };
+
+  const handleCloseLikedUsers = () => {
+    setIsLikedCommentUsersOpen(false);
+  };
+
   return (
     <div className="comment">
       <div className="comment-avatar-container">
@@ -89,7 +130,13 @@ const Comment: React.FC<CommentProps> = ({
                 <FavoriteBorder className="comment-icon" />
               )}
             </button>
-            <button className="comment-likes-count">{likesCount} Likes</button>
+            <button
+              className="comment-likes-count"
+              onClick={fetchLikedCommentUsers}
+              disabled={isLikedUsersLoading}
+            >
+              {likesCount} Likes
+            </button>
           </div>
           {comment.canDelete && (
             <button onClick={handleDelete} className="delete-comment-btn">
@@ -98,6 +145,11 @@ const Comment: React.FC<CommentProps> = ({
           )}
         </div>
       </div>
+      <LikedUsers
+        likedUsers={likedUsers}
+        isOpen={isLikedCommentUsersOpen}
+        onClose={handleCloseLikedUsers}
+      />
     </div>
   );
 };
