@@ -47,6 +47,13 @@ const FullPost: React.FC<FullPostProps> = ({
   const [likesCount, setLikesCount] = useState(0);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState<CommentDto | null>(
+    null
+  );
+  const [isCommentDeleteDialogOpen, setIsCommentDeleteDialogOpen] =
+    useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [isCommentUploading, setIsCommentUploading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -137,12 +144,64 @@ const FullPost: React.FC<FullPostProps> = ({
     }
   };
 
-  if (loading || error || post == null) {
+  const handleCommentDeleted = (commentId: number) => {
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.commentId !== commentId)
+    );
+  };
+
+  const openCommentDeleteDialog = (comment: CommentDto) => {
+    setCommentToDelete(comment);
+    setIsCommentDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteComment = async () => {
+    if (commentToDelete) {
+      try {
+        await fetchAPI(`comments/${commentToDelete.commentId}`, {
+          method: "DELETE",
+        });
+        handleCommentDeleted(commentToDelete.commentId);
+      } catch (err) {
+        handleApiErrors(err);
+      } finally {
+        setIsCommentDeleteDialogOpen(false);
+      }
+    }
+  };
+
+  const handleCommentUpload = async () => {
+    if (isCommentUploading || newComment.trim() === "") {
+      return;
+    }
+    setIsCommentUploading(true);
+    try {
+      const commentResponse = await fetchAPI<{ comment: CommentDto }>(
+        `comments/upload`,
+        {
+          method: "POST",
+          body: { PostId: postId, Content: newComment },
+        }
+      );
+      setComments((prevComments) => [...prevComments, commentResponse.comment]);
+      setNewComment("");
+    } catch (err) {
+      handleApiErrors(err);
+    } finally {
+      setIsCommentUploading(false);
+    }
+  };
+
+  if (loading) {
     return (
       <div className="spinner-container">
         <Spinner />
       </div>
     );
+  }
+
+  if (error || post == null) {
+    return null;
   }
 
   return (
@@ -224,16 +283,32 @@ const FullPost: React.FC<FullPostProps> = ({
                 </button>
               )}
               {comments.map((comment) => (
-                <Comment key={comment.commentId} comment={comment} />
+                <Comment
+                  key={comment.commentId}
+                  comment={comment}
+                  onCommentDeleted={handleCommentDeleted}
+                  onOpenDeleteDialog={openCommentDeleteDialog}
+                />
               ))}
             </div>
             <div className="upload-comment-container">
               <input
                 type="text"
-                placeholder="Write a comment..."
+                placeholder={
+                  isCommentUploading ? "Loading..." : "Write a comment..."
+                }
                 className="comment-input"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                disabled={isCommentUploading}
               />
-              <button className="upload-comment-btn">Post</button>
+              <button
+                className="upload-comment-btn"
+                onClick={handleCommentUpload}
+                disabled={isCommentUploading}
+              >
+                Post
+              </button>
             </div>
           </div>
         </div>
@@ -260,6 +335,34 @@ const FullPost: React.FC<FullPostProps> = ({
           <Button
             className="dialog-button"
             onClick={handleDelete}
+            color="secondary"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={isCommentDeleteDialogOpen}
+        onClose={() => setIsCommentDeleteDialogOpen(false)}
+      >
+        <DialogTitle className="dialog-title">Delete Comment</DialogTitle>
+        <DialogContent>
+          <DialogContentText className="dialog-text">
+            Are you sure you want to delete this comment?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className="dialog-button"
+            onClick={() => setIsCommentDeleteDialogOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            className="dialog-button"
+            onClick={confirmDeleteComment}
             color="secondary"
           >
             Delete

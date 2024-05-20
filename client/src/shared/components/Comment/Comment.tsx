@@ -9,9 +9,15 @@ import { Link } from "react-router-dom";
 
 interface CommentProps {
   comment: CommentDto;
+  onCommentDeleted: (commentId: number) => void;
+  onOpenDeleteDialog: (comment: CommentDto) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment }) => {
+const Comment: React.FC<CommentProps> = ({
+  comment,
+  onCommentDeleted,
+  onOpenDeleteDialog,
+}) => {
   const [liked, setLiked] = useState(comment.isLikedByCurrentUser);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [likesCount, setLikesCount] = useState(comment.likesCount);
@@ -24,26 +30,33 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
     setLiked((prevLiked) => !prevLiked);
     try {
       if (liked) {
+        setLikesCount((prevCount) => prevCount - 1);
         await fetchAPI(`comments/unlike/${comment.commentId}`, {
           method: "DELETE",
         });
         setLiked(false);
-        setLikesCount((prevCount) => prevCount - 1);
       } else {
+        setLikesCount((prevCount) => prevCount + 1);
         await fetchAPI(`comments/like/${comment.commentId}`, {
           method: "POST",
         });
         setLiked(true);
-        setLikesCount((prevCount) => prevCount + 1);
       }
     } catch (err) {
       handleApiErrors(err);
+      if (liked) {
+        setLikesCount((prevCount) => prevCount + 1);
+      } else {
+        setLikesCount((prevCount) => prevCount - 1);
+      }
     } finally {
       setIsLikeLoading(false);
     }
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    onOpenDeleteDialog(comment);
+  };
 
   return (
     <div className="comment">

@@ -38,7 +38,7 @@ public class DeleteCommentCommandHandler : ICommandHandler<DeleteCommentCommand,
             throw new NotFoundException("Post not found");
         }
         
-        if (comment.UserId != currentUserId || !_authService.GetUserRoles().Contains(Roles.Guide.ToString()))
+        if (comment.UserId != currentUserId && !_authService.GetUserRoles().Contains(Roles.Guide.ToString()))
         {
             throw new ForbiddenAccessException("User is not authorized to delete this comment");
         }
