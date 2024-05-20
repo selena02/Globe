@@ -23,6 +23,8 @@ import Comment from "../Comment/Comment";
 import "./FullPost.scss";
 import { CommentDto } from "../../models/Comment";
 import { FullPostDto } from "../../models/Post";
+import { RootState } from "../../../state/store";
+import { useSelector } from "react-redux";
 
 interface FullPostProps {
   postId: number;
@@ -54,6 +56,7 @@ const FullPost: React.FC<FullPostProps> = ({
     useState(false);
   const [newComment, setNewComment] = useState("");
   const [isCommentUploading, setIsCommentUploading] = useState(false);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   useEffect(() => {
     setLoading(true);
@@ -106,6 +109,10 @@ const FullPost: React.FC<FullPostProps> = ({
   };
 
   const handleLike = async () => {
+    if (!isLoggedIn) {
+      navigate("/account/login");
+      return;
+    }
     if (isLikeLoading) {
       return;
     }
@@ -133,6 +140,10 @@ const FullPost: React.FC<FullPostProps> = ({
   };
 
   const handleDelete = async () => {
+    if (!isLoggedIn) {
+      navigate("/account/login");
+      return;
+    }
     try {
       await fetchAPI(`posts/delete/${postId}`, {
         method: "DELETE",
@@ -151,6 +162,10 @@ const FullPost: React.FC<FullPostProps> = ({
   };
 
   const openCommentDeleteDialog = (comment: CommentDto) => {
+    if (!isLoggedIn) {
+      navigate("/account/login");
+      return;
+    }
     setCommentToDelete(comment);
     setIsCommentDeleteDialogOpen(true);
   };
@@ -171,6 +186,10 @@ const FullPost: React.FC<FullPostProps> = ({
   };
 
   const handleCommentUpload = async () => {
+    if (!isLoggedIn) {
+      navigate("/account/login");
+      return;
+    }
     if (isCommentUploading || newComment.trim() === "") {
       return;
     }

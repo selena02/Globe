@@ -1,5 +1,9 @@
+.feed-container {
+  padding-top: 3em;
+}
 .posts-container {
   margin: 5em auto;
+  margin-top: 0;
   display: grid;
   grid-gap: 36px;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -16,4 +20,17 @@
   justify-content: center;
   margin-top: 2em;
   font-size: 0.8em;
+}
+
+.show-upload-post-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+  margin-left: 3em;
+  padding: 1em 4em;
+  font-size: 1.8em;
+  color: white;
+  font-weight: 500;
+  background-image: linear-gradient(to top, #a832f6, #f368e0);
+  border-radius: 0.4em;
 }

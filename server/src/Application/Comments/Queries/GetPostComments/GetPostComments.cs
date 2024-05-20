@@ -29,7 +29,7 @@ public class GetPostCommentsQueryHandler : IQueryHandler<GetPostCommentsQuery, G
     public async Task<GetPostCommentsResponse> Handle(GetPostCommentsQuery request, CancellationToken cancellationToken)
     {
         
-        var currentUserId = _authService.GetCurrentUserId();
+        var currentUserId = _authService.GetCurrentUserIdOrNull();
 
         var post = await _context.Posts
             .Include(p => p.Likes)

@@ -28,6 +28,13 @@ namespace Application.Common.Services
             return userId;
         }
 
+        public int? GetCurrentUserIdOrNull()
+        {
+            var userIdString = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
+            return userIdString is null ? null : int.Parse(userIdString);
+        }
+
         public async Task<User?> GetCurrentUserAsync()
         {
             var userId = GetCurrentUserId(); 

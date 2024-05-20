@@ -22,3 +22,8 @@ export interface FullPostDto {
   isOwner: boolean;
   canDelete: boolean;
 }
+
+export interface UploadPostDto {
+  content: string;
+  postImage: FileList;
+}

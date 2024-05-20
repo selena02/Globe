@@ -5,7 +5,9 @@ import { Favorite, FavoriteBorder, Delete } from "@mui/icons-material";
 import "./Comment.scss";
 import fetchAPI from "../../utils/fetchAPI";
 import { handleApiErrors } from "../../utils/displayApiErrors";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { RootState } from "../../../state/store";
+import { useSelector } from "react-redux";
 
 interface CommentProps {
   comment: CommentDto;
@@ -21,8 +23,14 @@ const Comment: React.FC<CommentProps> = ({
   const [liked, setLiked] = useState(comment.isLikedByCurrentUser);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [likesCount, setLikesCount] = useState(comment.likesCount);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
 
   const handleLike = async () => {
+    if (!isLoggedIn) {
+      navigate("/account/login");
+      return;
+    }
     if (isLikeLoading) {
       return;
     }

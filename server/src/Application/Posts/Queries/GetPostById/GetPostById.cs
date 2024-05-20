@@ -45,7 +45,7 @@ public class GetPostByIdCommandHandler : IQueryHandler<GetPostByIdQuery, PostByI
             throw new NotFoundException("Post not found");
         }
         
-        var currentUserId = _authService.GetCurrentUserId();
+        var currentUserId = _authService.GetCurrentUserIdOrNull();
         var currentUserRoles = _authService.GetUserRoles();
         
         var isLiked = post.Likes is not null && post.Likes.Any(l => l.UserId == currentUserId);

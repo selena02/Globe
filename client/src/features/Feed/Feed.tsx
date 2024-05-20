@@ -1,17 +1,26 @@
-import "./Feed.scss";
-import { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPosts, removePost } from "../../state/features/postsSlice";
+import {
+  fetchPosts,
+  removePost,
+  addPost,
+} from "../../state/features/postsSlice";
 import type { AppDispatch, RootState } from "../../state/store";
 import Post from "../../shared/components/Post/Post";
 import Spinner from "../../shared/components/Spinner/Spinner";
+import UploadPost from "../../shared/components/UploadPost/UploadPost";
+import { PostDto } from "../../shared/models/Post";
+import "./Feed.scss";
 
 const Feed = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { posts, pageNumber, hasMore, isLoading, error } = useSelector(
     (state: RootState) => state.posts
   );
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const [isUploadPostVisible, setIsUploadPostVisible] = useState(false);
 
   useEffect(() => {
     if (pageNumber === 1 && posts.length === 0) {
@@ -46,8 +55,29 @@ const Feed = () => {
     dispatch(removePost(postId));
   };
 
+  const handlePostUploaded = (post: PostDto) => {
+    dispatch(addPost(post));
+    setIsUploadPostVisible(false);
+  };
+
   return (
     <div className="feed-container">
+      {isLoggedIn && (
+        <button
+          className="show-upload-post-button"
+          onClick={() => setIsUploadPostVisible(true)}
+        >
+          Upload Post
+        </button>
+      )}
+      {isUploadPostVisible && (
+        <div className="upload-post-modal">
+          <UploadPost
+            onPostUploaded={handlePostUploaded}
+            onClose={() => setIsUploadPostVisible(false)}
+          />
+        </div>
+      )}
       <div className="posts-container">
         {posts.map((post) => (
           <Post
