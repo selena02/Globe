@@ -54,7 +54,10 @@ const App = () => {
                   <Profile />
                 </PrivateRoute>
               }
-            />
+            >
+              <Route path="posts" element={<Login />} />
+              <Route path="landmarks" element={<Register />} />
+            </Route>
             <Route path="feed" element={<Feed />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

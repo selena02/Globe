@@ -21,11 +21,6 @@ const Hero = () => {
             <Button>Join the Adventure</Button>
           </Link>
         </div>
-        <div id="hero-social-links">
-          <TwitterIcon className="hero-icons" />
-          <FacebookIcon className="hero-icons" />
-          <InstagramIcon className="hero-icons" />
-        </div>
       </div>
     </section>
   );

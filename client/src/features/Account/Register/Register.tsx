@@ -34,7 +34,6 @@ const Register = () => {
 
     try {
       const { confirmPassword, ...requestData } = data;
-      console.log(data);
       const response = await fetchAPI<AuthResponse>("Authentication/register", {
         method: "POST",
         body: requestData,

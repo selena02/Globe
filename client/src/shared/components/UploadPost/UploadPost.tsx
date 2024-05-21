@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import { PostDto } from "../../models/Post";
 import "./UploadPost.scss";
@@ -22,8 +22,11 @@ const UploadPost: React.FC<UploadPostProps> = ({ onPostUploaded, onClose }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<UploadPostFormValues>();
+    setError,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<UploadPostFormValues>({
+    mode: "onChange",
+  });
   const [isUploading, setIsUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -44,7 +47,15 @@ const UploadPost: React.FC<UploadPostProps> = ({ onPostUploaded, onClose }) => {
   });
 
   const onSubmit: SubmitHandler<UploadPostFormValues> = async (data) => {
-    if (isUploading || !file) return;
+    if (isUploading) return;
+
+    if (!file) {
+      setError("postImage", {
+        type: "manual",
+        message: "Image is required",
+      });
+      return;
+    }
 
     setIsUploading(true);
 
@@ -89,6 +100,7 @@ const UploadPost: React.FC<UploadPostProps> = ({ onPostUploaded, onClose }) => {
         <div className="form-group">
           <label htmlFor="content">Content*</label>
           <textarea
+            id="content"
             {...register("content", {
               required: "Content is required",
               maxLength: {
@@ -97,9 +109,7 @@ const UploadPost: React.FC<UploadPostProps> = ({ onPostUploaded, onClose }) => {
               },
             })}
             disabled={isUploading}
-            className={`upload-post-input ${
-              errors.content ? "is-invalid" : ""
-            }`}
+            className="upload-post-input"
           />
           <p className="error">
             {errors.content ? errors.content.message : ""}
@@ -123,7 +133,7 @@ const UploadPost: React.FC<UploadPostProps> = ({ onPostUploaded, onClose }) => {
 
         <button
           type="submit"
-          disabled={isUploading || !file || !errors.content}
+          disabled={isUploading || isSubmitting || !isValid}
           className="upload-post-button"
         >
           {isUploading ? "Uploading..." : "Post"}

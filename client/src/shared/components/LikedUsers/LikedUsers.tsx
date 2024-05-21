@@ -38,9 +38,7 @@ const LikedUsers: React.FC<LikedUsersProps> = ({
               to={`/profile/${user.userId}`}
               className="liked-user"
             >
-              <ListItemAvatar>
-                <Avatar photoUrl={user.profilePicture} />
-              </ListItemAvatar>
+              <Avatar photoUrl={user.profilePicture} />
               <ListItemText
                 primary={
                   <Typography variant="h6" style={{ fontWeight: "bold" }}>
