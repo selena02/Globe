@@ -6,7 +6,7 @@ namespace Application.Guide.Queries;
 
 public record GetUsersQuery() : IRequest<GetUsersResponse>;
 
-public record GetUsersResponse(List<UserDto> Users);
+public record GetUsersResponse(List<UserDto> Users, bool IsPilot);
 
 public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersResponse>
 {
@@ -23,10 +23,10 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersRespo
 
     public async Task<GetUsersResponse> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
-        var currentUserId = _authService.GetCurrentUserId();
+        var currentUser = await _authService.GetCurrentUserAsync();
 
         var users = _context.Users
-            .Where(u => u.Id != currentUserId)
+            .Where(u => u.Id != currentUser.Id)
             .Include((u => u.UserRoles))
             .ThenInclude(ur => ur.Role)
             .Select(u => new UserDto(
@@ -36,7 +36,9 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersRespo
                 u.CreatedTime,
                 u.UserRoles.Any(ur => ur.Role.Name == Roles.Guide.ToString())
             )).ToList();
-
-        return new GetUsersResponse(users);
+        
+        var isPilot = await _identityService.IsInRoleAsync(currentUser, Roles.Pilot.ToString());
+        
+        return new GetUsersResponse(users, isPilot);
     }
 }
