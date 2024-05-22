@@ -10,6 +10,7 @@ namespace Domain.Entities
         public string Bio { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string PicturePublicId { get; set; }
+        public DateTime CreatedTime { get; set; }
         public int FollowersCount { get; set; } = 0;
         public int FollowingCount { get; set; } = 0;
 
