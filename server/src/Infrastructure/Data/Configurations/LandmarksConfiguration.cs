@@ -8,7 +8,7 @@ public class LandmarksConfiguration : IEntityTypeConfiguration<Landmark>
 {
     public void Configure(EntityTypeBuilder<Landmark> entity)
     {
-        entity.HasKey(vl => vl.VisitedLocationId);
+        entity.HasKey(vl => vl.LandmarkId);
         
         entity.HasOne(vl => vl.User)
             .WithMany(u => u.Landmarks)

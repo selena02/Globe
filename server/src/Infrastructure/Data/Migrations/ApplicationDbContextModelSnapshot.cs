@@ -74,11 +74,11 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Landmark", b =>
                 {
-                    b.Property<int>("VisitedLocationId")
+                    b.Property<int>("LandmarkId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("VisitedLocationId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LandmarkId"));
 
                     b.Property<string>("City")
                         .HasColumnType("text");
@@ -101,7 +101,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("PublicId")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Rating")
+                    b.Property<int>("Rating")
                         .HasMaxLength(5)
                         .HasColumnType("integer")
                         .IsFixedLength();
@@ -115,7 +115,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("VisitedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("VisitedLocationId");
+                    b.HasKey("LandmarkId");
 
                     b.HasIndex("UserId");
 
@@ -257,6 +257,9 @@ namespace Infrastructure.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -271,9 +274,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Location")
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")

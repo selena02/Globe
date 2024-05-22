@@ -1,5 +1,6 @@
 ﻿using Application.Landmarks.Commands.ClassifyLandmark;
 using Application.Landmarks.Commands.SaveLandmark;
+using Application.Landmarks.Queries.GetAllCoordinates;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,14 @@ public class LandmarkController(ISender sender) : BaseController(sender)
     public async Task<IActionResult> SaveLandmark(SaveLandmarkCommand command, CancellationToken cancellationToken)
     {
         var result = await Sender.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
+    
+    [HttpGet("coordinates")]
+    public async Task<IActionResult> GetAllCoordinates(CancellationToken cancellationToken)
+    {
+        var result = await Sender.Send(new GetAllCoordinates(), cancellationToken);
 
         return Ok(result);
     }

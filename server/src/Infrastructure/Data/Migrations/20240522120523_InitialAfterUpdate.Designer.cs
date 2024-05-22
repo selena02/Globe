@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240502213300_Initial")]
-    partial class Initial
+    [Migration("20240522120523_InitialAfterUpdate")]
+    partial class InitialAfterUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,56 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Follows");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Landmark", b =>
+                {
+                    b.Property<int>("LandmarkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LandmarkId"));
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Latitude")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LocationName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Longitude")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Rating")
+                        .HasMaxLength(5)
+                        .HasColumnType("integer")
+                        .IsFixedLength();
+
+                    b.Property<string>("Review")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("VisitedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("LandmarkId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Landmarks");
+                });
+
             modelBuilder.Entity("Domain.Entities.Like", b =>
                 {
                     b.Property<int>("LikeId")
@@ -83,19 +133,48 @@ namespace Infrastructure.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LikeId"));
 
+                    b.Property<int?>("CommentId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("PostId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("LikeId");
+
+                    b.HasIndex("CommentId");
 
                     b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("RecieverId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("NotificationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Domain.Entities.Post", b =>
@@ -181,6 +260,9 @@ namespace Infrastructure.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -195,9 +277,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Location")
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
@@ -264,50 +343,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.VisitedLocation", b =>
-                {
-                    b.Property<int>("VisitedLocationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("VisitedLocationId"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Details")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsPrivate")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("LocationName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PublicId")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("Rating")
-                        .HasMaxLength(5)
-                        .HasColumnType("integer")
-                        .IsFixedLength();
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("VisitedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("VisitedLocationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("VisitedLocations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -436,8 +471,24 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Following");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Landmark", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Landmarks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.Like", b =>
                 {
+                    b.HasOne("Domain.Entities.Comment", "Comment")
+                        .WithMany("Likes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
@@ -446,9 +497,23 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Notification", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -479,17 +544,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Entities.VisitedLocation", b =>
-                {
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithMany("VisitedLocations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -530,6 +584,11 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
+                {
+                    b.Navigation("Likes");
+                });
+
             modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -550,13 +609,15 @@ namespace Infrastructure.Data.Migrations
 
                     b.Navigation("Following");
 
+                    b.Navigation("Landmarks");
+
                     b.Navigation("Likes");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Posts");
 
                     b.Navigation("UserRoles");
-
-                    b.Navigation("VisitedLocations");
                 });
 #pragma warning restore 612, 618
         }

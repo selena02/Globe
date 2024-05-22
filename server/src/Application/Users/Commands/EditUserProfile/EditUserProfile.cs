@@ -6,14 +6,12 @@ using Microsoft.AspNetCore.Http;
 namespace Application.Users.Commands.EditUserProfile;
 public class EditUserProfileCommand : ICommand<EditProfileResponse>
 {
-    public string? Location { get; set; }
     public string? Bio { get; set; }
     public IFormFile? ProfilePicture { get; set; }
 }
 
 public record  EditProfileResponse
 (
-    string? Location,
     string? Bio,
     string? ProfilePicture
 );
@@ -65,11 +63,6 @@ public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileComm
             user.PicturePublicId = uploadImageResult?.PublicId;
         }
         
-        if (request.Location is not null)
-        {
-            user.Location = request.Location;
-        }
-        
         if (request.Bio is not null)
         {
             user.Bio = request.Bio;
@@ -77,6 +70,6 @@ public class EditUserProfileCommandHandler : ICommandHandler<EditUserProfileComm
         
         await _context.SaveChangesAsync(cancellationToken);
         
-        return new EditProfileResponse(user.Location, user.Bio, user.PicturePublicId);
+        return new EditProfileResponse(user.Bio, user.PicturePublicId);
     }
 }

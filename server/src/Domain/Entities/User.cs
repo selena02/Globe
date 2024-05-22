@@ -6,7 +6,6 @@ namespace Domain.Entities
     {
         // Properties
         public string FullName { get; set; }
-        public string Location { get; set; }
         public string Bio { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string PicturePublicId { get; set; }

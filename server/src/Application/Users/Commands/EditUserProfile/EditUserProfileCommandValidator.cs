@@ -10,9 +10,6 @@ public class EditUserProfileCommandValidator : AbstractValidator<EditUserProfile
         RuleFor(x => x.Bio)
             .MaximumLength(200).WithMessage("Bio must be under 200 characters.");
 
-        RuleFor(x => x.Location)
-            .MaximumLength(50).WithMessage("Location must be under 100 characters.");
-
         RuleFor(x => x.ProfilePicture)
             .Must(BeAPngOrJpeg).WithMessage("Profile picture must be a PNG or JPEG file.");
     }
@@ -30,9 +27,8 @@ public class EditUserProfileCommandValidator : AbstractValidator<EditUserProfile
         var command = context.InstanceToValidate;
         
         command.Bio = command.Bio?.Trim();
-        command.Location = command.Location?.Trim();
-
-        if (string.IsNullOrWhiteSpace(command.Bio) && string.IsNullOrWhiteSpace(command.Location) && command.ProfilePicture is null)
+        
+        if (string.IsNullOrWhiteSpace(command.Bio) && command.ProfilePicture is null)
         {
             result.Errors.Add(new ValidationFailure("EditProfileCommand", "No content provided"));
         }

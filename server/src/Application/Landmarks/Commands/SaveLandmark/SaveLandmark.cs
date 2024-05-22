@@ -10,7 +10,7 @@ namespace Application.Landmarks.Commands.SaveLandmark;
 public class SaveLandmarkCommand : ICommand<SaveLandmarkResponse>
 {
     public string? Review { get; set; }
-    public int? Rating { get; set; }
+    public int Rating { get; set; }
 }
 
 public record SaveLandmarkResponse(bool IsSaved);
@@ -53,6 +53,8 @@ public class SaveLandmarkCommandHandler : ICommandHandler<SaveLandmarkCommand, S
         
         await _context.Landmarks.AddAsync(landmark, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+        
+        _memoryCache.Remove(cacheKey);
 
         return new SaveLandmarkResponse(true);
     }

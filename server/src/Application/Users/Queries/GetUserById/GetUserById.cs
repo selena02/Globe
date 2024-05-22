@@ -12,7 +12,6 @@ public record UserByIdResponse(
     string FullName,
     string Email,
     string? ProfilePicture,
-    string? Location,
     string? Bio,
     int FollowersCount,
     int FollowingCount
@@ -42,7 +41,6 @@ public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserByIdR
             user.FullName,
             user.Email,
             user.PicturePublicId,
-            user.Location,
             user.Bio,
             user.FollowersCount,
             user.FollowingCount
