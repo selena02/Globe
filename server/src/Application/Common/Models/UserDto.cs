@@ -5,5 +5,5 @@ public record UserDto(
     string Username,
     string? ProfilePicture,
     DateTime CreatedAt,
-    bool isGuide);
+    bool IsGuide);
     
