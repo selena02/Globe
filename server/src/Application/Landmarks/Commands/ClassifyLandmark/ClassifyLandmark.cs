@@ -71,7 +71,7 @@ public class ClassifyLandmarkCommandHandler : ICommandHandler<ClassifyLandmarkCo
                     Errors = null
                 },
                 landmark?.PublicId, 
-                true);
+                false);
         }
         
         var landmarkDetails = await _geocodingService.GetLocationDetailsAsync(landmarkDetectorResponse.Name);
@@ -90,6 +90,6 @@ public class ClassifyLandmarkCommandHandler : ICommandHandler<ClassifyLandmarkCo
             photoUploadResult?.PublicId, 
             null), TimeSpan.FromMinutes(30));
         
-        return new ClassifyLandmarkResponse(landmarkDetectorResponse, landmarkDetails, photoUploadResult?.PublicId, alreadySaved);
+        return new ClassifyLandmarkResponse(landmarkDetectorResponse, landmarkDetails, photoUploadResult?.PublicId, true);
     }
 }
