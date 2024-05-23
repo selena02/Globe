@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleApiErrors } from "../../utils/displayApiErrors";
 import paginatedFetchAPI from "../../utils/paginatedFetchAPI";
 import fetchAPI from "../../utils/fetchAPI";
@@ -275,13 +275,13 @@ const FullPost: React.FC<FullPostProps> = ({
           </div>
           <div className="post-details">
             <div className="post-header">
-              <div className="post-user">
+              <Link to={`/profile/${post.userId}`} className="post-user">
                 <Avatar photoUrl={post.profilePicture} />
                 <div className="user-info">
                   <h2>{post.userName}</h2>
                   <p>{new Date(post.createdAt).toLocaleString()}</p>
                 </div>
-              </div>
+              </Link>
 
               {/* {post.isOwner && (
                 <button className="edit-btn">

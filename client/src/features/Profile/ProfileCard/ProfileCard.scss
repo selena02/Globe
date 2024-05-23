@@ -48,3 +48,25 @@
     }
   }
 }
+.follow-button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 2.2em;
+  right: 1.3em;
+  padding: 0 1.2em;
+  height: 2.8em;
+  font-size: 1.4em;
+  font-weight: 500;
+  color: #c03ff3;
+  background-color: white;
+  border: 0.1em solid #c03ff3;
+  border-radius: 0.4em;
+
+  span {
+    margin-left: 0.4em;
+    font-size: 1.2em;
+    font-weight: 8 700;
+    transform: translateY(-0.06em);
+  }
+}

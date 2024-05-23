@@ -1,29 +1,68 @@
+import React, { useEffect, useState } from "react";
 import "./ProfileCard.scss";
 import { ProfileUser } from "../models/profileUser";
 import Avatar from "../../../shared/components/Avatar/Avatar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../state/store";
 import EditUser from "../EditUser/EditUser";
+import fetchAPI from "../../../shared/utils/fetchAPI";
+import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
+import Spinner from "../../../shared/components/Spinner/Spinner";
 
 interface ProfileCardProps {
   user: ProfileUser | null;
 }
 
+interface GetFollowStatusResponse {
+  isFollowing: boolean;
+}
+
 const ProfileCard = ({ user }: ProfileCardProps) => {
   const currentUser: any = useSelector((state: RootState) => state.auth.user);
-  let isCurrentUser: boolean = false;
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+      if (user && currentUser && user.id !== currentUser.id) {
+        try {
+          const response = await fetchAPI<GetFollowStatusResponse>(
+            `follows/${user.id}/status`
+          );
+          setIsFollowing(response.isFollowing);
+        } catch (error: any) {
+          handleApiErrors(error);
+        } finally {
+          setLoadingStatus(false);
+        }
+      } else {
+        setLoadingStatus(false);
+      }
+    };
+
+    fetchFollowStatus();
+  }, [user, currentUser]);
+
+  const handleFollowToggle = async () => {
+    try {
+      const endpoint = `follows/${user?.id}`;
+      const method = isFollowing ? "DELETE" : "POST";
+      await fetchAPI(endpoint, { method });
+      setIsFollowing((prevStatus) => !prevStatus);
+    } catch (error: any) {
+      handleApiErrors(error);
+    }
+  };
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <Spinner></Spinner>;
   }
 
-  if (currentUser !== null) {
-    isCurrentUser = user.id === currentUser.id;
-  }
+  const isCurrentUser = currentUser && user.id === currentUser.id;
 
   return (
     <div className="profile-card">
-      {isCurrentUser && <EditUser />}
       <div className="avatar-picture">
         <Avatar photoUrl={user.profilePictureUrl} />
       </div>
@@ -41,6 +80,23 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
             Following: {user.followingCount}
           </span>
         </div>
+        {isCurrentUser ? (
+          <EditUser />
+        ) : (
+          !loadingStatus && (
+            <button className="follow-button" onClick={handleFollowToggle}>
+              {isFollowing ? (
+                <>
+                  Following <span>✓</span>
+                </>
+              ) : (
+                <>
+                  Follow <span>+</span>
+                </>
+              )}
+            </button>
+          )
+        )}
       </div>
     </div>
   );
