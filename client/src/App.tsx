@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Header from "./shared/Header/Header";
 import Footer from "./shared/Footer/Footer";
 import Home from "./features/Home/Home";
@@ -15,6 +20,7 @@ import PrivateRoute from "./shared/guards/PrivateRoute";
 import Profile from "./features/Profile/Profile";
 import LogOutGuard from "./shared/guards/LogOutGuard";
 import Feed from "./features/Feed/Feed";
+import Posts from "./features/Profile/Posts/Posts";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -55,7 +61,8 @@ const App = () => {
                 </PrivateRoute>
               }
             >
-              <Route path="posts" element={<Login />} />
+              <Route path="" element={<Navigate to="posts" replace />} />
+              <Route path="posts" element={<Posts />} />
               <Route path="landmarks" element={<Register />} />
             </Route>
             <Route path="feed" element={<Feed />} />
