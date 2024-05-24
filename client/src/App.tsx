@@ -21,6 +21,7 @@ import Profile from "./features/Profile/Profile";
 import LogOutGuard from "./shared/guards/LogOutGuard";
 import Feed from "./features/Feed/Feed";
 import Posts from "./features/Profile/Posts/Posts";
+import Landmark from "./features/Landmark/Landmark";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -63,9 +64,10 @@ const App = () => {
             >
               <Route path="" element={<Navigate to="posts" replace />} />
               <Route path="posts" element={<Posts />} />
-              <Route path="landmarks" element={<Register />} />
+              <Route path="landmarks" element={<Landmark />} />
             </Route>
             <Route path="feed" element={<Feed />} />
+            <Route path="landmark" element={<Landmark />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

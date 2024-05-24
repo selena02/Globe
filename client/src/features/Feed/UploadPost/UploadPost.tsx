@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
-import { PostDto } from "../../models/Post";
+import { PostDto } from "../../../shared/models/Post";
 import "./UploadPost.scss";
-import { handleApiErrors } from "../../utils/displayApiErrors";
+import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import { Close } from "@mui/icons-material";
 
 interface UploadPostProps {

@@ -8,7 +8,7 @@ import {
 import type { AppDispatch, RootState } from "../../state/store";
 import Post from "../../shared/components/Post/Post";
 import Spinner from "../../shared/components/Spinner/Spinner";
-import UploadPost from "../../shared/components/UploadPost/UploadPost";
+import UploadPost from "./UploadPost/UploadPost";
 import { PostDto } from "../../shared/models/Post";
 import "./Feed.scss";
 

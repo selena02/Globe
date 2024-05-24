@@ -114,7 +114,7 @@ const HeaderComponent = () => {
           Feed
         </Link>
         <Link
-          to="/landmarks"
+          to="/landmark"
           className="navigation-links-side-menu"
           onClick={toggleSideMenu}
         >
