@@ -1,10 +1,10 @@
-import { useNavigate, useParams } from "react-router-dom";
-import "./Profile.scss";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import fetchAPI from "../../shared/utils/fetchAPI";
 import { ProfileUser } from "./models/profileUser";
 import { handleApiErrors } from "../../shared/utils/displayApiErrors";
 import ProfileCard from "./ProfileCard/ProfileCard";
+import "./Profile.scss";
 
 const Profile = () => {
   const { id } = useParams();
@@ -34,6 +34,28 @@ const Profile = () => {
   return (
     <div id="profile-page">
       <ProfileCard user={user} />
+
+      <nav className="profile-nav">
+        <NavLink
+          to="posts"
+          className={({ isActive }) =>
+            isActive ? "profile-link active" : "profile-link"
+          }
+        >
+          Posts
+        </NavLink>
+
+        <NavLink
+          to="landmarks"
+          className={({ isActive }) =>
+            isActive ? "profile-link active" : "profile-link"
+          }
+        >
+          Landmarks
+        </NavLink>
+      </nav>
+
+      <Outlet />
     </div>
   );
 };

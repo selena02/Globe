@@ -3,3 +3,26 @@
   flex-direction: column;
   align-items: center;
 }
+.profile-nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px;
+  margin-top: 8em;
+
+  .profile-link {
+    display: flex;
+    justify-content: center;
+    font-size: 2.4em;
+    padding: 0.8em 0;
+    color: #c03ff3;
+    text-decoration: none;
+    width: 100%;
+    background-color: white;
+
+    &.active {
+      border-bottom: 0.1em solid #c03ff3;
+      font-weight: 500;
+    }
+  }
+}
