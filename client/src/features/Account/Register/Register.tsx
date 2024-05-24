@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { RegisterDtoForm } from "../models/RegisterDto"; // Assuming you have a RegisterDto model
+import { RegisterDtoForm } from "../models/RegisterDto";
 import { AuthResponse } from "../models/AuthResponse";
 import fetchAPI from "../../../shared/utils/fetchAPI";
 import { handleApiErrors } from "../../../shared/utils/displayApiErrors";

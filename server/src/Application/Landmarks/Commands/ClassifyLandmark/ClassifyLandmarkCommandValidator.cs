@@ -9,13 +9,13 @@ public class ClassifyLandmarkCommandValidator : AbstractValidator<ClassifyLandma
     {
         RuleFor(x => x.LandmarkImage)
             .NotNull().WithMessage("Image is required")
-            .Must(BeAJpegOrPng).WithMessage("Image must be a JPG or PNG file");
+            .Must(BeAJpegOrPng).WithMessage("Image must be a JPEG or PNG file");
     }
     private static bool BeAJpegOrPng(IFormFile? file)
     {
         if (file is not null)
         {
-            return file.ContentType is "image/jpg" or "image/png";
+            return file.ContentType is "image/jpeg" or "image/png";
         }
         
         return true;

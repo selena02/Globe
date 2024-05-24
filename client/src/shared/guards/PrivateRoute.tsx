@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../state/store"; // Make sure the path to your store is correct
+import { RootState } from "../../state/store";
 
 interface PrivateRouteProps {
   children: JSX.Element;
