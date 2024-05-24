@@ -8,6 +8,9 @@ import EditUser from "../EditUser/EditUser";
 import fetchAPI from "../../../shared/utils/fetchAPI";
 import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import Spinner from "../../../shared/components/Spinner/Spinner";
+import { FollowerDto } from "../models/followUser";
+import { set } from "react-hook-form";
+import LikedUsers from "../../../shared/components/LikedUsers/LikedUsers";
 
 interface ProfileCardProps {
   user: ProfileUser | null;
@@ -20,8 +23,12 @@ interface GetFollowStatusResponse {
 const ProfileCard = ({ user }: ProfileCardProps) => {
   const currentUser: any = useSelector((state: RootState) => state.auth.user);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [loadingStatus, setLoadingStatus] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [loadingFollows, setLoadingFollows] = useState(false);
+  const [followers, setFollowers] = useState<FollowerDto[]>([]);
+  const [following, setFollowing] = useState<FollowerDto[]>([]);
+  const [isFollowerUsersOpen, setIsFollowerUsersOpen] = useState(false);
+  const [isFollowingUsersOpen, setIsFollowingUsersOpen] = useState(false);
 
   useEffect(() => {
     const fetchFollowStatus = async () => {
@@ -55,6 +62,65 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
     }
   };
 
+  const fetchFollowers = async () => {
+    if (!user) {
+      return;
+    }
+
+    if (user.followersCount === 0) {
+      return;
+    }
+
+    setLoadingFollows(true);
+    try {
+      const response = await fetchAPI<{ followers: FollowerDto[] }>(
+        `users/${user.id}/followers`
+      );
+      setFollowers(response.followers);
+      setIsFollowerUsersOpen(true);
+    } catch (error: any) {
+      handleApiErrors(error);
+    } finally {
+      setLoadingFollows(false);
+    }
+  };
+
+  const fetchFollowing = async () => {
+    if (!user) {
+      return;
+    }
+
+    if (user.followingCount === 0) {
+      return;
+    }
+    if (isFollowerUsersOpen) {
+      setIsFollowerUsersOpen(false);
+      return;
+    }
+
+    setLoadingFollows(true);
+    try {
+      const response = await fetchAPI<{ following: FollowerDto[] }>(
+        `users/${user.id}/following`
+      );
+      setFollowing(response.following);
+      console.log(response.following);
+      setIsFollowingUsersOpen(true);
+    } catch (error: any) {
+      handleApiErrors(error);
+    } finally {
+      setLoadingFollows(false);
+    }
+  };
+
+  const handleCloseFollowingUsers = () => {
+    setIsFollowingUsersOpen(false);
+  };
+
+  const handleCloseFollowerUsers = () => {
+    setIsFollowerUsersOpen(false);
+  };
+
   if (!user) {
     return <Spinner></Spinner>;
   }
@@ -73,12 +139,20 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
         {user.location && <p className="profile-location">{user.location}</p>}
         {user.bio && <p className="profile-bio">{user.bio}</p>}
         <div className="profile-social">
-          <span className="profile-followers">
+          <button
+            onClick={fetchFollowers}
+            disabled={loadingFollows}
+            className="profile-followers"
+          >
             Followers: {user.followersCount}
-          </span>
-          <span className="profile-following">
+          </button>
+          <button
+            onClick={fetchFollowing}
+            disabled={loadingFollows}
+            className="profile-following"
+          >
             Following: {user.followingCount}
-          </span>
+          </button>
         </div>
         {isCurrentUser ? (
           <EditUser />
@@ -98,6 +172,16 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
           )
         )}
       </div>
+      <LikedUsers
+        likedUsers={followers}
+        isOpen={isFollowerUsersOpen}
+        onClose={handleCloseFollowerUsers}
+      />
+      <LikedUsers
+        likedUsers={following}
+        isOpen={isFollowingUsersOpen}
+        onClose={handleCloseFollowingUsers}
+      />
     </div>
   );
 };
