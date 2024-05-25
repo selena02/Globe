@@ -7,6 +7,7 @@ export interface LandmarkDto {
 export interface LocationDetailsDto {
   city: string | null;
   country: string | null;
+  countryCode: string | null;
   errors: string | null;
   latitude: number | null;
   longitude: number | null;

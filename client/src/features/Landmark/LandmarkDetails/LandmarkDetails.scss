@@ -1,0 +1,105 @@
+.landmark-details-container {
+  position: relative;
+  border: 0.1em solid #c03ff3;
+  border-radius: 2em;
+  box-shadow: 0 0 0.2em 0.1em #c03ff3;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  width: 100em;
+  padding: 2em 5em;
+  margin-top: 5em;
+
+  .landmark-name {
+    font-size: 3.2em;
+    font-weight: bold;
+    background-image: linear-gradient(to top, #a832f6, #f368e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .landmark-location {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: hsl(283, 88%, 20%);
+  }
+}
+
+.landmark-image-map-container {
+  display: flex;
+  gap: 1em;
+  width: 100%;
+  font-size: 1em;
+  margin-bottom: 2.6em;
+
+  .landmark-img {
+    position: relative;
+    font-size: 1em;
+    height: 40em;
+    width: 60%;
+    border-radius: 1em;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+  }
+
+  .map {
+    width: 40%;
+    overflow: hidden;
+    font-size: 1em;
+    height: 40em;
+    border-radius: 1em;
+    border: 1px solid #e0e0e0;
+  }
+}
+
+.progress-bar {
+  width: 100%;
+
+  .progress-bar-score {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.4em;
+    padding-top: 0.2em;
+    padding-bottom: 0.6em;
+    color: hsl(283, 88%, 20%);
+  }
+}
+
+.save-button {
+  display: flex;
+  align-items: center;
+  gap: 0.24em;
+  position: absolute;
+  right: 2.6em;
+  top: 1.6em;
+  font-size: 1.6em;
+  padding: 0.3em 1.3em;
+  border: 0.12em solid #c03ff3;
+  border-radius: 0.4em;
+  font-weight: 500;
+  background-image: linear-gradient(to top, #a832f6, #f368e0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  .save-icon {
+    color: #c03ff3;
+    transform: translateY(0.12em);
+  }
+}
+
+.back-button {
+  position: absolute;
+  left: 1.9em;
+  top: 1.4em;
+  font-size: 1.6em;
+  padding: 0.3em 1.2em;
+
+  & * {
+    color: #c03ff3;
+    font-size: 2em !important;
+  }
+}

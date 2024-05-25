@@ -69,3 +69,28 @@ export const FullPostImg = ({ publicId }: { publicId: string }) => {
     </div>
   );
 };
+
+export const LandmarkImg = ({ publicId }: { publicId: string }) => {
+  const myImage = cld
+    .image(publicId)
+    .resize(thumbnail().width(600))
+    .format("webp")
+    .quality("auto");
+
+  return (
+    <div className="full-post-img">
+      <AdvancedImage
+        cldImg={myImage}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
+    </div>
+  );
+};

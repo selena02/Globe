@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import paginatedFetchAPI from "../../../shared/utils/paginatedFetchAPI";
 import Post from "../../../shared/components/Post/Post";
 import Spinner from "../../../shared/components/Spinner/Spinner";
-import UploadPost from "../../../shared/components/UploadPost/UploadPost";
 import { PostDto } from "../../../shared/models/Post";
 import "./Posts.scss";
 import { useDispatch } from "react-redux";
@@ -27,7 +26,7 @@ const Posts = () => {
       setError(null);
 
       try {
-        const endpoint = `posts?userId=${id}&pageSize=${pageSize}&pageNumber=${page}`;
+        const endpoint = `posts/user/${id}?pageSize=${pageSize}&pageNumber=${page}`;
         const { data, pagination } = await paginatedFetchAPI<{
           posts: PostDto[];
           pagination: { totalPages: number };

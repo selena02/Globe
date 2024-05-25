@@ -59,6 +59,7 @@ namespace Infrastructure.Services
                     Longitude = firstResult.Geometry.Lng,
                     Country = firstResult.Components.Country,
                     City = firstResult.Components.City ?? firstResult.Components.Town,
+                    CountryCode = firstResult.Components.Country_Code
                 };
             }
             catch (Exception ex)
@@ -90,7 +91,7 @@ namespace Infrastructure.Services
 
         public class Annotations
         {
-            // Add properties as needed
+           
         }
 
         public class Bounds
@@ -118,7 +119,7 @@ namespace Infrastructure.Services
             public string Category { get; set; }
             public string City { get; set; }
             public string Country { get; set; }
-            public string CountryCode { get; set; }
+            public string Country_Code { get; set; }
             public string HouseNumber { get; set; }
             public string Neighbourhood { get; set; }
             public string Postcode { get; set; }

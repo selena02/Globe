@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { handleApiErrors } from "../../shared/utils/displayApiErrors";
 import LoadingScreen from "../../shared/components/LoadingScreen/LoadingScreen";
 import { ClassifyLandmarkResponse } from "./models/Landmark";
+import LandmarkDetails from "./LandmarkDetails/LandmarkDetails";
 
 interface UploadLandmarkFormValues {
   landmarkImage: FileList;
@@ -80,6 +81,7 @@ const Landmark = () => {
 
       const data: ClassifyLandmarkResponse = await response.json();
       setLandmarkData(data);
+      console.log(data);
     } catch (err) {
       handleApiErrors(err);
     } finally {
@@ -89,34 +91,43 @@ const Landmark = () => {
     }
   };
 
+  const handleClose = () => {
+    setLandmarkData(null);
+  };
+
   return (
     <div className="landmark-container">
-      <form onSubmit={handleSubmit(onSubmit)} className="landmark-form">
-        <h1 className="landmark-title">Landmark Detector</h1>
-        <p className="landmark-subtitle">
-          Capture a Photo, Identify It - AI Powered Landmark Recognition
-        </p>
-        <div {...getRootProps({ className: "dropzone" })}>
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the files here ...</p>
-          ) : (
-            <p>Upload Your Landmark</p>
-          )}
-          {preview && (
-            <img src={preview} alt="Preview" className="preview-image" />
-          )}
-        </div>
+      {!landmarkData && (
+        <form onSubmit={handleSubmit(onSubmit)} className="landmark-form">
+          <h1 className="landmark-title">Landmark Detector</h1>
+          <p className="landmark-subtitle">
+            Capture a Photo, Identify It - AI Powered Landmark Recognition
+          </p>
+          <div {...getRootProps({ className: "dropzone" })}>
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Upload Your Landmark</p>
+            )}
+            {preview && (
+              <img src={preview} alt="Preview" className="preview-image" />
+            )}
+          </div>
 
-        <button
-          type="submit"
-          disabled={isUploading || isSubmitting || !isValid || !file}
-          className="landmark-button"
-        >
-          {isUploading ? "Uploading..." : "Detect Landmark"}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={isUploading || isSubmitting || !isValid || !file}
+            className="landmark-button"
+          >
+            {isUploading ? "Uploading..." : "Detect Landmark"}
+          </button>
+        </form>
+      )}
       {isUploading && <LoadingScreen />}
+      {landmarkData && (
+        <LandmarkDetails landmarkData={landmarkData} onClosed={handleClose} />
+      )}
     </div>
   );
 };
