@@ -1,4 +1,4 @@
-.save-landmark-form {
+.save-landmark-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -8,5 +8,58 @@
   z-index: 1000;
   display: flex;
   justify-content: center;
-  align-items: center;
+}
+.save-landmark-form {
+  position: relative;
+  align-self: flex-start;
+  margin-top: 20em;
+  width: 40em;
+  background-color: white;
+  padding: 3em 2em;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+
+  .form-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    background-image: linear-gradient(to top, #a832f6, #f368e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  p {
+    font-size: 1.6em;
+    margin-bottom: 0.5em;
+  }
+
+  .rating {
+    margin-top: 1em;
+  }
+}
+
+.save-landmark-button {
+  font-weight: 600;
+  font-size: 1.8em;
+  padding: 0.5em;
+  margin-top: 2em;
+  border-radius: 0.3em;
+  background-color: #c03ff3;
+  color: white;
+  border: none;
+}
+
+.close-save-button {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  font-size: 2em;
+  color: #c03ff3;
+
+  & .close-icon {
+    font-size: 1.3em !important;
+  }
 }
