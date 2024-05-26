@@ -79,9 +79,13 @@ const Landmark = () => {
         headers,
       });
 
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message);
+      }
+
       const data: ClassifyLandmarkResponse = await response.json();
       setLandmarkData(data);
-      console.log(data);
     } catch (err) {
       handleApiErrors(err);
     } finally {

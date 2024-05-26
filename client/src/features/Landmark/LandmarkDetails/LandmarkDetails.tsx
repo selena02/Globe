@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ClassifyLandmarkResponse } from "../models/Landmark";
 import "./LandmarkDetails.scss";
 import "leaflet/dist/leaflet.css";
@@ -11,24 +11,35 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SaveLandmark from "../SaveLandmark/SaveLandmark";
 
-interface LadnmarkDetailProps {
+interface LandmarkDetailProps {
   landmarkData: ClassifyLandmarkResponse | null;
   onClosed: () => void;
 }
 
-const LandmarkDetails: React.FC<LadnmarkDetailProps> = ({
+const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
   landmarkData,
   onClosed,
 }) => {
-  if (landmarkData === null) {
+  const [normalizedScore, setNormalizedScore] = useState(0);
+  const [favouriteHover, setFavouriteHover] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  useEffect(() => {
+    if (
+      landmarkData &&
+      landmarkData.landmark.score !== null &&
+      landmarkData.landmark.score !== undefined
+    ) {
+      const score = landmarkData.landmark.score;
+      const maxScore = 5.5;
+      setNormalizedScore((score / maxScore) * 100);
+    }
+  }, [landmarkData]);
+
+  if (landmarkData === null || landmarkData === undefined) {
     onClosed();
     return null;
   }
-  const score = landmarkData.landmark.score;
-  const maxScore = 5.5;
-  const normalizedScore = (score / maxScore) * 100;
-  const [favouriteHover, setFavouriteHover] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const getColor = (s: any) => {
     if (s < 30) return "#ff7060df";
