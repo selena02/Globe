@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Users.Commands.DeleteAccount;
+using Microsoft.AspNetCore.Mvc;
 using Application.Users.Commands.EditUserProfile;
 using Application.Users.Queries.GetUserById;
 using Application.Users.Queries.GetUserFollowers;
@@ -66,6 +67,16 @@ public class UsersController(ISender sender) : BaseController(sender)
     {
         var result = await Sender.Send(command, cancellationToken);
 
+        return Ok(result);
+    }
+    
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteAccount(CancellationToken cancellationToken)
+    {
+        var command = new DeleteAccountCommand();
+        
+        var result = await Sender.Send(command, cancellationToken);
+        
         return Ok(result);
     }
 }
