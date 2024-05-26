@@ -20,6 +20,8 @@ namespace Application
             
             services.AddScoped<IAuthService, AuthService>();
             
+            services.AddScoped<IUserService, UserService>();
+            
             services.AddScoped<IJWTService, JWTService>();
             
             services.AddMemoryCache();
