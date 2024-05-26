@@ -11,13 +11,14 @@ public record LandmarkByIdResponse(
     int LandmarkId,
     string LocationName,
     DateTime VisitedOn,
-    string Review,
+    string? Review,
     string PublicId,
     int Rating,
-    string Longitude,
-    string Latitude,
-    string Country,
-    string City,
+    string? Longitude,
+    string? Latitude,
+    string? Country,
+    string? City,
+    string? CountryCode,
     bool CanDelete
 );
 
@@ -60,6 +61,7 @@ public class GetLandmarkByIdCommandHandler : IQueryHandler<GetLandmarkByIdQuery,
             landmark.Latitude,
             landmark.Country,
             landmark.City,
+            landmark.CountryCode,
             canDelete
         );
     }

@@ -66,6 +66,7 @@ public class ClassifyLandmarkCommandHandler : ICommandHandler<ClassifyLandmarkCo
                 {
                     Latitude = landmark?.Latitude != null ? double.Parse(landmark.Latitude) : (double?)null,
                     Longitude = landmark?.Longitude != null ? double.Parse(landmark.Longitude) : (double?)null,
+                    CountryCode = landmark?.CountryCode,
                     Country = landmark?.Country,
                     City = landmark?.City,
                     Errors = null

@@ -48,7 +48,8 @@ public class SaveLandmarkCommandHandler : ICommandHandler<SaveLandmarkCommand, S
             City = classifyLandmarkResponse?.LocationDetails?.City,
             Review = request.Review,
             Rating = request.Rating,
-            UserId = currentUserId
+            UserId = currentUserId,
+            CountryCode = classifyLandmarkResponse?.LocationDetails?.CountryCode
         };
         
         await _context.Landmarks.AddAsync(landmark, cancellationToken);

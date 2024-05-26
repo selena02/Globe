@@ -14,6 +14,7 @@ public class Landmark
     public string Latitude { get; set; }
     public string Country { get; set; }
     public string City { get; set; }
+    public string CountryCode { get; set; }
 
     // Foreign key
     public int UserId { get; set; }

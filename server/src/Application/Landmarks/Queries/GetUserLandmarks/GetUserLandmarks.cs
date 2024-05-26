@@ -27,6 +27,7 @@ public class GetUserLandmarksQueryHandler : IQueryHandler<GetUserLandmarksQuery,
     {
         var landmarks = await _context.Landmarks
             .Where(l => l.UserId == request.UserId)
+            .OrderByDescending(l => l.VisitedOn)
             .Select(l => new LandmarkDto(
                 l.LandmarkId,
                 l.LocationName,
