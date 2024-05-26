@@ -1,0 +1,44 @@
+.explore-container {
+  background-image: url("/images/account/account-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  min-height: calc(100vh - 8.06em);
+}
+
+.explore-map {
+  width: 100em;
+  overflow: hidden;
+  font-size: 1em;
+  height: 60em;
+  border-radius: 1em;
+  border: 5px solid #c03ff3ad;
+  margin: 0 auto;
+  margin-top: 3em;
+}
+
+.title-sutitle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+}
+
+.explore-title {
+  background-image: linear-gradient(to top, #a832f6, #f368e0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 7em;
+  transform: translateX(-0.1em);
+  line-height: 1.6em;
+}
+
+.explore-subtitle {
+  transform: translateY(-0.6em);
+  font-size: 2.4em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.2em;
+  color: hsl(276, 92%, 45%);
+}

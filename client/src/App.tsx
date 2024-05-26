@@ -23,7 +23,7 @@ import Feed from "./features/Feed/Feed";
 import Posts from "./features/Profile/Posts/Posts";
 import Landmark from "./features/Landmark/Landmark";
 import Landmarks from "./features/Profile/Landmarks/Landmarks";
-import { Explore } from "@mui/icons-material";
+import Explore from "./features/Explore/Explore";
 
 const App = () => {
   const dispatch = useDispatch();

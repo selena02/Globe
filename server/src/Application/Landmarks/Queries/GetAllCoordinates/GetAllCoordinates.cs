@@ -7,7 +7,7 @@ public record GetAllCoordinatesQuery() : IQuery<GetAllCoordinatesResponse>;
 
 public record GetAllCoordinatesResponse(List<CoordinateDto> Coordinates);
 
-public record CoordinateDto(string Latitude, string Longitude); 
+public record CoordinateDto(string Latitude, string Longitude, string LocationName); 
 
 public class GetAllCoordinatesHandler : IQueryHandler<GetAllCoordinatesQuery, GetAllCoordinatesResponse>
 {
@@ -22,7 +22,7 @@ public class GetAllCoordinatesHandler : IQueryHandler<GetAllCoordinatesQuery, Ge
     {
         var coordinates = await _context.Landmarks
             .Where(l => l.Latitude != null && l.Longitude != null)
-            .Select(l => new CoordinateDto(l.Latitude, l.Longitude))
+            .Select(l => new CoordinateDto(l.Latitude, l.Longitude, l.LocationName))
             .ToListAsync(cancellationToken);
         
         var hashSet = new HashSet<CoordinateDto>(coordinates);

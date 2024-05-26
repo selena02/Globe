@@ -11,7 +11,6 @@ const Landmarks = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
-  console.log(id);
 
   useEffect(() => {
     const fetchLandmarks = async () => {
