@@ -23,6 +23,7 @@ import Feed from "./features/Feed/Feed";
 import Posts from "./features/Profile/Posts/Posts";
 import Landmark from "./features/Landmark/Landmark";
 import Landmarks from "./features/Profile/Landmarks/Landmarks";
+import { Explore } from "@mui/icons-material";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -69,6 +70,14 @@ const App = () => {
             </Route>
             <Route path="feed" element={<Feed />} />
             <Route path="landmark" element={<Landmark />} />
+            <Route
+              path="explore"
+              element={
+                <PrivateRoute>
+                  <Explore />
+                </PrivateRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

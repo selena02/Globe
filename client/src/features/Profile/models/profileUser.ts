@@ -3,7 +3,7 @@ export interface ProfileUser {
   userName: string;
   fullName: string;
   email: string;
-  profilePictureUrl: string | null;
+  profilePicture: string | null;
   location: string | null;
   bio: string | null;
   followersCount: number;

@@ -3,12 +3,17 @@ import { Rating } from "@mui/material";
 import { PostImg } from "../../../../shared/utils/CloudImg";
 import { LandmarkCardDto } from "../../models/landmarks";
 import "./LandmarkCard.scss";
+import FullLandmark from "../FullLandmark/FullLandmark";
 
 interface LandmarkCardProps {
   landmark: LandmarkCardDto;
+  onLandmarkDeleted: (landmarkId: number) => void;
 }
 
-const LandmarkCard: React.FC<LandmarkCardProps> = ({ landmark }) => {
+const LandmarkCard: React.FC<LandmarkCardProps> = ({
+  landmark,
+  onLandmarkDeleted,
+}) => {
   const [showPopup, setShowPopup] = useState(false);
   const formattedDate = new Date(landmark.visitedOn).toLocaleDateString(
     "en-US",
@@ -35,10 +40,22 @@ const LandmarkCard: React.FC<LandmarkCardProps> = ({ landmark }) => {
       </div>
       <div className="landmark-footer">
         <div className="footer-left">
-          <Rating value={landmark.rating} precision={0.5} readOnly />
+          <Rating
+            value={landmark.rating}
+            precision={0.5}
+            sx={{ fontSize: 18 }}
+            readOnly
+          />
         </div>
         <div className="footer-right">{formattedDate}</div>
       </div>
+      {showPopup && (
+        <FullLandmark
+          landmarkId={landmark.landmarkId}
+          onClose={handleClosePopup}
+          onLandmarkDeleted={onLandmarkDeleted}
+        />
+      )}
     </div>
   );
 };

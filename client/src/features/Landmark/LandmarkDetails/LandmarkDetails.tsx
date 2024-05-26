@@ -24,10 +24,6 @@ const LandmarkDetails: React.FC<LadnmarkDetailProps> = ({
     onClosed();
     return null;
   }
-  const position = {
-    lat: landmarkData.locationDetails.latitude ?? 0,
-    lng: landmarkData.locationDetails.longitude ?? 0,
-  };
   const score = landmarkData.landmark.score;
   const maxScore = 5.5;
   const normalizedScore = (score / maxScore) * 100;

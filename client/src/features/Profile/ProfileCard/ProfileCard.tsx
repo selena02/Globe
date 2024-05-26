@@ -130,7 +130,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
   return (
     <div className="profile-card">
       <div className="avatar-picture">
-        <Avatar photoUrl={user.profilePictureUrl} />
+        <Avatar photoUrl={user.profilePicture} />
       </div>
 
       <div className="profile-details">

@@ -11,7 +11,24 @@ const cld = new Cloudinary({
 export const ProfileImg = ({ publicId }: { publicId: string }) => {
   const myImage = cld
     .image(publicId)
-    .resize(thumbnail().width(80).height(80))
+    .resize(thumbnail().width(100).height(100))
+    .format("webp")
+    .quality("auto");
+
+  return (
+    <AdvancedImage
+      cldImg={myImage}
+      style={{
+        objectFit: "cover",
+      }}
+    />
+  );
+};
+
+export const bigProfileImg = ({ publicId }: { publicId: string }) => {
+  const myImage = cld
+    .image(publicId)
+    .resize(thumbnail().width(200).height(200))
     .format("webp")
     .quality("auto");
 

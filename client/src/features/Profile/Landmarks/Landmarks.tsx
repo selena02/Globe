@@ -37,11 +37,21 @@ const Landmarks = () => {
     fetchLandmarks();
   }, [id]);
 
+  const handleDeleteLandmark = (landmarkId: number) => {
+    setLandmarks((prevLandmarks) =>
+      prevLandmarks.filter((landmark) => landmark.landmarkId !== landmarkId)
+    );
+  };
+
   return (
     <div className="landmarks-section-container">
       <div className="landmarks-container">
         {landmarks.map((landmark) => (
-          <LandmarkCard key={landmark.landmarkId} landmark={landmark} />
+          <LandmarkCard
+            key={landmark.landmarkId}
+            landmark={landmark}
+            onLandmarkDeleted={handleDeleteLandmark}
+          />
         ))}
       </div>
       <div id="loading-or-error">

@@ -1,4 +1,4 @@
-import { Close } from "@mui/icons-material";
+import { Close, Delete } from "@mui/icons-material";
 import Spinner from "../../../../shared/components/Spinner/Spinner";
 import { handleApiErrors } from "../../../../shared/utils/displayApiErrors";
 import fetchAPI from "../../../../shared/utils/fetchAPI";
@@ -6,6 +6,18 @@ import { FullLandmarkDto } from "../../models/landmarks";
 import "./FullLandmark.scss";
 import { useEffect, useState } from "react";
 import { FullPostImg } from "../../../../shared/utils/CloudImg";
+import CountryFlag from "react-country-flag";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Rating,
+} from "@mui/material";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface FullLandmarkProps {
   landmarkId: number;
@@ -21,6 +33,7 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
   const [showPopup, setShowPopup] = useState(false);
   const [landmark, setLandmark] = useState<FullLandmarkDto | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchLandmark = async () => {
@@ -41,6 +54,21 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
     fetchLandmark();
   }, [landmarkId]);
 
+  const confirmDeleteLandmark = async () => {
+    if (landmark == null) {
+      return;
+    }
+    try {
+      const endpoint = `landmark/${landmark.landmarkId}`;
+      await fetchAPI(endpoint, { method: "DELETE" });
+      onLandmarkDeleted(landmark.landmarkId);
+    } catch (err: any) {
+      handleApiErrors(err);
+    } finally {
+      setIsDeleteDialogOpen(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="spinner-container">
@@ -59,12 +87,102 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
           <Close className="icon" />
         </button>
         <div className="landmark-content">
+          <button
+            className="delete-btn"
+            onClick={() => setIsDeleteDialogOpen(true)}
+          >
+            <Delete className="icon" />
+          </button>
           <div className="landmark-image">
             <FullPostImg publicId={landmark.publicId} />
           </div>
-          <div className="landmark-details"></div>
+          <div className="landmark-details">
+            <div className="details-upper">
+              <h1 className="name">{landmark.locationName}</h1>
+              <p className="landmark-location">
+                {landmark.city}, {landmark.country}{" "}
+                {landmark.countryCode && (
+                  <CountryFlag
+                    countryCode={landmark.countryCode}
+                    svg
+                    style={{
+                      width: "1.4em",
+                      height: "1.4em",
+                      marginLeft: "0.2em",
+                    }}
+                    title={landmark.country || ""}
+                  />
+                )}
+              </p>
+              <p className="review">
+                {landmark.review ? landmark.review : "No review"}
+              </p>
+
+              <div className="rating">
+                <Rating
+                  value={landmark.rating}
+                  precision={0.5}
+                  readOnly
+                  sx={{ fontSize: 35 }}
+                />
+              </div>
+              <p className="visitend-date">
+                Visited on:{" "}
+                {new Date(landmark.visitedOn).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            </div>
+
+            {landmark.latitude && landmark.longitude && (
+              <MapContainer
+                className="map"
+                center={[landmark.latitude, landmark.longitude]}
+                zoom={13}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[landmark.latitude, landmark.longitude]}>
+                  <Popup>{landmark.locationName}</Popup>
+                </Marker>
+              </MapContainer>
+            )}
+          </div>
         </div>
       </div>
+      <Dialog
+        open={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+      >
+        <DialogTitle className="dialog-title">Delete Landmark</DialogTitle>
+        <DialogContent>
+          <DialogContentText className="dialog-text">
+            Are you sure you want to delete this landmark?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className="dialog-button"
+            onClick={() => setIsDeleteDialogOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            className="dialog-button"
+            onClick={confirmDeleteLandmark}
+            color="secondary"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
+
+export default FullLandmark;
