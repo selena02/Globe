@@ -34,6 +34,12 @@ const Profile = () => {
   return (
     <div id="profile-page">
       <ProfileCard user={user} />
+      {user && user.bio && (
+        <p className="profile-bio">
+          <span className="about">About Me:</span>
+          <span>{user.bio}</span>
+        </p>
+      )}
 
       <nav className="profile-nav">
         <NavLink

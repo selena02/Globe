@@ -26,3 +26,15 @@
     }
   }
 }
+
+.profile-bio {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.6em;
+  width: 27.4em;
+
+  .about {
+    color: #c03ff3;
+    font-weight: 700;
+  }
+}
