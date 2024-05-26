@@ -104,7 +104,6 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
         `users/${user.id}/following`
       );
       setFollowing(response.following);
-      console.log(response.following);
       setIsFollowingUsersOpen(true);
     } catch (error: any) {
       handleApiErrors(error);
@@ -137,7 +136,6 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
         <h2 className="profile-name">{user.fullName}</h2>
         <p className="profile-username">@{user.userName}</p>
         {user.location && <p className="profile-location">{user.location}</p>}
-        {user.bio && <p className="profile-bio">{user.bio}</p>}
         <div className="profile-social">
           <button
             onClick={fetchFollowers}

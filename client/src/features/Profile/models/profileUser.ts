@@ -9,3 +9,8 @@ export interface ProfileUser {
   followersCount: number;
   followingCount: number;
 }
+
+export interface EditUserDto {
+  bio: string | null;
+  profilePicture: File | null;
+}
