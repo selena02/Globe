@@ -13,14 +13,19 @@
   overflow: hidden;
   border: 1px solid #e0e0e0;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .post-footer {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.6em;
-  padding: 0.6em 0.1em;
+  font-size: 1.4em;
+  padding: 0.5em 0.6em;
+  width: 100%;
 }
 .footer-left,
 .footer-right {
@@ -29,9 +34,11 @@
 
 .user-name {
   margin-left: 0.4em;
-  align-self: flex-start;
+  margin-bottom: 0.16em;
+  align-self: center;
   margin-right: auto;
   font-weight: 500;
+  color: white;
 }
 
 .icon-container {
@@ -41,13 +48,14 @@
 
   .icon {
     margin-right: 0.1em;
-    color: #9e9ea7 !important;
+    color: white !important;
+    font-size: 1.2em !important;
   }
 
   .icon-text {
     margin-left: 0.2em;
-    font-size: 0.9em;
-    color: #9e9ea7;
+    font-size: 1em;
+    color: white;
   }
 }
 

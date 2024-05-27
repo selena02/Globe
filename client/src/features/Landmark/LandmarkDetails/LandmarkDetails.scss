@@ -103,3 +103,59 @@
     font-size: 2em !important;
   }
 }
+@media (max-width: 1000px) {
+  .landmark-details-container {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 2em 1em;
+    margin-top: 2em;
+
+    .landmark-name {
+      font-size: clamp(10px, 7vw, 40px);
+    }
+    .landmark-location {
+      font-size: clamp(10px, 5vw, 30px);
+    }
+  }
+
+  .landmark-image-map-container {
+    flex-direction: column;
+    gap: 1em;
+
+    .landmark-img {
+      width: 100%;
+      height: 30em;
+    }
+
+    .map {
+      width: 100%;
+      height: 30em;
+    }
+  }
+
+  .progress-bar {
+    .progress-bar-score {
+      font-size: 1.2em;
+    }
+  }
+
+  .save-button {
+    right: 1em;
+    top: 0em;
+    padding: 0.4em;
+    .save {
+      display: none;
+    }
+    .save-icon {
+      transform: translateY(0);
+    }
+  }
+
+  .back-button {
+    left: 0;
+    top: 0;
+    transform: translateY(-0.3em);
+  }
+}

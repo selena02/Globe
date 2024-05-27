@@ -120,6 +120,13 @@ const HeaderComponent = () => {
         >
           Landmarks
         </Link>
+        <Link
+          to="/explore"
+          className="navigation-links-side-menu"
+          onClick={toggleSideMenu}
+        >
+          Explore
+        </Link>
       </nav>
     </>
   );

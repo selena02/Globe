@@ -60,7 +60,7 @@ const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
           onClick={() => setIsPopupOpen(true)}
           className="save-button"
         >
-          <p>Save</p>{" "}
+          <p className="save">Save</p>{" "}
           {favouriteHover ? (
             <FavoriteIcon className="save-icon" />
           ) : (

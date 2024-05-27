@@ -8,7 +8,8 @@
   grid-gap: 36px;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   list-style: none;
-  max-width: 1600px;
+  max-width: 1400px;
+  width: 100vw;
 }
 #loading-or-error {
   display: flex;

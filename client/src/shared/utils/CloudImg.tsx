@@ -68,22 +68,20 @@ export const PostImg = ({ publicId }: { publicId: string }) => {
 export const FullPostImg = ({ publicId }: { publicId: string }) => {
   const myImage = cld
     .image(publicId)
-    .resize(thumbnail().width(800))
+    .resize(thumbnail().width(1000))
     .format("webp")
     .quality("auto");
 
   return (
-    <div className="full-post-img">
-      <AdvancedImage
-        cldImg={myImage}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "contain",
-          objectPosition: "center",
-        }}
-      />
-    </div>
+    <AdvancedImage
+      cldImg={myImage}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        objectPosition: "center",
+      }}
+    />
   );
 };
 

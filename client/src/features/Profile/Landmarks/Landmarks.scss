@@ -1,5 +1,6 @@
 .landmarks-section-container {
   padding-top: 3em;
+  border: none;
 }
 .landmarks-container {
   margin: 5em auto;
@@ -8,7 +9,8 @@
   grid-gap: 36px;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   list-style: none;
-  max-width: 1600px;
+  max-width: 1400px;
+  width: 100vw;
 }
 #loading-or-error {
   display: flex;
@@ -16,4 +18,10 @@
   justify-content: center;
   margin-top: 2em;
   font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+  .landmarks-container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }

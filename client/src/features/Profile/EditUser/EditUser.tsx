@@ -119,7 +119,9 @@ const EditUser = () => {
             </button>
             <h1>Edit Profile</h1>
             <div className="form-group">
-              <label htmlFor="bio">Bio</label>
+              <label className="bio-label" htmlFor="bio">
+                Bio
+              </label>
               <textarea
                 id="bio"
                 {...register("bio", {

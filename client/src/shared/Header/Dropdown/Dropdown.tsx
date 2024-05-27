@@ -54,15 +54,11 @@ const Dropdown = () => {
           <p>Profile</p>
           <NavigateNext className="dropdown-icon" />
         </Link>
-        <button
-          type="button"
-          className="dropdown-item logout"
-          onClick={handleLogout}
-        >
+        <div className="dropdown-item logout" onClick={handleLogout}>
           <Logout className="dropdown-icon" />
           <p>Logout</p>
           <NavigateNext className="dropdown-icon" />
-        </button>
+        </div>
       </div>
     </button>
   );

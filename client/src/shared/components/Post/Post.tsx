@@ -28,21 +28,20 @@ const Post: React.FC<PostProps> = ({ post, onPostDeleted }) => {
     <div className="post-container">
       <div className="post-img" onClick={handlePictureClick}>
         <PostImg publicId={post.postPicture} />
-      </div>
-
-      <div className="post-footer">
-        <Link to={`/profile/${post.userId}`} className="footer-left">
-          <Avatar photoUrl={post.profilePicture} />
-          <div className="user-name">{post.userName}</div>
-        </Link>
-        <div className="footer-right">
-          <div className="icon-container">
-            <FavoriteIcon className="icon" />
-            <span className="icon-text">{post.likesCount}</span>
-          </div>
-          <div className="icon-container">
-            <CommentIcon className="icon" />
-            <span className="icon-text">{post.commentsCount}</span>
+        <div className="post-footer">
+          <Link to={`/profile/${post.userId}`} className="footer-left">
+            <Avatar photoUrl={post.profilePicture} />
+            <div className="user-name">{post.userName}</div>
+          </Link>
+          <div className="footer-right">
+            <div className="icon-container">
+              <FavoriteIcon className="icon" />
+              <span className="icon-text">{post.likesCount}</span>
+            </div>
+            <div className="icon-container">
+              <CommentIcon className="icon" />
+              <span className="icon-text">{post.commentsCount}</span>
+            </div>
           </div>
         </div>
       </div>
