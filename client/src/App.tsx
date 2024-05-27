@@ -34,6 +34,7 @@ const App = () => {
 
     if (token && user) {
       dispatch(setLogin({ user, token }));
+      console.log(user);
     }
   }, [dispatch]);
 
