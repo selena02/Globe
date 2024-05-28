@@ -11,6 +11,7 @@ import Spinner from "../../../shared/components/Spinner/Spinner";
 import { FollowerDto } from "../models/followUser";
 import { set } from "react-hook-form";
 import LikedUsers from "../../../shared/components/LikedUsers/LikedUsers";
+import { Shield } from "@mui/icons-material";
 
 interface ProfileCardProps {
   user: ProfileUser | null;
@@ -29,6 +30,11 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
   const [following, setFollowing] = useState<FollowerDto[]>([]);
   const [isFollowerUsersOpen, setIsFollowerUsersOpen] = useState(false);
   const [isFollowingUsersOpen, setIsFollowingUsersOpen] = useState(false);
+  const isGuide = currentUser?.roles.includes("Guide");
+  const [profilePicture, setProfilePicture] = useState<string | null>(
+    user?.profilePicture ?? null
+  );
+  const [deletingPicture, setDeletingPicture] = useState(false);
 
   useEffect(() => {
     const fetchFollowStatus = async () => {
@@ -120,6 +126,18 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
     setIsFollowerUsersOpen(false);
   };
 
+  const handleModeratePicture = async () => {
+    try {
+      setDeletingPicture(true);
+      await fetchAPI(`guide/delete/picture/${user?.id}`, { method: "DELETE" });
+      setProfilePicture(null);
+    } catch (error: any) {
+      handleApiErrors(error);
+    } finally {
+      setDeletingPicture(false);
+    }
+  };
+
   if (!user) {
     return <Spinner></Spinner>;
   }
@@ -129,7 +147,18 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
   return (
     <div className="profile-card">
       <div className="avatar-picture">
-        <Avatar photoUrl={user.profilePicture} />
+        <Avatar photoUrl={profilePicture} />
+        {isGuide && profilePicture && (
+          <button
+            onClick={handleModeratePicture}
+            type="button"
+            title="moderate picture"
+            className="moderate-picture"
+            disabled={deletingPicture}
+          >
+            <Shield className="moderate-icon" />
+          </button>
+        )}
       </div>
 
       <div className="profile-details">

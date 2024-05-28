@@ -9,10 +9,30 @@
   min-width: 50em;
 
   .avatar-picture {
+    position: relative;
     font-size: 5em;
     margin-right: 0.5em;
     border: 0.04em solid #cf51f2;
     border-radius: 50%;
+
+    .moderate-picture {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      bottom: -0.1em;
+      right: -0.1em;
+      height: 0.8em;
+      width: 0.8em;
+      border: 2px solid #cf51f2;
+      border-radius: 50%;
+      background-color: white;
+
+      .moderate-icon {
+        font-size: 0.5em;
+        color: #c03ff3;
+      }
+    }
   }
 
   .profile-details {

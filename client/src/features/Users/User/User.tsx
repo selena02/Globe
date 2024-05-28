@@ -3,7 +3,7 @@ import Avatar from "../../../shared/components/Avatar/Avatar";
 import { UserDto } from "../models/user";
 import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import fetchAPI from "../../../shared/utils/fetchAPI";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./User.scss";
 import {
   Button,
@@ -60,7 +60,7 @@ const User: React.FC<UserProps> = ({ user, isPilot }) => {
   };
   return (
     <div key={user.userId} className="user-card">
-      <div className="user-left">
+      <Link to={`/profile/${user.userId}`} className="user-left">
         <div className="avatar-user-container">
           <Avatar photoUrl={user.profilePicture} />
         </div>
@@ -68,7 +68,7 @@ const User: React.FC<UserProps> = ({ user, isPilot }) => {
           <h3 className="username">{user.username}</h3>
           <p>Created: {new Date(user.createdAt).toLocaleString()}</p>
         </div>
-      </div>
+      </Link>
       <div className="user-middle">
         {isGuide ? (
           <button
