@@ -215,11 +215,13 @@
   right: 0;
 }
 .navigation-links-side-menu {
+  transform: translateY(-1em);
   background-image: linear-gradient(to top, #a832f6, #f368e0);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 2.5em;
+  font-weight: 600;
   letter-spacing: 0.1em;
   transition: opacity 0.2s ease-in-out;
 }

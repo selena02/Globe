@@ -10,6 +10,7 @@ import Post from "../../shared/components/Post/Post";
 import Spinner from "../../shared/components/Spinner/Spinner";
 import UploadPost from "./UploadPost/UploadPost";
 import { PostDto } from "../../shared/models/Post";
+import AddIcon from "@mui/icons-material/Add";
 import "./Feed.scss";
 
 const Feed = () => {
@@ -62,12 +63,15 @@ const Feed = () => {
 
   return (
     <div className="feed-container">
+      <h1>Explore The Community Feed</h1>
       {isLoggedIn && (
         <button
+          type="button"
+          title="button"
           className="show-upload-post-button"
           onClick={() => setIsUploadPostVisible(true)}
         >
-          Upload Post
+          <AddIcon />
         </button>
       )}
       {isUploadPostVisible && (

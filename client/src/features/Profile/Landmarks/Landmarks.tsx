@@ -57,6 +57,10 @@ const Landmarks = () => {
         {isLoading && !error && <Spinner />}
         {error && <div className="error-message">{error + " :("}</div>}
       </div>
+      {landmarks.length === 0 && !isLoading && !error && (
+        <p className="no-posts">User has no saved Landmarks</p>
+      )}
+      ``
     </div>
   );
 };

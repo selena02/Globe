@@ -83,20 +83,27 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
   return (
     <div className="full-landmark-container">
       <div className="landmark-popup">
-        <button onClick={onClose} className="close-btn">
+        <button
+          title="close button"
+          type="button"
+          onClick={onClose}
+          className="close-btn"
+        >
           <Close className="icon" />
         </button>
         <div className="landmark-content">
-          <button
-            className="delete-btn"
-            onClick={() => setIsDeleteDialogOpen(true)}
-          >
-            <Delete className="icon" />
-          </button>
           <div className="landmark-image">
             <FullPostImg publicId={landmark.publicId} />
           </div>
           <div className="landmark-details">
+            <button
+              title="delete button"
+              type="button"
+              className="delete-btn"
+              onClick={() => setIsDeleteDialogOpen(true)}
+            >
+              <Delete className="icon" />
+            </button>
             <div className="details-upper">
               <h1 className="name">{landmark.locationName}</h1>
               <p className="landmark-location">

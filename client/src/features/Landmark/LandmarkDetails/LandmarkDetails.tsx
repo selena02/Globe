@@ -60,7 +60,7 @@ const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
           onClick={() => setIsPopupOpen(true)}
           className="save-button"
         >
-          <p>Save</p>{" "}
+          <p className="save">Save</p>{" "}
           {favouriteHover ? (
             <FavoriteIcon className="save-icon" />
           ) : (
@@ -68,7 +68,12 @@ const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
           )}
         </button>
       )}
-      <button onClick={onClosed} className="back-button">
+      <button
+        type="button"
+        title="back button"
+        onClick={onClosed}
+        className="back-button"
+      >
         <KeyboardBackspaceIcon />
       </button>
       <h1 className="landmark-name">{landmarkData.landmark.name}</h1>

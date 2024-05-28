@@ -2,18 +2,23 @@
 import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar/Avatar";
 import "./Dropdown.scss";
-import { Link } from "react-router-dom";
-import { Logout, NavigateNext, Person } from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
+import { Logout, NavigateNext, Person, Shield } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { setLogout } from "../../../state/features/authSlice";
 
 const Dropdown = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
   const dispatch = useDispatch();
   const user = localStorage.getItem("user");
+  if (!user) {
+    navigate("/account/login");
+  }
   const userParsed = JSON.parse(user!);
   const userId = userParsed.id;
+  const isGuide = userParsed.roles.includes("Guide");
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -54,15 +59,18 @@ const Dropdown = () => {
           <p>Profile</p>
           <NavigateNext className="dropdown-icon" />
         </Link>
-        <button
-          type="button"
-          className="dropdown-item logout"
-          onClick={handleLogout}
-        >
+        {isGuide && (
+          <Link to={"/users"} className="dropdown-item users">
+            <Shield className="dropdown-icon" />
+            <p>Users</p>
+            <NavigateNext className="dropdown-icon" />
+          </Link>
+        )}
+        <div className="dropdown-item logout" onClick={handleLogout}>
           <Logout className="dropdown-icon" />
           <p>Logout</p>
           <NavigateNext className="dropdown-icon" />
-        </button>
+        </div>
       </div>
     </button>
   );

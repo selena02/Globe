@@ -114,12 +114,19 @@ const EditUser = () => {
       {open && (
         <div className="edit-user-form-popup">
           <form onSubmit={handleSubmit(onSubmit)} className="edit-form">
-            <button type="button" className="close-button" onClick={onClose}>
+            <button
+              title="close button"
+              type="button"
+              className="close-button"
+              onClick={onClose}
+            >
               <Close className="close-icon" />
             </button>
             <h1>Edit Profile</h1>
             <div className="form-group">
-              <label htmlFor="bio">Bio</label>
+              <label className="bio-label" htmlFor="bio">
+                Bio
+              </label>
               <textarea
                 id="bio"
                 {...register("bio", {

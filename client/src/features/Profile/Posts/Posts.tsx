@@ -89,6 +89,9 @@ const Posts = () => {
         {isLoading && !error && <Spinner />}
         {error && <div className="error-message">{error + " :("}</div>}
       </div>
+      {posts.length === 0 && !isLoading && !error && (
+        <p className="no-posts">User has no posts</p>
+      )}
     </div>
   );
 };

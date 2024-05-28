@@ -24,6 +24,7 @@ import Posts from "./features/Profile/Posts/Posts";
 import Landmark from "./features/Landmark/Landmark";
 import Landmarks from "./features/Profile/Landmarks/Landmarks";
 import Explore from "./features/Explore/Explore";
+import Users from "./features/Users/Users";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const App = () => {
 
     if (token && user) {
       dispatch(setLogin({ user, token }));
+      console.log(user);
     }
   }, [dispatch]);
 
@@ -78,6 +80,7 @@ const App = () => {
                 </PrivateRoute>
               }
             />
+            <Route path="users" element={<Users />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
