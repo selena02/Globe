@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import "./Users.scss";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import fetchAPI from "../../shared/utils/fetchAPI";
 import { UserDto } from "./models/user";
 import { handleApiErrors } from "../../shared/utils/displayApiErrors";
 import Spinner from "../../shared/components/Spinner/Spinner";
-import Avatar from "../../shared/components/Avatar/Avatar";
+import User from "./User/User"; // Import the new User component
 
 const Users = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,12 +13,14 @@ const Users = () => {
   const [isPilot, setIsPilot] = useState(false);
   const navigate = useNavigate();
   const user = localStorage.getItem("user");
+
   if (!user) {
     navigate("/account/login");
   }
+
   const userParsed = JSON.parse(user!);
-  const userId = userParsed.id;
   const isGuide = userParsed.roles.includes("Guide");
+
   if (!isGuide) {
     navigate("/account/login");
   }
@@ -48,7 +50,7 @@ const Users = () => {
 
   return (
     <div className="users-container">
-      <h1>Globe Users</h1>
+      <h1 className="users-title">Globe Users</h1>
       {isLoading ? (
         <div className="spinner-container">
           <Spinner />
@@ -56,43 +58,7 @@ const Users = () => {
       ) : (
         <div className="users-grid">
           {users.map((user) => (
-            <div key={user.userId} className="user-card">
-              <div className="user-left">
-                <div className="avatar-user-container">
-                  <Avatar photoUrl={user.profilePicture} />
-                </div>
-                <div className="username-and-created-container">
-                  <p>{user.username}</p>
-                  <p>Created: {new Date(user.createdAt).toLocaleString()}</p>
-                </div>
-              </div>
-              <div className="user-middle">
-                {user.isGuide ? (
-                  <button
-                    type="button"
-                    title="edit role button"
-                    className="is-guide-button"
-                    disabled={!isPilot}
-                  >
-                    Guide
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    title="edit role button"
-                    className="is-traveler-button"
-                    disabled={!isPilot}
-                  >
-                    Traveler
-                  </button>
-                )}
-              </div>
-              <div className="user-right">
-                <button type="button" title="button" className="delete-button">
-                  Message
-                </button>
-              </div>
-            </div>
+            <User key={user.userId} user={user} isPilot={isPilot} />
           ))}
         </div>
       )}

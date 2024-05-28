@@ -1,0 +1,91 @@
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1em;
+  padding-bottom: 1.5em;
+  padding-top: 1.5em;
+}
+
+.user-left,
+.user-middle,
+.user-right {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-user-container {
+  font-size: 2em;
+  margin-right: 1em;
+}
+
+.username-and-created-container {
+  display: flex;
+  flex-direction: column;
+
+  .username {
+    font-size: 1.4em;
+  }
+
+  p {
+    font-size: 1.2em;
+    color: #666;
+  }
+}
+
+.is-guide-button,
+.is-traveler-button,
+.delete-button {
+  font-size: 1.6em;
+  padding: 0.6em 2em;
+  width: 8em;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.4em;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.is-guide-button {
+  background-color: #f368e0;
+  color: white;
+}
+
+.is-traveler-button {
+  background-color: #c03ff3;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.is-guide-button:disabled,
+.is-traveler-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .user-card {
+    flex-direction: column;
+    gap: 2em;
+  }
+  .user-left {
+    align-self: flex-start;
+  }
+  .user-middle,
+  .user-right {
+    width: 100%;
+  }
+  .is-guide-button,
+  .is-traveler-button,
+  .delete-button {
+    width: 100%;
+  }
+}
