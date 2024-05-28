@@ -1,5 +1,5 @@
-﻿using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
+﻿using Application.Common.Utils;
+using FluentValidation.Results;
 
 namespace Application.Users.Commands.EditUserProfile;
 
@@ -11,17 +11,9 @@ public class EditUserProfileCommandValidator : AbstractValidator<EditUserProfile
             .MaximumLength(200).WithMessage("Bio must be under 200 characters.");
 
         RuleFor(x => x.ProfilePicture)
-            .Must(BeAPngOrJpeg).WithMessage("Profile picture must be a PNG or JPEG file.");
+            .Must(ValidationUtils.IsAJpegOrPng).WithMessage("Profile picture must be a PNG or JPEG file.");
     }
-    private static bool BeAPngOrJpeg(IFormFile? file)
-    {
-        if (file is not null)
-        {
-            return file.ContentType is "image/jpeg" or "image/png";
-        }
-        
-        return true; 
-    }
+
     protected override bool PreValidate(ValidationContext<EditUserProfileCommand> context, ValidationResult result)
     {
         var command = context.InstanceToValidate;

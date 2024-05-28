@@ -1,5 +1,5 @@
-﻿using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
+﻿using Application.Common.Utils;
+using FluentValidation.Results;
 
 namespace Application.Posts.Commands.UploadPost;
 
@@ -13,16 +13,7 @@ public class UploadPostCommandValidator : AbstractValidator<UploadPostCommand>
 
         RuleFor(x => x.PostImage)
             .NotNull().WithMessage("Post image is required")
-            .Must(BeAJpegOrPng).WithMessage("Post image must be a JPEG or PNG file");
-    }
-    private static bool BeAJpegOrPng(IFormFile? file)
-    {
-        if (file is not null)
-        {
-            return file.ContentType is "image/jpeg" or "image/png";
-        }
-        
-        return true;
+            .Must(ValidationUtils.IsAJpegOrPng).WithMessage("Post image must be a JPEG or PNG file");
     }
 
     protected override bool PreValidate(ValidationContext<UploadPostCommand> context, ValidationResult result)

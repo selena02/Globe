@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using Application.Common.Utils;
+using FluentValidation.Results;
 
 namespace Application.Authentication.Commands.RegisterUser;
 
@@ -21,36 +22,11 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         
         RuleFor(x => x.FullName)
             .NotEmpty().WithMessage("Full name is required.")
-            .Must(ValidFullName).WithMessage("The full name should be composed of two to four segments, each ranging from 2 to 15 characters in length.");
+            .Must(ValidationUtils.IsValidFullName).WithMessage("The full name should be composed of two to four segments, each ranging from 2 to 15 characters in length.");
         
         RuleFor(x => x.Email)    
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Invalid email address.");
-    }
-   
-    private static string ApplySimpleCapitalization(string input)
-    {
-        var words = input.Trim().ToLower().Split(' ');
-        for (var i = 0; i < words.Length; i++)
-        {
-            if (!string.IsNullOrEmpty(words[i]))
-            {
-                words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1);
-            }
-        }
-        return string.Join(" ", words);
-    }
-    private static bool ValidFullName(string? fullName)
-    {
-        var parts = fullName?.Split(' ');
-        if (parts?.Length < 2 || parts?.Length > 4)
-            return false; 
-        foreach (var part in parts?.Where(part => part.Length > 0) ?? Array.Empty<string>())
-        {
-            if (part.Length is < 2 or > 15)
-                return false; 
-        }
-        return true;
     }
 
     protected override bool PreValidate(ValidationContext<RegisterUserCommand> context, ValidationResult result)
@@ -59,7 +35,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         
         if (!string.IsNullOrWhiteSpace(command.FullName))
         {
-            command.FullName = ApplySimpleCapitalization(command.FullName);
+            command.FullName = ValidationUtils.ApplySimpleCapitalization(command.FullName);
         }
         command.UserName = command.UserName?.Trim();
         command.Password = command.Password?.Trim();
