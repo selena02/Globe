@@ -56,6 +56,7 @@ const SaveLandmark: React.FC<SaveLandmarkProps> = ({ onClosed }) => {
       <form className="save-landmark-form" onSubmit={handleSubmit(onSubmit)}>
         <button
           type="button"
+          title="close button"
           disabled={isLoading}
           className="close-save-button"
           onClick={onClose}

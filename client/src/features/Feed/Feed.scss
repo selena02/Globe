@@ -1,4 +1,9 @@
 .feed-container {
+  background-image: url("/images/account/feed-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  min-height: calc(100vh - 8.06em);
   h1 {
     background-image: linear-gradient(to top, #a832f6, #f368e0);
     -webkit-background-clip: text;

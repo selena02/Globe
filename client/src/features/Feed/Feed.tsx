@@ -66,6 +66,8 @@ const Feed = () => {
       <h1>Explore The Community Feed</h1>
       {isLoggedIn && (
         <button
+          type="button"
+          title="button"
           className="show-upload-post-button"
           onClick={() => setIsUploadPostVisible(true)}
         >

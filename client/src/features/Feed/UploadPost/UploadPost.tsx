@@ -93,7 +93,12 @@ const UploadPost: React.FC<UploadPostProps> = ({ onPostUploaded, onClose }) => {
   return (
     <div className="upload-post-container">
       <form onSubmit={handleSubmit(onSubmit)} className="upload-post-form">
-        <button type="button" className="close-button" onClick={onClose}>
+        <button
+          title="close button"
+          type="button"
+          className="close-button"
+          onClick={onClose}
+        >
           <Close className="close-icon" />
         </button>
         <h1 className="upload-title">Upload Post</h1>

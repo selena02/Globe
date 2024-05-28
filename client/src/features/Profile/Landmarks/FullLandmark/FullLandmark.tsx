@@ -83,7 +83,12 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
   return (
     <div className="full-landmark-container">
       <div className="landmark-popup">
-        <button onClick={onClose} className="close-btn">
+        <button
+          title="close button"
+          type="button"
+          onClick={onClose}
+          className="close-btn"
+        >
           <Close className="icon" />
         </button>
         <div className="landmark-content">
@@ -92,6 +97,8 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
           </div>
           <div className="landmark-details">
             <button
+              title="delete button"
+              type="button"
               className="delete-btn"
               onClick={() => setIsDeleteDialogOpen(true)}
             >

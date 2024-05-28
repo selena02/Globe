@@ -266,7 +266,12 @@ const FullPost: React.FC<FullPostProps> = ({
   return (
     <div className="post-popup-container">
       <div className="post-popup">
-        <button onClick={onClose} className="close-btn">
+        <button
+          type="button"
+          title="close-post-button"
+          onClick={onClose}
+          className="close-btn"
+        >
           <Close className="icon" />
         </button>
         <div className="post-content">
@@ -290,6 +295,8 @@ const FullPost: React.FC<FullPostProps> = ({
               )} */}
               {post.canDelete && (
                 <button
+                  type="button"
+                  title="delete-post-button"
                   className="delete-btn"
                   onClick={() => setIsDeleteDialogOpen(true)}
                 >
@@ -366,6 +373,7 @@ const FullPost: React.FC<FullPostProps> = ({
                 disabled={isCommentUploading}
               />
               <button
+                type="button"
                 className="upload-comment-btn"
                 onClick={handleCommentUpload}
                 disabled={isCommentUploading}

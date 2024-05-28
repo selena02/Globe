@@ -114,7 +114,12 @@ const EditUser = () => {
       {open && (
         <div className="edit-user-form-popup">
           <form onSubmit={handleSubmit(onSubmit)} className="edit-form">
-            <button type="button" className="close-button" onClick={onClose}>
+            <button
+              title="close button"
+              type="button"
+              className="close-button"
+              onClick={onClose}
+            >
               <Close className="close-icon" />
             </button>
             <h1>Edit Profile</h1>

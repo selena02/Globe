@@ -139,7 +139,12 @@ const Comment: React.FC<CommentProps> = ({
             </button>
           </div>
           {comment.canDelete && (
-            <button onClick={handleDelete} className="delete-comment-btn">
+            <button
+              title="delete comment"
+              type="button"
+              onClick={handleDelete}
+              className="delete-comment-btn"
+            >
               <Delete className="icon" />
             </button>
           )}
