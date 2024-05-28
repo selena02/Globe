@@ -28,6 +28,7 @@
 }
 
 .profile-bio {
+  position: relative;
   display: flex;
   flex-direction: column;
   font-size: 1.6em;
@@ -37,8 +38,32 @@
     color: #c03ff3;
     font-weight: 700;
   }
-}
 
+  .moderate-bio {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    right: 0;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 50%;
+    background-color: white;
+    border: 0.1em solid #c03ff3;
+
+    .moderate-bio-icon {
+      font-size: 0.8em;
+      color: #c03ff3;
+    }
+  }
+}
+.spinner-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 @media (max-width: 768px) {
   .profile-nav {
     margin-top: 5em;
