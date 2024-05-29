@@ -31,6 +31,7 @@ const Profile = () => {
   const isGuide = currentUser?.roles.includes("Guide");
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -40,6 +41,7 @@ const Profile = () => {
         });
         setUser(userData);
         setBio(userData.bio);
+        setIsCurrentUser(userData.id === currentUser.id);
       } catch (error) {
         handleApiErrors(error);
         navigate("/");
@@ -127,7 +129,7 @@ const Profile = () => {
         <p className="profile-bio">
           <span className="about">About Me:</span>
           <span>{bio}</span>
-          {isGuide && bio && (
+          {isGuide && bio && !isCurrentUser && (
             <button
               onClick={handleModerateBio}
               type="button"

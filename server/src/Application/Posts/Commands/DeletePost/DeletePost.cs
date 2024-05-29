@@ -35,7 +35,7 @@ public class DeletePostCommandHandler : ICommandHandler<DeletePostCommand, Delet
         
         var isGuide = _authService.GetUserRoles().Contains(Roles.Guide.ToString());
 
-        if (post.UserId != currentUserId || isGuide)
+        if (post.UserId != currentUserId && !isGuide)
         {
             throw new ForbiddenAccessException("User is not authorized to delete this post");
         }
