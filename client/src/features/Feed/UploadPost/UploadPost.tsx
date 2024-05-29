@@ -16,7 +16,7 @@ interface UploadPostFormValues {
   postImage: FileList;
 }
 
-const API_URL = "https://localhost:7063/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const UploadPost: React.FC<UploadPostProps> = ({ onPostUploaded, onClose }) => {
   const {

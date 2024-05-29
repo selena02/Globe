@@ -4,7 +4,7 @@ interface FetchAPIOptions extends RequestInit {
   body?: any;
 }
 
-const API_URL = "https://localhost:7063/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 async function paginatedFetchAPI<T>(
   endpoint: string,
