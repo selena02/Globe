@@ -14,9 +14,9 @@ public class SeedData
         
         foreach (var role in Enum.GetValues(typeof(Roles)))
         {
-            string roleName = role.ToString();
+            var roleName = role.ToString();
             
-            var roleExist = await roleManager.RoleExistsAsync(roleName);
+            var roleExist = roleName != null && await roleManager.RoleExistsAsync(roleName);
 
             if (roleExist)
             {

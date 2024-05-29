@@ -27,11 +27,11 @@
   justify-content: space-between;
   padding: 4em 0;
 }
-#about-image-2 {
-  width: 100%;
-}
+#about-image-2,
 #about-image {
-  width: 50%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 #about-text-container {

@@ -9,7 +9,6 @@ import fetchAPI from "../../../shared/utils/fetchAPI";
 import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import Spinner from "../../../shared/components/Spinner/Spinner";
 import { FollowerDto } from "../models/followUser";
-import { set } from "react-hook-form";
 import LikedUsers from "../../../shared/components/LikedUsers/LikedUsers";
 import { Shield } from "@mui/icons-material";
 

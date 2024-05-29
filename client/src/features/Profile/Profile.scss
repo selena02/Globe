@@ -64,6 +64,25 @@
   align-items: center;
   height: 100%;
 }
+
+.delete-account-button {
+  position: absolute;
+  z-index: 100;
+  top: 6em;
+  left: 2em;
+  background-color: rgb(246, 49, 49);
+  color: white;
+  font-size: 1.6em;
+  padding: 0.5em 1em;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.4em;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: rgb(255, 0, 0);
+  }
+}
 @media (max-width: 768px) {
   .profile-nav {
     margin-top: 5em;
@@ -76,5 +95,11 @@
   .profile-bio {
     width: 80%;
     margin-top: 1em;
+  }
+  .delete-account-button {
+    top: 6.5em;
+    left: 0.6em;
+    font-size: 1.4em;
+    padding: 0.5em 0.6em;
   }
 }

@@ -7,8 +7,17 @@ import ProfileCard from "./ProfileCard/ProfileCard";
 import "./Profile.scss";
 import Spinner from "../../shared/components/Spinner/Spinner";
 import { Shield } from "@mui/icons-material";
-import { useSelector } from "react-redux";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
+import { setLogout } from "../../state/features/authSlice";
 
 const Profile = () => {
   const { id } = useParams();
@@ -18,8 +27,10 @@ const Profile = () => {
   const [bio, setBio] = useState<string | null>(null);
   const [deleteBio, setDeleteBio] = useState<boolean>(false);
   const currentUser: any = useSelector((state: RootState) => state.auth.user);
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [isUserDeleteDialogOpen, setIsUserDeleteDialogOpen] = useState(false);
   const isGuide = currentUser?.roles.includes("Guide");
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +65,17 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      await fetchAPI(`users/delete`, { method: "DELETE" });
+      localStorage.clear();
+      dispatch(setLogout());
+      navigate("/account/login");
+    } catch (error) {
+      handleApiErrors(error);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="spinner-profile-container">
@@ -64,6 +86,44 @@ const Profile = () => {
 
   return (
     <div id="profile-page">
+      {user && currentUser && user.id === currentUser.id && (
+        <button
+          type="button"
+          title="delete account"
+          className="delete-account-button"
+          onClick={() => setIsUserDeleteDialogOpen(true)}
+        >
+          Delete Account
+        </button>
+      )}
+
+      <Dialog
+        open={isUserDeleteDialogOpen}
+        onClose={() => setIsUserDeleteDialogOpen(false)}
+      >
+        <DialogTitle className="dialog-title">Delete User</DialogTitle>
+        <DialogContent>
+          <DialogContentText className="dialog-text">
+            Are you sure you want to delete this user?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className="dialog-button"
+            onClick={() => setIsUserDeleteDialogOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            className="dialog-button"
+            onClick={handleDeleteAccount}
+            color="secondary"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
       <ProfileCard user={user} />
       {user && bio && (
         <p className="profile-bio">

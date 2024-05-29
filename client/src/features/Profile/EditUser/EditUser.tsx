@@ -6,7 +6,7 @@ import { handleApiErrors } from "../../../shared/utils/displayApiErrors";
 import { Close } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 
-const API_URL = "https://localhost:7063/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface UploadEditFormValues {
   bio: string | null;
