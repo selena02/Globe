@@ -16,6 +16,11 @@ yarn-error.log
 # macOS specific
 *.DS_Store
 
+# Model
+model/data/
+model/venv
+
+
 # Windows specific
 Thumbs.db
 ehthumbs.db
