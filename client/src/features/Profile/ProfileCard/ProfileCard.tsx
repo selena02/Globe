@@ -35,6 +35,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
     user?.profilePicture ?? null
   );
   const [deletingPicture, setDeletingPicture] = useState(false);
+  const isCurrentUser = currentUser && user?.id === currentUser.id;
 
   useEffect(() => {
     const fetchFollowStatus = async () => {
@@ -142,13 +143,11 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
     return <Spinner></Spinner>;
   }
 
-  const isCurrentUser = currentUser && user.id === currentUser.id;
-
   return (
     <div className="profile-card">
       <div className="avatar-picture">
         <Avatar photoUrl={profilePicture} />
-        {isGuide && profilePicture && (
+        {isGuide && profilePicture && !isCurrentUser && (
           <button
             onClick={handleModeratePicture}
             type="button"

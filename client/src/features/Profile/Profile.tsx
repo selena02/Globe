@@ -5,9 +5,10 @@ import { ProfileUser } from "./models/profileUser";
 import { handleApiErrors } from "../../shared/utils/displayApiErrors";
 import ProfileCard from "./ProfileCard/ProfileCard";
 import "./Profile.scss";
-import { set } from "react-hook-form";
 import Spinner from "../../shared/components/Spinner/Spinner";
 import { Shield } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/store";
 
 const Profile = () => {
   const { id } = useParams();
@@ -16,13 +17,9 @@ const Profile = () => {
   const [user, setUser] = useState<ProfileUser | null>(null);
   const [bio, setBio] = useState<string | null>(null);
   const [deleteBio, setDeleteBio] = useState<boolean>(false);
-  const currentUser = localStorage.getItem("user");
-
-  if (!currentUser) {
-    navigate("/account/login");
-  }
-  const userParsed = JSON.parse(currentUser!);
-  const isGuide = userParsed.roles.includes("Guide");
+  const currentUser: any = useSelector((state: RootState) => state.auth.user);
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const isGuide = currentUser?.roles.includes("Guide");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +30,7 @@ const Profile = () => {
         });
         setUser(userData);
         setBio(userData.bio);
+        setIsCurrentUser(userData.id === currentUser.id);
       } catch (error) {
         handleApiErrors(error);
         navigate("/");
@@ -71,7 +69,7 @@ const Profile = () => {
         <p className="profile-bio">
           <span className="about">About Me:</span>
           <span>{bio}</span>
-          {isGuide && bio && (
+          {isGuide && bio && !isCurrentUser && (
             <button
               onClick={handleModerateBio}
               type="button"

@@ -12,7 +12,7 @@ const Hero = () => {
           <h1 id="explore-title">TRAVEL CONNECTED</h1>
           <h2 id="main-title">GLOBE</h2>{" "}
           <p id="landing-page-slogan">Connect, Share, Discover</p>
-          <Link to="/login" className="join-button">
+          <Link to="/account/login" className="join-button">
             <Button>Join the Adventure</Button>
           </Link>
         </div>

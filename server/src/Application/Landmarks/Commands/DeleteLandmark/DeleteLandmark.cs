@@ -33,7 +33,7 @@ public class DeleteLandmarkCommandHandler : ICommandHandler<DeleteLandmarkComman
 
         var isGuide = _authService.GetUserRoles().Contains(Roles.Guide.ToString());
 
-        if (landmark.UserId != currentUserId || isGuide)
+        if (landmark.UserId != currentUserId && !isGuide)
         {
             throw new ForbiddenAccessException("User is not authorized to delete this landmark");
         }
