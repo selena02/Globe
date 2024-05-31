@@ -96,14 +96,16 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
             <FullPostImg publicId={landmark.publicId} />
           </div>
           <div className="landmark-details">
-            <button
-              title="delete button"
-              type="button"
-              className="delete-btn"
-              onClick={() => setIsDeleteDialogOpen(true)}
-            >
-              <Delete className="icon" />
-            </button>
+            {landmark.canDelete && (
+              <button
+                title="delete button"
+                type="button"
+                className="delete-btn"
+                onClick={() => setIsDeleteDialogOpen(true)}
+              >
+                <Delete className="icon" />
+              </button>
+            )}
             <div className="details-upper">
               <h1 className="name">{landmark.locationName}</h1>
               <p className="landmark-location">

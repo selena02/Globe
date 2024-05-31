@@ -23,9 +23,9 @@ builder.Services
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Configuration.AddEnvironmentVariables();
-
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -55,8 +55,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -65,12 +63,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Globe API");
         c.DefaultModelsExpandDepth(-1);  
     });
-}
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
 }
 
 app.UseHttpsRedirection();

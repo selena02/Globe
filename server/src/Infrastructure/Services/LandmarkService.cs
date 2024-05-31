@@ -18,7 +18,7 @@ namespace Infrastructure.Services
         public LandmarkService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _baseUrl = configuration["FlaskApi:BaseUrl"] ?? throw new ArgumentNullException(nameof(configuration));
+            _baseUrl = configuration["FlaskApi:BaseUrl"] ?? throw new ServerErrorException("Error Connecting to Flask API");
             _jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true

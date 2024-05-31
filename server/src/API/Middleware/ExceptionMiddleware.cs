@@ -35,7 +35,7 @@ namespace API.Middleware
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error has occurred.");
-                await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, "An unexpected error has occurred.", null);
+                await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, $"An unexpected error has occurred.", null);
             }
         }
 

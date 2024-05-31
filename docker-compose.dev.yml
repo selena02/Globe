@@ -13,6 +13,7 @@ services:
       - CLOUDINARY_NAME=${CLOUDINARY_NAME}
       - CLOUDINARY_KEY=${CLOUDINARY_KEY}
       - CLOUDINARY_SECRET=${CLOUDINARY_SECRET}
+      - GEOCODER_API_KEY=${GEOCODER_API_KEY}
     depends_on:
       - db
     ports:
@@ -38,6 +39,16 @@ services:
       - POSTGRES_PASSWORD=dev_password
     volumes:
       - postgres_globe_data_dev:/var/lib/postgresql/data
+
+  globe-model:
+    build: ./model
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_APP: app.api:create_app
+      FLASK_ENV: production
+      PYTHONUNBUFFERED: 1
+    container_name: globe-model
 
 volumes:
   postgres_globe_data_dev:
