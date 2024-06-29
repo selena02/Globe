@@ -35,9 +35,10 @@ def find_nearest_neighbors(test_embedding, train_embeddings, train_ids):
 def prediction_map(scores_labels):
     aggregate_scores = {label: 0 for _, label, _ in scores_labels}
     for _, label, score in scores_labels:
+        aggregate_scores[label] = 0
         aggregate_scores[label] += score
     if aggregate_scores:
         label, score = max(aggregate_scores.items(), key=lambda x: x[1])
         return {'name': label, 'score': score, 'error': None}
 
-    return {'name': None, 'score': None, 'error': None}
+

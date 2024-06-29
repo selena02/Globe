@@ -17,6 +17,7 @@ import {
   Rating,
 } from "@mui/material";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 interface FullLandmarkProps {
@@ -34,6 +35,14 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
   const [landmark, setLandmark] = useState<FullLandmarkDto | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const customIcon = new L.Icon({
+    iconUrl: "/images/general/marker-icon.png",
+    iconSize: [20, 30],
+    iconAnchor: [17, 45],
+    popupAnchor: [1, -34],
+    shadowSize: [50, 64],
+    shadowAnchor: [15, 64],
+  });
 
   useEffect(() => {
     const fetchLandmark = async () => {
@@ -155,7 +164,10 @@ const FullLandmark: React.FC<FullLandmarkProps> = ({
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={[landmark.latitude, landmark.longitude]}>
+                <Marker
+                  icon={customIcon}
+                  position={[landmark.latitude, landmark.longitude]}
+                >
                   <Popup>{landmark.locationName}</Popup>
                 </Marker>
               </MapContainer>

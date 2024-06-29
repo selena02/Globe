@@ -30,20 +30,16 @@ def get_num_inliers(test_keypoints, test_descriptors, train_keypoints, train_des
         test_keypoints, test_descriptors, train_keypoints, train_descriptors)
 
     if len(test_match_kp) < 4:
-        print("Not enough keypoints for RANSAC.")
         return 0
-
     try:
         H, mask = cv2.findHomography(test_match_kp, train_match_kp, cv2.RANSAC,
                                      ransacReprojThreshold=config.MAX_REPROJECTION_ERROR,
                                      confidence=config.HOMOGRAPHY_CONFIDENCE,
                                      maxIters=config.MAX_RANSAC_ITERATIONS)
         if mask is None:
-            print("RANSAC did not converge.")
             return 0
         return np.sum(mask)
     except np.linalg.LinAlgError as e:
-        print(f"Error computing homography: {e}")
         return 0
 
 

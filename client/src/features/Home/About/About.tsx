@@ -9,24 +9,28 @@ const About = () => (
           iconName="language"
           title="Community Feed"
           description="Dive into a vibrant community feed where travelers share their exciting journeys and tips. Connect, explore, and get inspired by fellow adventurers."
+          route="/feed"
         />
 
         <FeatureCard
           iconName="place"
           title="Landmark Detector"
           description="Discover and learn about landmarks as you visit them. Our landmark detector provides historical insights and saves each discovery to your personal travel log."
+          route="/landmark"
         />
 
         <FeatureCard
-          iconName="emoji_events"
-          title="Achievements"
-          description="Engage with the community and our features to earn achievements. Each interaction brings new rewards, enhancing your travel experience and bragging rights."
+          iconName="map"
+          title="Explore"
+          description="Discover where other users have journeyed to on a world map and see the paths taken by fellow adventurers. Your next travel inspiration is just a map view away."
+          route="/explore"
         />
 
         <FeatureCard
           iconName="account_circle"
           title="Profiles"
           description="Explore profiles of fellow travelers, connect with like-minded adventurers, and expand your network. Your next journey companion might just be a profile away."
+          route="/account"
         />
       </div>
       <div id="about-us-content-container">

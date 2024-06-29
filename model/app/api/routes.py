@@ -7,7 +7,7 @@ from ..config import config
 
 routes = Blueprint('routes', __name__)
 
-ALLOWED_EXTENSIONS = {'png', 'jpg'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 def allowed_file(filename):
@@ -43,7 +43,7 @@ def predict_image():
             labelmap = utils.load_labelmap(config.TRAIN_LABELMAP_PATH)
             namemap = utils.load_landmark_name(config.LANDMARK_NAMES_PATH)
             result = prediction.predict(labelmap)
-            if float(result['score']) < 1:
+            if float(result['score']) < 0.7:
                 return jsonify({'error': 'Failed to retrieve landmark'}), 404
             class_id = result['name']
             if class_id in namemap:

@@ -13,6 +13,8 @@
   margin-top: 5em;
 
   .landmark-name {
+    max-width: 80%;
+    text-align: center;
     font-size: 3.2em;
     font-weight: bold;
     background-image: linear-gradient(to top, #a832f6, #f368e0);
@@ -114,6 +116,7 @@
 
     .landmark-name {
       font-size: clamp(10px, 7vw, 40px);
+      width: 100%;
     }
     .landmark-location {
       font-size: clamp(10px, 5vw, 30px);

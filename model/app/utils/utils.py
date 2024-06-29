@@ -7,8 +7,15 @@ import numpy as np
 
 
 def get_image_path(dataset_dir, subset, image_id):
-    """Generate a file path for an image."""
-    return os.path.join(dataset_dir, subset, f'{image_id}.jpg')
+    """Generate a file path for an image that can be in png, jpg, or jpeg format."""
+    extensions = ['jpg', 'jpeg', 'png']
+
+    for ext in extensions:
+        file_path = os.path.join(dataset_dir, subset, f'{image_id}.{ext}')
+        if os.path.exists(file_path):
+            return file_path
+
+    return None
 
 
 def load_image_tensor(image_path):

@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import CountryFlag from "react-country-flag";
 import { LandmarkImg } from "../../../shared/utils/CloudImg";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import LinearProgress from "@mui/material/LinearProgress";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -23,6 +24,14 @@ const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
   const [normalizedScore, setNormalizedScore] = useState(0);
   const [favouriteHover, setFavouriteHover] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const customIcon = new L.Icon({
+    iconUrl: "/images/general/marker-icon.png",
+    iconSize: [20, 30],
+    iconAnchor: [17, 45],
+    popupAnchor: [1, -34],
+    shadowSize: [50, 64],
+    shadowAnchor: [15, 64],
+  });
 
   useEffect(() => {
     if (
@@ -31,8 +40,8 @@ const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
       landmarkData.landmark.score !== undefined
     ) {
       const score = landmarkData.landmark.score;
-      const maxScore = 5.5;
-      setNormalizedScore((score / maxScore) * 100);
+      const maxScore = 1.8;
+      setNormalizedScore(((score - 0.7) / (maxScore - 0.7)) * 100);
     }
   }, [landmarkData]);
 
@@ -43,7 +52,7 @@ const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
 
   const getColor = (s: any) => {
     if (s < 30) return "#ff7060df";
-    if (s >= 30 && s <= 60) return "rgba(250, 250, 105, 0.775)";
+    if (s >= 30 && s <= 50) return "rgba(250, 250, 105, 0.775)";
     return "rgb(180, 243, 180)";
   };
 
@@ -135,6 +144,7 @@ const LandmarkDetails: React.FC<LandmarkDetailProps> = ({
                   landmarkData.locationDetails.latitude,
                   landmarkData.locationDetails.longitude,
                 ]}
+                icon={customIcon}
               >
                 <Popup>{landmarkData.landmark.name}</Popup>
               </Marker>

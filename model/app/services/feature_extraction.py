@@ -5,7 +5,7 @@ from ..utils import utils
 
 
 def global_features(image_dir):
-    extensions = ['*.jpg', '*.png']
+    extensions = ['*.jpg', '*.png', '*.jpeg']
     image_path = next((p for p in extensions for p in pathlib.Path(image_dir).glob(p)), None)
 
     if not image_path:

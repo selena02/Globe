@@ -26,6 +26,7 @@ import { FullPostDto, LikedUserDto } from "../../models/Post";
 import { RootState } from "../../../state/store";
 import { useSelector } from "react-redux";
 import LikedUsers from "../LikedUsers/LikedUsers";
+import { set } from "react-hook-form";
 
 interface FullPostProps {
   postId: number;
@@ -48,6 +49,7 @@ const FullPost: React.FC<FullPostProps> = ({
   const [error, setError] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [commentsCount, setCommentsCount] = useState(0);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<CommentDto | null>(
@@ -72,6 +74,7 @@ const FullPost: React.FC<FullPostProps> = ({
         setPost(postResponse);
         setLiked(postResponse.isLiked);
         setLikesCount(postResponse.likesCount);
+        setCommentsCount(postResponse.commentsCount);
       } catch (err) {
         handleApiErrors(err);
         redirect("/feed");
@@ -163,6 +166,7 @@ const FullPost: React.FC<FullPostProps> = ({
     setComments((prevComments) =>
       prevComments.filter((comment) => comment.commentId !== commentId)
     );
+    setCommentsCount((prevCount) => prevCount - 1);
   };
 
   const openCommentDeleteDialog = (comment: CommentDto) => {
@@ -208,6 +212,7 @@ const FullPost: React.FC<FullPostProps> = ({
       );
       setComments((prevComments) => [...prevComments, commentResponse.comment]);
       setNewComment("");
+      setCommentsCount((prevCount) => prevCount + 1);
     } catch (err) {
       handleApiErrors(err);
     } finally {
@@ -316,7 +321,7 @@ const FullPost: React.FC<FullPostProps> = ({
               </button>
               <div className="counts">
                 <ChatBubbleOutlineIcon className="counts-icon" />
-                <span className="counts-icon-text">{post.commentsCount}</span>
+                <span className="counts-icon-text">{commentsCount}</span>
               </div>
             </div>
             <div className="post-bottom post-counts-borders">

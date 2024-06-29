@@ -1,21 +1,23 @@
 import React from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 import PlaceIcon from "@mui/icons-material/Place";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import Map from "@mui/icons-material/Map";
 import Person from "@mui/icons-material/Person";
 import EastIcon from "@mui/icons-material/East";
 import "./FeatureCard.scss";
+import { Link } from "react-router-dom";
 
 type FeatureCardProps = {
   iconName: string;
   title: string;
   description: string;
+  route: string;
 };
 
 const iconMapper = {
   language: LanguageIcon,
   place: PlaceIcon,
-  emoji_events: EmojiEventsIcon,
+  map: Map,
   account_circle: Person,
 };
 
@@ -23,12 +25,14 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   iconName,
   title,
   description,
+  route,
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const Icon = iconMapper[iconName as keyof typeof iconMapper];
 
   return (
-    <div
+    <Link
+      to={route}
       className={`feature-card ${isHovered ? "highlighted" : ""}`}
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
@@ -45,7 +49,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         </div>
       </div>
       <EastIcon className={`arrow ${isHovered ? "highlighted" : ""}`} />
-    </div>
+    </Link>
   );
 };
 
